@@ -5,11 +5,11 @@
       <div class="ui container">
         <div class="ui inverted secondary stackable menu">
           <h2 class="ui teal header item">Blog</h2>
-          <a href="#" class="active m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
-          <a href="#" class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
-          <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
-          <a href="#" class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档</a>
-          <a href="#" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我</a>
+          <a href="/#/home" class="active m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
+          <a href="/#/types" class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
+          <a href="/#/tags" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
+          <a href="/#/Archives" class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档</a>
+          <a href="/#/About" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我</a>
           <div class="right m-item item m-mobile-hide">
             <div class="ui icon inverted transparent input m-margin-tb-tiny">
               <input type="text" placeholder="Search....">
@@ -575,6 +575,17 @@
 </template>
 
 <script>
+export default {
+  created () {
+  },
+  methods: {
+  },
+  mounted () {
+    $('.menu.toggle').click(function () {
+      $('.m-item').toggleClass('m-mobile-hide')
+    })
+  }
+}
 </script>
 
 <style>

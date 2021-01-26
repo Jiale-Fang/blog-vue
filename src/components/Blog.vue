@@ -5,11 +5,11 @@
       <div class="ui container">
         <div class="ui inverted secondary stackable menu">
           <h2 class="ui teal header item">Blog</h2>
-          <a href="#" class="active m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
-          <a href="#" class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
-          <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
-          <a href="#" class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档</a>
-          <a href="#" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我</a>
+          <a href="/#/home" class="m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
+          <a href="/#/types" class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
+          <a href="/#/tags" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
+          <a href="/#/Archives" class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档</a>
+          <a href="/#/About" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我</a>
           <div class="right m-item item m-mobile-hide">
             <div class="ui icon inverted transparent input m-margin-tb-tiny">
               <input type="text" placeholder="Search....">
@@ -24,7 +24,7 @@
     </nav>
 
     <!--中间内容-->
-    <div id="waypoint" class="m-container-small m-padded-tb-big animated fadeIn">
+    <div id="waypoint" class="m-container-small m-padded-tb-big animated fadeInLeft">
       <div class="ui container">
         <div class="ui top attached segment">
           <div class="ui horizontal link list">
@@ -427,11 +427,11 @@ h5,h6{font-size:1em;}
             <div class="ui orange basic label">
               <div class="ui images" style="font-size: inherit !important;">
                 <div class="image">
-                  <img src="../assets/images/wechat.jpg" alt="" class="ui rounded bordered image" style="width: 120px">
+                  <img src="../assets/images/Ali-Pay.png" alt="" class="ui rounded bordered image" style="width: 120px">
                   <div>支付宝</div>
                 </div>
                 <div class="image">
-                  <img src="../assets/images/wechat.jpg" alt="" class="ui rounded bordered image" style="width: 120px">
+                  <img src="../assets/images/WeChat-Pay.jpg" alt="" class="ui rounded bordered image" style="width: 120px">
                   <div>微信</div>
                 </div>
               </div>
@@ -559,7 +559,7 @@ h5,h6{font-size:1em;}
       </div>
     </div>
 
-    <div id="toolbar" class="m-padded m-fixed m-right-bottom" style="display: none">
+    <div id="toolbar" class="m-padded m-fixed m-right-bottom" >
       <div class="ui vertical icon buttons ">
         <button type="button" class="ui toc teal button" >目录</button>
         <a href="#comment-container" class="ui teal button" >留言</a>
@@ -567,16 +567,15 @@ h5,h6{font-size:1em;}
         <div id="toTop-button" class="ui icon button" ><i class="chevron up icon"></i></div>
       </div>
     </div>
-
     <div class="ui toc-container flowing popup transition hidden" style="width: 250px!important;">
       <ol class="js-toc">
-
       </ol>
     </div>
 
     <div id="qrcode" class="ui wechat-qr flowing popup transition hidden " style="width: 130px !important;">
-      <!--<img src="./static/images/wechat.jpg" alt="" class="ui rounded image" style="width: 120px !important;">-->
+<!--      <img src="../assets/images/wechat.jpg" alt="" class="ui rounded image" style="width: 120px !important;">-->
     </div>
+
     <br>
     <br>
 
@@ -619,10 +618,10 @@ h5,h6{font-size:1em;}
   </div>
 
 </template>
-
 <script>
-// import 'semantic-ui-css/semantic.min.css'
-import $ from 'jquery'
+import Prism from '../assets/lib/prism/prism'
+// import QRCode from '../assets/lib/qrcode/qrcode.min.js'
+import QRCode from 'qrcodejs2'
 
 export default {
   created () {
@@ -630,70 +629,52 @@ export default {
   methods: {
   },
   mounted () {
-    $('.boundary.example .button')
-      .popup({
-        boundary: '.boundary.example .segment'
-      })
+    process.browser && document.querySelectorAll('pre code').forEach(block => Prism.highlightElement(block))
+    $('.menu.toggle').click(function () {
+      $('.m-item').toggleClass('m-mobile-hide')
+    })
+    $('#payButton').popup({
+      popup: $('.payQR.popup'),
+      on: 'click',
+      position: 'bottom center'
+    })
+    $('.toc.button').popup({
+      popup: $('.toc-container.popup'),
+      on: 'click',
+      position: 'left center'
+    })
+    $('.wechat').popup({
+      popup: $('.wechat-qr'),
+      position: 'left center'
+    })
+    $('#toTop-button').click(function () {
+      $(window).scrollTo(0, 500)
+    })
+    // eslint-disable-next-line no-undef
+    tocbot.init({
+      // Where to render the table of contents.
+      tocSelector: '.js-toc',
+      // Where to grab the headings to build the table of contents.
+      contentSelector: '.js-toc-content',
+      // Which headings to grab inside of the contentSelector element.
+      headingSelector: 'h1, h2, h3'
+    })
+    // eslint-disable-next-line no-unused-vars
+    var qrcode = new QRCode('qrcode', {
+      text: 'https://blog.csdn.net/Dlihctcefrep',
+      width: 110,
+      height: 110,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    })
   }
 }
-
-// 已经能打印出来了
-console.log('====>' + $('选择器'))
-// $('.menu.toggle').click(function () {
-//   $('.m-item').toggleClass('m-mobile-hide')
-// })
-// $('#payButton').popup({
-//   popup: $('.payQR.popSup'),
-//   on: 'click',
-//   position: 'bottom center'
-// })
-// tocbot.init({
-//   // Where to render the table of contents.
-//   tocSelector: '.js-toc',
-//   // Where to grab the headings to build the table of contents.
-//   contentSelector: '.js-toc-content',
-//   // Which headings to grab inside of the contentSelector element.
-//   headingSelector: 'h1, h2, h3',
-// });
-//
-// $('.toc.button').popup({
-//   popup : $('.toc-container.popup'),
-//   on : 'click',
-//   position: 'left center'
-// });
-//
-// $('.wechat').popup({
-//   popup : $('.wechat-qr'),
-//   position: 'left center'
-// });
-//
-// var qrcode = new QRCode("qrcode", {
-//   text: "http://jindo.dev.naver.com/collie",
-//   width: 110,
-//   height: 110,
-//   colorDark : "#000000",
-//   colorLight : "#ffffff",
-//   correctLevel : QRCode.CorrectLevel.H
-// });
-//
-// $('#toTop-button').click(function () {
-//   $(window).scrollTo(0,500);
-// });
-//
-//
-// var waypoint = new Waypoint({
-//   element: document.getElementById('waypoint'),
-//   handler: function(direction) {
-//     if (direction == 'down') {
-//       $('#toolbar').show(100);
-//     } else {
-//       $('#toolbar').hide(500);
-//     }
-//     console.log('Scrolled to waypoint!  ' + direction);
-//   }
-// })
 </script>
 
-<style>
+<style scoped>
+  @import "../assets/css/typo.css";
+  @import "../assets/css/animate.css";
+  @import "../assets/lib/tocbot/tocbot.css";
  @import "../assets/css/me.css";
 </style>

@@ -13,10 +13,12 @@
     "element-ui": "^2.15.0",
     "gulp": "^4.0.2",
     "jquery": "^3.5.1",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-vue": "^0.11.0",
+    "mavon-editor": "^2.9.1",
+    "qrcodejs2": "0.0.2",
+    "scriptjs": "^2.5.9",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "waypoints": "^4.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
