@@ -10,10 +10,21 @@
             <a href="/#/tags" class="active m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
             <a href="/#/Archives" class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档</a>
             <a href="/#/About" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我</a>
-            <div class="right m-item item m-mobile-hide">
+            <a href="/#/blogs" class="m-item item m-mobile-hide"><i class="mini user icon"></i>后台管理</a>
+            <div class="right m-item m-mobile-hide menu">
               <div class="ui icon inverted transparent input m-margin-tb-tiny">
                 <input type="text" placeholder="Search....">
                 <i class="search link icon"></i>
+              </div>
+              <div class="ui dropdown item">
+                <div class="text">
+                  <img class="ui avatar image" v-bind:src="avatar">
+                  <span>{{this.nickname}}</span>
+                </div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                  <a href="#" @click="logout" class="item">注销</a>
+                </div>
               </div>
             </div>
           </div>
@@ -331,11 +342,35 @@
 
 <script>
 export default {
+  data () {
+    return {
+      user: {},
+      nickname: '',
+      // 被激活的链接地址
+      avatar: ''
+    }
+  },
   created () {
+    this.getUser()
   },
   methods: {
+    getUser () {
+      this.user = window.sessionStorage.getItem('user')
+      this.nickname = JSON.parse(this.user).nickname
+      this.avatar = JSON.parse(this.user).avatar
+      console.log(this.user)
+    },
+    logout () {
+      window.sessionStorage.clear()
+      this.$router.push('/login')
+      // 刷新页面，删除vuex数据
+      window.location.reload()
+    }
   },
   mounted () {
+    $('.ui.dropdown').dropdown({
+      on: 'hover'
+    })
     $('.menu.toggle').click(function () {
       $('.m-item').toggleClass('m-mobile-hide')
     })
