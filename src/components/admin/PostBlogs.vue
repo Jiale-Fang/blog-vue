@@ -64,7 +64,8 @@
 <!--          <div class="field">-->
             <div class="mavonEditor" style="margin-top: 10px">
               <el-form-item prop="content">
-                <mavon-editor :toolbars="markdownOption" v-model="formData.content"/>
+                <mavon-editor :codeStyle="markdownOption.codeStyle" :ishljs="true" :toolbars="markdownOption"  v-model="formData.content"/>
+<!--                <mavon-editor :toolbars="markdownOption" v-model="formData.content"/>-->
               </el-form-item>
 <!--            </div>-->
           </div>
@@ -192,7 +193,7 @@ export default {
         shareStatement: '', // 版权状态
         typeId: '', // 分类id
         title: '', // 博客标题
-        content: '#### 使用 markdown 编辑器来开始书写你的博客吧！由于还未添加保存图片到服务器的功能，添加图片只能复制图片的网络链接，此外编辑器可能还会有编辑栏和预览栏左右不对称的情况', // 正文文本
+        content: '#### 使用 markdown 编辑器来开始书写你的博客吧!&emsp;由于还未添加保存图片到服务器的功能，添加图片只能复制图片的网络链接，此外编辑器可能还会有编辑栏和预览栏左右不对称的情况（代码块也只支持一种），所以请手动拉动右边导航条或者直接复制博文到此处即可，', // 正文文本
         firstPicture: '', // 博客首图链接地址
         recommend: true, // 是否推荐
         appreciation: false, // 是否开启赞赏
@@ -251,7 +252,8 @@ export default {
         alignright: true, // 右对齐
         /* 2.2.1 */
         subfield: true, // 单双栏模式
-        preview: true // 预览
+        preview: true, // 预览
+        codeStyle: 'monokai-sublime'
       }
     }
   },

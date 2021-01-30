@@ -47,7 +47,7 @@
                   <h3 class="ui teal header">博客</h3>
                 </div>
                 <div class="right aligned column">
-                  共 <h2 class="ui orange header m-inline-block m-text-thin"> 14 </h2> 篇
+                  共 <h2 class="ui orange header m-inline-block m-text-thin">{{pagination.total}}</h2> 篇
                 </div>
               </div>
             </div>
@@ -55,10 +55,10 @@
             <!--content-->
             <div class="ui attached  segment">
 
-              <div class="ui padded vertical segment m-padded-tb-large">
-                <div class="ui middle aligned mobile reversed stackable grid" v-for="item in dataList" :key="item.blogId">
-                  <div class="eleven wide column">
-                    <h3 class="ui header">{{item.title}}</h3>
+              <div class="ui padded vertical segment m-padded-tb-large" v-for="item in dataList" :key="item.blogId">
+                <div class="ui middle aligned mobile reversed stackable grid">
+                  <div class="eleven wide column" style="cursor:pointer;">
+                    <h3 class="ui header" @click="toBlog(item.blogId)">{{item.title}}</h3>
                     <p class="m-text">{{item.description}}</p>
                     <div class="ui grid">
                       <div class="eleven wide column">
@@ -76,13 +76,13 @@
                         </div>
                       </div>
                       <div class="right aligned five wide column">
-                        <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
+                        <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">{{item.typeName}}</a>
                       </div>
                     </div>
                   </div>
                   <div class="five wide column">
-                    <a href="#" target="_blank">
-                      <img src="https://picsum.photos/seed/picsum/800/450?image=1005" alt="" class="ui rounded image">
+                    <a target="_blank">
+                      <img v-bind:src=item.firstPicture @click="toBlog(item.blogId)" alt="" class="ui rounded image">
                     </a>
                   </div>
 
@@ -304,6 +304,10 @@ export default {
     this.findPage()
   },
   methods: {
+    toBlog (blogId) {
+      sessionStorage.setItem('blogId', blogId)
+      this.$router.push('/blog')
+    },
     // 分页查询
     async findPage () {
       // 发送ajax，提交分页请求（页码，每页显示条数，查询条件)
