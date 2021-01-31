@@ -96,7 +96,7 @@
             <el-button type="primary">
               <i class="el-icon-arrow-down el-icon-picture"></i>
             </el-button>
-            <el-input v-model="formData.firstPicture" placeholder="图片参考地址(https://picsum.photos/images),修改右边链接末尾id即可(https://unsplash.it/800/450?image=1005)" style="width: 780px"></el-input>
+            <el-input v-model="formData.firstPicture" style="width: 780px"></el-input>
             <el-form-item prop="description">
               <el-input
                 type="textarea"
@@ -194,7 +194,7 @@ export default {
         typeId: '', // 分类id
         title: '', // 博客标题
         content: '#### 使用 markdown 编辑器来开始书写你的博客吧!&emsp;由于还未添加保存图片到服务器的功能，添加图片只能复制图片的网络链接，此外编辑器可能还会有编辑栏和预览栏左右不对称的情况（代码块也只支持一种），所以请手动拉动右边导航条或者直接复制博文到此处即可，', // 正文文本
-        firstPicture: '', // 博客首图链接地址
+        firstPicture: '图片参考地址(https://picsum.photos/images),修改右边链接末尾id即可(https://unsplash.it/800/450?image=1005)', // 博客首图链接地址
         recommend: true, // 是否推荐
         appreciation: false, // 是否开启赞赏
         commentabled: true, // 是否开启评论
