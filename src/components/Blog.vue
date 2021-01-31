@@ -64,7 +64,7 @@
           <h2 class="ui center aligned header">关于刻意练习的清单</h2>
           <br>
 
-          <div id="content" class="typo  typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-large" v-html="dataList.content" style="width: 800px" v-highlight>
+          <div id="content" class="typo  typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-large" v-html="dataList.content" style="width: 800px">
           </div>
 
           <!--标签-->
@@ -111,93 +111,75 @@
         <div id="comment-container" class="ui bottom attached segment">
           <!--留言区域列表-->
           <div class="ui teal segment">
-            <div class="ui threaded comments">
+            <div class="ui threaded comments" style="max-width: 100%">
               <h3 class="ui dividing header">Comments</h3>
-              <div class="comment">
+              <div class="comment" v-for="item in dataList2" :key="item.commentId">
                 <a class="avatar">
-                  <img src="https://picsum.photos/seed/picsum/100/100?image=1005">
+                  <img v-bind:src=item.avatar>
                 </a>
                 <div class="content">
-                  <a class="author">Matt</a>
+                  <a class="author">{{item.nickname}}</a>
                   <div class="metadata">
-                    <span class="date">Today at 5:42PM</span>
+                    <span class="date">{{item.createTime}}</span>
                   </div>
-                  <div class="text">
-                    How artistic!
+                  <div class="text" v-text="item.content">
                   </div>
-                  <div class="actions">
-                    <a class="reply">回复</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="comment">
-                <a class="avatar">
-                  <img src="https://picsum.photos/seed/picsum/100/100?image=1005">
-                </a>
-                <div class="content">
-                  <a class="author">Elliot Fu</a>
-                  <div class="metadata">
-                    <span class="date">Yesterday at 12:30AM</span>
-                  </div>
-                  <div class="text">
-                    <p>This has been very useful for my research. Thanks as well!</p>
-                  </div>
-                  <div class="actions">
-                    <a class="reply">回复</a>
+                  <div class="actions" >
+                    <a class="reply" @click="replyComment(item)">回复</a>
+                    <a class="reply" @click="deleteComment(item)" v-show="item.uid==uid">删除</a>
                   </div>
                 </div>
                 <div class="comments">
-                  <div class="comment">
+                  <div class="comment" v-for="item2 in item.children" :key="item2.commentId">
                     <a class="avatar">
-                      <img src="https://picsum.photos/seed/picsum/100/100?image=1005">
+                      <img v-bind:src=item2.avatar>
                     </a>
                     <div class="content">
-                      <a class="author">Jenny</a>
+                      <a class="author">{{item2.nickname}}</a>
                       <div class="metadata">
-                        <span class="date">Just now</span>
+                        <span class="date">{{item2.createTime}}</span>
                       </div>
-                      <div class="text">
-                        Elliot you are always so right :)
+                      <div class="text" v-text="item2.content">
                       </div>
-                      <div class="actions">
-                        <a class="reply">回复</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="comments">
-                  <div class="comment">
-                    <a class="avatar">
-                      <img src="https://picsum.photos/seed/picsum/100/100?image=1005">
-                    </a>
-                    <div class="content">
-                      <a class="author">Jenny Hess</a>
-                      <div class="metadata">
-                        <span class="date">Just now</span>
-                      </div>
-                      <div class="text">
-                        Elliot you are always so right :)
-                      </div>
-                      <div class="actions">
-                        <a class="reply">回复</a>
+                      <div class="actions" >
+                        <a class="reply" @click="replyComment(item2)">回复</a>
+                        <a class="reply" @click="deleteComment(item2)" v-show="item2.uid==uid">删除</a>
                       </div>
                     </div>
                     <div class="comments">
-                      <div class="comment">
-                        <a class="avatar">
-                          <img src="https://picsum.photos/seed/picsum/100/100?image=1005">
-                        </a>
-                        <div class="content">
-                          <a class="author"> Hess</a>
-                          <div class="metadata">
-                            <span class="date">Just now</span>
+                      <div class="comment" v-for="item3 in item2.children" :key="item3.commentId">
+                      <a class="avatar">
+                        <img v-bind:src=item3.avatar>
+                      </a>
+                      <div class="content">
+                        <a class="author">{{item3.nickname}}</a>
+                        <div class="metadata">
+                          <span class="date">{{item3.createTime}}</span>
+                        </div>
+                        <div class="text" v-text="item3.content">
+                        </div>
+                        <div class="actions" >
+                          <a class="reply" @click="replyComment(item3)">回复</a>
+                          <a class="reply" @click="deleteComment(item3)" v-show="item3.uid==uid">删除</a>
+                        </div>
+                      </div>
+                        <div class="comments">
+                          <div class="comment" v-for="item4 in item3.children" :key="item4.commentId">
+                          <a class="avatar">
+                            <img v-bind:src=item4.avatar>
+                          </a>
+                          <div class="content">
+                            <a class="author">{{item4.nickname}}</a>
+                            <div class="metadata">
+                              <span class="date">{{item4.createTime}}</span>
+                            </div>
+                            <div class="text" v-text="item4.content">
+                            </div>
+                            <div class="actions" >
+                              <a class="reply" @click="replyComment(item4)">回复</a>
+                              <a class="reply" @click="deleteComment(item4)" v-show="item4.uid==uid">删除</a>
+                            </div>
                           </div>
-                          <div class="text">
-                            Elliot you are always so right :)
-                          </div>
-                          <div class="actions">
-                            <a class="reply">回复</a>
                           </div>
                         </div>
                       </div>
@@ -205,45 +187,29 @@
                   </div>
                 </div>
               </div>
-
-              <div class="comment">
-                <a class="avatar">
-                  <img src="https://picsum.photos/seed/picsum/100/100?image=1005">
-                </a>
-                <div class="content">
-                  <a class="author">Joe Henderson</a>
-                  <div class="metadata">
-                    <span class="date">5 days ago</span>
-                  </div>
-                  <div class="text">
-                    Dude, this is awesome. Thanks so much
-                  </div>
-                  <div class="actions">
-                    <a class="reply">回复</a>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <div class="ui form">
+            <el-form ref="addForm" :model="formData">
             <div class="field">
-              <textarea name="content" placeholder="请输入评论信息..."></textarea>
+              <textarea name="content" v-model="formData.content"></textarea>
             </div>
+            </el-form>
             <div class="fields">
-              <div class="field m-mobile-wide m-margin-bottom-small">
-                <div class="ui left icon input">
-                  <i class="user icon"></i>
-                  <input type="text" name="nickname" placeholder="姓名">
-                </div>
-              </div>
-              <div class="field m-mobile-wide m-margin-bottom-small">
-                <div class="ui left icon input">
-                  <i class="mail icon"></i>
-                  <input type="text" name="email" placeholder="邮箱">
-                </div>
-              </div>
+<!--              <div class="field m-mobile-wide m-margin-bottom-small">-->
+<!--                <div class="ui left icon input">-->
+<!--                  <i class="user icon"></i>-->
+<!--                  <input type="text" name="nickname" placeholder="姓名">-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="field m-mobile-wide m-margin-bottom-small">-->
+<!--                <div class="ui left icon input">-->
+<!--                  <i class="mail icon"></i>-->
+<!--                  <input type="text" name="email" placeholder="邮箱">-->
+<!--                </div>-->
+<!--              </div>-->
               <div class="field  m-margin-bottom-small m-mobile-wide">
-                <button class="ui teal button m-mobile-wide"><i class="edit icon"></i>发布</button>
+                <button class="ui teal button m-mobile-wide" @click="addComment"><i class="edit icon"></i>发布</button>
               </div>
             </div>
 
@@ -319,18 +285,89 @@ import QRCode from 'qrcodejs2'
 export default {
   data () {
     return {
+      formData: {
+        blogId: '',
+        content: '请输入评论信息...', // 评论内容
+        parentCommentId: ''
+      },
+      uid: '',
       user: {},
       nickname: '',
       // 被激活的链接地址
       avatar: '',
-      dataList: []
+      dataList: [],
+      dataList2: []
     }
   },
   created () {
     this.getUser()
     this.getOneBlog()
+    this.getCommentList()
   },
   methods: {
+    async deleteComment (item) {
+      this.$confirm('若该评论有子评论的话会被一起删除，你确定要继续删除吗？', '提示', { // 确认框
+        type: 'warning'
+      }).then(() => {
+        const commentId = item.commentId
+        const blogId = sessionStorage.getItem('blogId')
+        // 表单校验通过，发ajax请求，把数据录入至后台处理
+        this.$http.delete(`/comment/${blogId}/${commentId}`).then((res) => {
+          if (res.data.flag) {
+            this.getCommentList()
+            sessionStorage.setItem('parentCommentId', -1)
+            this.formData.content = '请输入评论信息...'
+            // 弹出提示信息
+            this.$message({
+              message: '删除评论成功',
+              type: 'success'
+            })
+          } else { // 执行失败
+            this.$message.error(res.data.message)
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '删除操作已取消'
+        })
+      })
+    },
+    async addComment () {
+      console.log(JSON.stringify(this.formData))
+      const parentCommentId = sessionStorage.getItem('parentCommentId')
+      const blogId = sessionStorage.getItem('blogId')
+      this.formData.blogId = blogId
+      this.formData.parentCommentId = parentCommentId
+      // 表单校验通过，发ajax请求，把数据录入至后台处理
+      this.$http.post('/comment/replyComment', this.formData).then((res) => {
+        if (res.data.flag) {
+          this.getCommentList()
+          sessionStorage.setItem('parentCommentId', -1)
+          this.formData.content = '请输入评论信息...'
+          // 弹出提示信息
+          this.$message({
+            message: '回复评论成功',
+            type: 'success'
+          })
+        } else { // 执行失败
+          this.$message.error('回复评论成功失败')
+        }
+      })
+    },
+    replyComment (item) { // 获取被评论者的id作为父id
+      this.formData.content = '对' + item.nickname + '说点啥吧：(回复时，请删除本行)'
+      sessionStorage.setItem('parentCommentId', item.commentId)
+    },
+    async getCommentList () {
+      const blogId = sessionStorage.getItem('blogId')
+      const { data: res } = await this.$http.get(`/comment/${blogId}`)
+      console.log(res)
+      if (!res.flag) {
+        return this.$message.error('获取评论列表信息失败！')
+      }
+      this.dataList2 = res.data
+    },
     reloadPrism () {
       process.browser && document.querySelectorAll('pre code').forEach(block => Prism.highlightElement(block))
     },
@@ -338,19 +375,16 @@ export default {
     async getOneBlog () {
       const blogId = sessionStorage.getItem('blogId')
       const { data: res } = await this.$http.get(`/blog/${blogId}`)
-      console.log(res)
       if (!res.flag) {
         return this.$message.error('获取博客信息失败！')
       }
       this.dataList = res.data
-      process.browser && document.querySelectorAll('pre code').forEach(block => Prism.highlightElement(block))
-      console.log('-----------' + JSON.stringify(this.dataList))
     },
     getUser () {
       this.user = window.sessionStorage.getItem('user')
+      this.uid = JSON.parse(this.user).uid
       this.nickname = JSON.parse(this.user).nickname
       this.avatar = JSON.parse(this.user).avatar
-      console.log(this.user)
     },
     logout () {
       window.sessionStorage.clear()
@@ -364,11 +398,9 @@ export default {
     setTimeout(() => {
       this.reloadPrism()
     }, 1000)
-    process.browser && document.querySelectorAll('pre code').forEach(block => Prism.highlightElement(block))
     $('.ui.dropdown').dropdown({
       on: 'hover'
     })
-    process.browser && document.querySelectorAll('pre code').forEach(block => Prism.highlightElement(block))
     $('.menu.toggle').click(function () {
       $('.m-item').toggleClass('m-mobile-hide')
     })
