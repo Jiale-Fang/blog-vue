@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "babel-plugin-component": "^1.1.1",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.0",
     "gulp": "^4.0.2",

@@ -10,7 +10,8 @@ module.exports = {
         axios: 'axios',
         lodash: '_',
         echarts: 'echarts',
-        nprogress: 'NProgress'
+        nprogress: 'NProgress',
+        'mavon-editor': 'MavonEditor'
       })
 
       config.plugin('html').tap(args => {

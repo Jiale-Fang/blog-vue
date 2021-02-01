@@ -12,10 +12,11 @@ import PostBlogs from '../components/admin/PostBlogs'
 import NotFound from '../components/NotFound'
 import Types2 from '../components/admin/Types2'
 import AddTypes from '../components/admin/AddTypes'
+import Tags2 from '../components/admin/Tags2'
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', redirect: 'login' },
+  { path: '/', redirect: 'home' },
   { path: '/login', component: Login },
   {
     path: '/home',
@@ -46,6 +47,11 @@ const routes = [
     path: '/Tags',
     name: 'Tags',
     component: Tags
+  },
+  {
+    path: '/Tags2',
+    name: 'Tags2',
+    component: Tags2
   },
   {
     path: '/Archives',
@@ -87,7 +93,7 @@ router.beforeEach((to, from, next) => {
   // 获取token
   const tokenStr = window.sessionStorage.getItem('token')
   // 后端指定接口验证了token的正确性
-  if (!tokenStr) return next('/login')
+  if (!tokenStr && (to.path === '/blogs')) return next('/login')
   next()
 })
 export default router

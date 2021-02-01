@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 // import './plugins/element.js'
-import ElementUI from 'element-ui'
+// import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
@@ -17,7 +17,7 @@ Vue.use(prismjs)
 // use
 Vue.use(mavonEditor)
 
-Vue.use(ElementUI)
+// Vue.use(ElementUI)
 Vue.prototype.$http = axios
 // 配置请求的跟路径
 axios.defaults.baseURL = 'http://127.0.0.1:9001/'
