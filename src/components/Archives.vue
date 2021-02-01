@@ -23,7 +23,8 @@
                 </div>
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                  <a href="#" @click="logout" class="item">注销</a>
+                  <a href="/#/login" class="item">登录</a>
+                  <a @click="logout" class="item">注销</a>
                 </div>
               </div>
             </div>
@@ -178,7 +179,7 @@ export default {
     },
     logout () {
       window.sessionStorage.clear()
-      this.$router.push('/login')
+      this.$router.push('/home')
       // 刷新页面，删除vuex数据
       window.location.reload()
     }

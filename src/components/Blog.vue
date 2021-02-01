@@ -23,7 +23,8 @@
               </div>
               <i class="dropdown icon"></i>
               <div class="menu">
-                <a href="#" @click="logout" class="item">注销</a>
+                <a href="/#/login" class="item">登录</a>
+                <a @click="logout" class="item">注销</a>
               </div>
             </div>
           </div>
@@ -53,23 +54,19 @@
         </div>
         <div class="ui attached segment">
           <!--图片区域-->
-          <img src="https://picsum.photos/seed/picsum/800/450?image=1005" alt="" class="ui fluid rounded image">
+          <img v-bind:src=dataList.firstPicture class="ui fluid rounded image">
         </div>
         <div class="ui  attached padded segment">
           <!--内容-->
           <div class="ui right aligned basic segment">
-            <div class="ui orange basic label">原创</div>
+            <div class="ui orange basic label">{{dataList.shareStatement}}</div>
           </div>
-
-          <h2 class="ui center aligned header">关于刻意练习的清单</h2>
-          <br>
-
           <div id="content" class="typo  typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-large" v-html="dataList.content" style="width: 800px">
           </div>
 
           <!--标签-->
           <div class="m-padded-lr-responsive">
-            <div class="ui basic teal left pointing label">方法论</div>
+<!--            <div class="ui basic teal left pointing label" v-for="item in tagList" :key="item.tagId">{{item.tagName}}</div>-->
           </div>
 
           <!--赞赏-->
@@ -97,8 +94,8 @@
           <div class="ui middle aligned grid">
             <div class="eleven wide column">
               <ui class="list">
-                <li>作者：Fjl（联系作者）</li>
-                <li>发表时间：2021-01-18 19:08</li>
+                <li>作者：{{dataList.nickname}}（联系作者）</li>
+                <li>发表时间：{{dataList.createTime}}</li>
                 <li>版权声明：自由转载-非商用-非衍生-保持署名（创意共享3.0许可证）</li>
                 <li>公众号转载：请在文末添加作者公众号二维码</li>
               </ui>
@@ -305,6 +302,24 @@ export default {
     this.getCommentList()
   },
   methods: {
+    toLogin () {
+      const tokenStr = window.sessionStorage.getItem('token')
+      // 后端指定接口验证了token的正确性
+      if (!tokenStr) {
+        this.$confirm('登录后才能发表评论，请问是否先登录？', '提示', { // 确认框
+          type: 'info'
+        }).then(() => {
+          this.$router.push('/login')
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '你选择不登录'
+          })
+          return false
+        })
+      }
+      return !!tokenStr
+    },
     async deleteComment (item) {
       this.$confirm('若该评论有子评论的话会被一起删除，你确定要继续删除吗？', '提示', { // 确认框
         type: 'warning'
@@ -334,26 +349,28 @@ export default {
       })
     },
     async addComment () {
-      console.log(JSON.stringify(this.formData))
-      const parentCommentId = sessionStorage.getItem('parentCommentId')
-      const blogId = sessionStorage.getItem('blogId')
-      this.formData.blogId = blogId
-      this.formData.parentCommentId = parentCommentId
-      // 表单校验通过，发ajax请求，把数据录入至后台处理
-      this.$http.post('/comment/replyComment', this.formData).then((res) => {
-        if (res.data.flag) {
-          this.getCommentList()
-          sessionStorage.setItem('parentCommentId', -1)
-          this.formData.content = '请输入评论信息...'
-          // 弹出提示信息
-          this.$message({
-            message: '回复评论成功',
-            type: 'success'
-          })
-        } else { // 执行失败
-          this.$message.error('回复评论成功失败')
-        }
-      })
+      if (this.toLogin()) {
+        console.log(JSON.stringify(this.formData))
+        const parentCommentId = sessionStorage.getItem('parentCommentId')
+        const blogId = sessionStorage.getItem('blogId')
+        this.formData.blogId = blogId
+        this.formData.parentCommentId = parentCommentId
+        // 表单校验通过，发ajax请求，把数据录入至后台处理
+        this.$http.post('/comment/replyComment', this.formData).then((res) => {
+          if (res.data.flag) {
+            this.getCommentList()
+            sessionStorage.setItem('parentCommentId', -1)
+            this.formData.content = '请输入评论信息...'
+            // 弹出提示信息
+            this.$message({
+              message: '回复评论成功',
+              type: 'success'
+            })
+          } else { // 执行失败
+            this.$message.error('回复评论成功失败')
+          }
+        })
+      }
     },
     replyComment (item) { // 获取被评论者的id作为父id
       this.formData.content = '对' + item.nickname + '说点啥吧：(回复时，请删除本行)'
@@ -382,13 +399,15 @@ export default {
     },
     getUser () {
       this.user = window.sessionStorage.getItem('user')
-      this.uid = JSON.parse(this.user).uid
-      this.nickname = JSON.parse(this.user).nickname
-      this.avatar = JSON.parse(this.user).avatar
+      if (this.user != null) {
+        this.uid = JSON.parse(this.user).uid
+        this.nickname = JSON.parse(this.user).nickname
+        this.avatar = JSON.parse(this.user).avatar
+      }
     },
     logout () {
       window.sessionStorage.clear()
-      this.$router.push('/login')
+      this.$router.push('/home')
       // 刷新页面，删除vuex数据
       window.location.reload()
     }
@@ -397,6 +416,15 @@ export default {
     // 有效
     setTimeout(() => {
       this.reloadPrism()
+      // eslint-disable-next-line no-undef
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.js-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.js-toc-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3'
+      })
     }, 1000)
     $('.ui.dropdown').dropdown({
       on: 'hover'
@@ -420,15 +448,6 @@ export default {
     })
     $('#toTop-button').click(function () {
       $(window).scrollTo(0, 500)
-    })
-    // eslint-disable-next-line no-undef
-    tocbot.init({
-      // Where to render the table of contents.
-      tocSelector: '.js-toc',
-      // Where to grab the headings to build the table of contents.
-      contentSelector: '.js-toc-content',
-      // Which headings to grab inside of the contentSelector element.
-      headingSelector: 'h1, h2, h3'
     })
     // eslint-disable-next-line no-unused-vars
     var qrcode = new QRCode('qrcode', {

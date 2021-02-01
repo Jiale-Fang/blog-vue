@@ -23,7 +23,8 @@
               </div>
               <i class="dropdown icon"></i>
               <div class="menu">
-                <a href="#" @click="logout" class="item">注销</a>
+                <a href="/#/login" class="item">登录</a>
+                <a @click="logout" class="item">注销</a>
               </div>
             </div>
           </div>
@@ -98,7 +99,7 @@
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"
                   :current-page="pagination.currentPage"
-                  :page-sizes="[2,5,10,15]"
+                  :page-sizes="[2,6,10,15]"
                   :page-size="pagination.pageSize"
                   layout="total, sizes, prev, pager, next, jumper"
                   :total="pagination.total">
@@ -119,36 +120,18 @@
                     <i class="idea icon"></i>分类
                   </div>
                   <div class="right aligned column">
-                    <a href="#" target="_blank">more <i class="angle double right icon"></i></a>
+                    <a href="/#/types" target="_blank">more <i class="angle double right icon"></i></a>
                   </div>
                 </div>
               </div>
               <div class="ui teal segment">
                 <div class="ui fluid vertical menu">
-                  <a href="#" class="item">
-                    学习日志
-                    <div class="ui teal basic left pointing label">13</div>
-                  </a>
-                  <a href="#" class="item">
-                    思考与感悟
-                    <div class="ui teal basic left pointing label">13</div>
-                  </a>
-                  <a href="#" class="item">
-                    学习日志
-                    <div class="ui teal basic left pointing label">13</div>
-                  </a>
-                  <a href="#" class="item">
-                    学习日志
-                    <div class="ui teal basic left pointing label">13</div>
-                  </a>
-                  <a href="#" class="item">
-                    学习日志
-                    <div class="ui teal basic left pointing label">13</div>
-                  </a>
-                  <a href="#" class="item">
-                    学习日志
-                    <div class="ui teal basic left pointing label">13</div>
-                  </a>
+                  <template v-for="(item, index) in typeList">
+                    <a class="item" v-if='index<6' :key="item.typeId" @click="toType(item.typeId)">
+                      {{ item.typeName }}
+                      <div class="ui teal basic left pointing label">{{item.typeCount}}</div>
+                    </a>
+                  </template>
                 </div>
               </div>
             </div>
@@ -161,41 +144,16 @@
                     <i class="tags icon"></i>标签
                   </div>
                   <div class="right aligned column">
-                    <a href="#" target="_blank">more <i class="angle double right icon"></i></a>
+                    <a href="/#/tags" target="_blank">more <i class="angle double right icon"></i></a>
                   </div>
                 </div>
               </div>
               <div class="ui teal segment">
-                <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny">
-                  方法论 <div class="detail">23</div>
+                <template v-for="(item, index) in tagList">
+                <a target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny" v-if='index<15' :key="item.tagId" @click="toTag(item.tagId)">
+                  {{item.tagName}} <div class="detail">{{item.tagCount}}</div>
                 </a>
-                <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny">
-                  论 <div class="detail">23</div>
-                </a>
-                <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny">
-                  论 <div class="detail">23</div>
-                </a>
-                <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny">
-                  方法论 <div class="detail">23</div>
-                </a>
-                <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny">
-                  方法论 <div class="detail">23</div>
-                </a>
-                <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny">
-                  方法论 <div class="detail">23</div>
-                </a>
-                <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny">
-                  方法论 <div class="detail">23</div>
-                </a>
-                <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny">
-                  方法论 <div class="detail">23</div>
-                </a>
-                <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny">
-                  方法论 <div class="detail">23</div>
-                </a>
-                <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny">
-                  方法论 <div class="detail">23</div>
-                </a>
+                </template>
               </div>
             </div>
 
@@ -204,29 +162,8 @@
               <div class="ui secondary segment ">
                 <i class="bookmark icon"></i>最新推荐
               </div>
-              <div class="ui segment">
-                <a href="#" target="_blank" class="m-black m-text-thin">用户故事（User Story）</a>
-              </div>
-              <div class="ui segment" >
-                <a href="#" target="_blank" class="m-black m-text-thin">用户故事（User Story）</a>
-              </div>
-              <div class="ui segment">
-                <a href="#" target="_blank" class="m-black m-text-thin">用户故事（User Story）</a>
-              </div>
-              <div class="ui segment">
-                <a href="#" target="_blank" class="m-black m-text-thin">用户故事（User Story）</a>
-              </div>
-              <div class="ui segment">
-                <a href="#" target="_blank" class="m-black m-text-thin">用户故事（User Story）</a>
-              </div>
-              <div class="ui segment">
-                <a href="#" target="_blank" class="m-black m-text-thin">用户故事（User Story）</a>
-              </div>
-              <div class="ui segment">
-                <a href="#" target="_blank" class="m-black m-text-thin">用户故事（User Story）</a>
-              </div>
-              <div class="ui segment">
-                <a href="#" target="_blank" class="m-black m-text-thin">用户故事（User Story）</a>
+              <div class="ui segment" v-for="item in latestList" :key="item.blogId">
+                <a  target="_blank" class="m-black m-text-thin" style="cursor:pointer;" v-text="item.title" @click="toBlog(item.blogId)"></a>
               </div>
             </div>
 
@@ -286,10 +223,13 @@
 export default {
   data () {
     return {
-      dataList: [], // 当前页要展示的分页列表数据
+      dataList: [], // 当前页要展示的博客分页列表数据
+      typeList: [], // 分类列表的数据
+      tagList: [], // 标签列表的数据
+      latestList: [], // 最新发布的博客列表的数据
       pagination: { // 分页相关模型数据
         currentPage: 1, // 当前页码
-        pageSize: 10, // 每页显示的记录数
+        pageSize: 6, // 每页显示的记录数
         total: 0, // 总记录数
         queryString: null // 查询条件
       },
@@ -302,11 +242,34 @@ export default {
   created () {
     this.getUser()
     this.findPage()
+    this.getTypeList()
+    this.getTagList()
+    this.getLatestList()
   },
   methods: {
+    toTag (tagId) {
+      sessionStorage.setItem('tagId', tagId)
+      this.$router.push('/tags')
+    },
+    toType (typeId) {
+      sessionStorage.setItem('typeId', typeId)
+      this.$router.push('/types')
+    },
     toBlog (blogId) {
       sessionStorage.setItem('blogId', blogId)
       this.$router.push('/blog')
+    },
+    async getLatestList () {
+      const { data: res } = await this.$http.get('/home/latestList')
+      this.latestList = res.data
+    },
+    async getTypeList () {
+      const { data: res } = await this.$http.get('/home/getTypeCount')
+      this.typeList = res.data
+    },
+    async getTagList () {
+      const { data: res } = await this.$http.get('/home/getTagCount')
+      this.tagList = res.data
     },
     // 分页查询
     async findPage () {
@@ -324,17 +287,17 @@ export default {
       }
       this.pagination.total = res.data.total
       this.dataList = res.data.records
-      console.log('-----------' + JSON.stringify(this.dataList))
     },
     getUser () {
       this.user = window.sessionStorage.getItem('user')
-      this.nickname = JSON.parse(this.user).nickname
-      this.avatar = JSON.parse(this.user).avatar
-      console.log(this.user)
+      if (this.user != null) {
+        this.nickname = JSON.parse(this.user).nickname
+        this.avatar = JSON.parse(this.user).avatar
+      }
     },
     logout () {
       window.sessionStorage.clear()
-      this.$router.push('/login')
+      this.$router.push('/home')
       // 刷新页面，删除vuex数据
       window.location.reload()
     },

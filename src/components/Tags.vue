@@ -44,255 +44,75 @@
                 <h3 class="ui teal header">标签</h3>
               </div>
               <div class="right aligned column">
-                共 <h2 class="ui orange header m-inline-block m-text-thin"> 14 </h2> 个
+                共 <h2 class="ui orange header m-inline-block m-text-thin"> {{tagList.length}} </h2> 个
               </div>
             </div>
           </div>
 
           <div class="ui attached segment m-padded-tb-large">
-            <a href="#" target="_blank" class="ui teal basic left pointing large label m-margin-tb-tiny">
-              方法论 <div class="detail">23</div>
-            </a>
-            <a href="#" target="_blank" class="ui basic left pointing large label m-margin-tb-tiny">
-              方法论 <div class="detail">22</div>
-            </a>
-            <a href="#" target="_blank" class="ui basic left pointing large label m-margin-tb-tiny">
-              方法论 <div class="detail">22</div>
-            </a>
-            <a href="#" target="_blank" class="ui basic left pointing large label m-margin-tb-tiny">
-              方法论 <div class="detail">22</div>
-            </a>
-            <a href="#" target="_blank" class="ui basic left pointing large label m-margin-tb-tiny">
-              方法论 <div class="detail">22</div>
-            </a>
-            <a href="#" target="_blank" class="ui basic left pointing large label m-margin-tb-tiny">
-              方法论 <div class="detail">22</div>
-            </a>
-            <a href="#" target="_blank" class="ui basic left pointing large label m-margin-tb-tiny">
-              方法论 <div class="detail">22</div>
-            </a>
-            <a href="#" target="_blank" class="ui basic left pointing large label m-margin-tb-tiny">
-              方法论 <div class="detail">22</div>
-            </a>
-            <a href="#" target="_blank" class="ui basic left pointing large label m-margin-tb-tiny">
-              方法论 <div class="detail">22</div>
-            </a>
-            <a href="#" target="_blank" class="ui basic left pointing large label m-margin-tb-tiny">
-              方法论 <div class="detail">22</div>
-            </a>
+            <template v-for="item in tagList">
+              <div class="ui labeled button m-margin-tb-tiny" @click="saveNavState(item)" v-if="activeId===item.tagId" :key="item.tagId">
+                <a class="ui basic teal button">{{item.tagName}}</a>
+                <div class="ui basic teal left pointing label">{{item.tagCount}}</div>
+              </div>
+              <div class="ui labeled button m-margin-tb-tiny" @click="saveNavState(item)" v-else :key="item.tagId">
+                <a class="ui basic button">{{item.tagName}}</a>
+                <div class="ui basic left pointing label">{{item.tagCount}}</div>
+              </div>
+            </template>
           </div>
 
-          <div class="ui top attached teal segment">
-            <div class="ui padded vertical segment m-padded-tb-large m-mobile-lr-clear">
-              <div class="ui mobile reversed stackable grid">
-                <div class="eleven wide column">
-                  <h3 class="ui header">你真的理解什么是财富自由吗？</h3>
-                  <p class="m-text">正确做好任何一件事情的前提是清晰、正确的理解目标。而事实是，我们很多人很多时候根本没有对目标正确的定义，甚至根本从来就没有想过，只是大家都那么做而已…...</p>
-                  <div class="ui stackable grid">
-                    <div class="row">
-                      <div class="eleven wide column">
-                        <div class="ui mini horizontal link list">
-                          <div class="item">
-                            <img src="https://unsplash.it/100/100?image=1005" alt="" class="ui avatar image">
-                            <div class="content"><a href="#" class="header">李仁密</a></div>
-                          </div>
-                          <div class="item">
-                            <i class="calendar icon"></i> 2017-10-01
-                          </div>
-                          <div class="item">
-                            <i class="eye icon"></i> 2342
-                          </div>
+          <!--content-->
+          <div class="ui attached  segment">
+
+            <div class="ui padded vertical segment m-padded-tb-large" v-for="item in dataList" :key="item.blogId">
+              <div class="ui middle aligned mobile reversed stackable grid">
+                <div class="eleven wide column" style="cursor:pointer;">
+                  <h3 class="ui header" @click="toBlog(item.blogId)">{{item.title}}</h3>
+                  <p class="m-text">{{item.description}}</p>
+                  <div class="ui grid">
+                    <div class="eleven wide column">
+                      <div class="ui mini horizontal link list">
+                        <div class="item">
+                          <img src="https://picsum.photos/seed/picsum/100/100?image=1005" alt="" class="ui avatar image">
+                          <div class="content"><a href="#" class="header">{{item.nickname}}</a></div>
+                        </div>
+                        <div class="item">
+                          <i class="calendar icon"></i> {{item.createTime}}
+                        </div>
+                        <div class="item">
+                          <i class="eye icon"></i> {{item.views}}
                         </div>
                       </div>
-                      <div class="right aligned five wide column">
-                        <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
-                      </div>
                     </div>
-                    <div class="row">
-                      <div class="column">
-                        <a href="#" class="ui  basic teal left pointing label m-padded-mini m-text-thin">方法论</a>
-                      </div>
+                    <div class="right aligned five wide column">
+                      <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">{{item.typeName}}</a>
                     </div>
                   </div>
                 </div>
-
                 <div class="five wide column">
-                  <a href="#" target="_blank">
-                    <img src="https://unsplash.it/800/450?image=1005" alt="" class="ui rounded image">
+                  <a target="_blank">
+                    <img v-bind:src=item.firstPicture @click="toBlog(item.blogId)" alt="" class="ui rounded image">
                   </a>
                 </div>
-              </div>
-            </div>
-            <div class="ui padded vertical segment m-padded-tb-large m-mobile-lr-clear">
-              <div class="ui mobile reversed stackable grid">
-                <div class="eleven wide column">
-                  <h3 class="ui header">你真的理解什么是财富自由吗？</h3>
-                  <p class="m-text">正确做好任何一件事情的前提是清晰、正确的理解目标。而事实是，我们很多人很多时候根本没有对目标正确的定义，甚至根本从来就没有想过，只是大家都那么做而已…...</p>
-                  <div class="ui stackable grid">
-                    <div class="row">
-                      <div class="eleven wide column">
-                        <div class="ui mini horizontal link list">
-                          <div class="item">
-                            <img src="https://unsplash.it/100/100?image=1005" alt="" class="ui avatar image">
-                            <div class="content"><a href="#" class="header">李仁密</a></div>
-                          </div>
-                          <div class="item">
-                            <i class="calendar icon"></i> 2017-10-01
-                          </div>
-                          <div class="item">
-                            <i class="eye icon"></i> 2342
-                          </div>
-                        </div>
-                      </div>
-                      <div class="right aligned five wide column">
-                        <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="column">
-                        <a href="#" class="ui  basic teal left pointing label m-padded-mini m-text-thin">方法论</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="five wide column">
-                  <a href="#" target="_blank">
-                    <img src="https://unsplash.it/800/450?image=1005" alt="" class="ui rounded image">
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="ui padded vertical segment m-padded-tb-large m-mobile-lr-clear">
-              <div class="ui mobile reversed stackable grid">
-                <div class="eleven wide column">
-                  <h3 class="ui header">你真的理解什么是财富自由吗？</h3>
-                  <p class="m-text">正确做好任何一件事情的前提是清晰、正确的理解目标。而事实是，我们很多人很多时候根本没有对目标正确的定义，甚至根本从来就没有想过，只是大家都那么做而已…...</p>
-                  <div class="ui stackable grid">
-                    <div class="row">
-                      <div class="eleven wide column">
-                        <div class="ui mini horizontal link list">
-                          <div class="item">
-                            <img src="https://unsplash.it/100/100?image=1005" alt="" class="ui avatar image">
-                            <div class="content"><a href="#" class="header">李仁密</a></div>
-                          </div>
-                          <div class="item">
-                            <i class="calendar icon"></i> 2017-10-01
-                          </div>
-                          <div class="item">
-                            <i class="eye icon"></i> 2342
-                          </div>
-                        </div>
-                      </div>
-                      <div class="right aligned five wide column">
-                        <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="column">
-                        <a href="#" class="ui  basic teal left pointing label m-padded-mini m-text-thin">方法论</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="five wide column">
-                  <a href="#" target="_blank">
-                    <img src="https://unsplash.it/800/450?image=1005" alt="" class="ui rounded image">
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="ui padded vertical segment m-padded-tb-large m-mobile-lr-clear">
-              <div class="ui mobile reversed stackable grid">
-                <div class="eleven wide column">
-                  <h3 class="ui header">你真的理解什么是财富自由吗？</h3>
-                  <p class="m-text">正确做好任何一件事情的前提是清晰、正确的理解目标。而事实是，我们很多人很多时候根本没有对目标正确的定义，甚至根本从来就没有想过，只是大家都那么做而已…...</p>
-                  <div class="ui stackable grid">
-                    <div class="row">
-                      <div class="eleven wide column">
-                        <div class="ui mini horizontal link list">
-                          <div class="item">
-                            <img src="https://unsplash.it/100/100?image=1005" alt="" class="ui avatar image">
-                            <div class="content"><a href="#" class="header">李仁密</a></div>
-                          </div>
-                          <div class="item">
-                            <i class="calendar icon"></i> 2017-10-01
-                          </div>
-                          <div class="item">
-                            <i class="eye icon"></i> 2342
-                          </div>
-                        </div>
-                      </div>
-                      <div class="right aligned five wide column">
-                        <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="column">
-                        <a href="#" class="ui  basic teal left pointing label m-padded-mini m-text-thin">方法论</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="five wide column">
-                  <a href="#" target="_blank">
-                    <img src="https://unsplash.it/800/450?image=1005" alt="" class="ui rounded image">
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="ui padded vertical segment m-padded-tb-large m-mobile-lr-clear">
-              <div class="ui mobile reversed stackable grid">
-                <div class="eleven wide column">
-                  <h3 class="ui header">你真的理解什么是财富自由吗？</h3>
-                  <p class="m-text">正确做好任何一件事情的前提是清晰、正确的理解目标。而事实是，我们很多人很多时候根本没有对目标正确的定义，甚至根本从来就没有想过，只是大家都那么做而已…...</p>
-                  <div class="ui stackable grid">
-                    <div class="row">
-                      <div class="eleven wide column">
-                        <div class="ui mini horizontal link list">
-                          <div class="item">
-                            <img src="https://unsplash.it/100/100?image=1005" alt="" class="ui avatar image">
-                            <div class="content"><a href="#" class="header">李仁密</a></div>
-                          </div>
-                          <div class="item">
-                            <i class="calendar icon"></i> 2017-10-01
-                          </div>
-                          <div class="item">
-                            <i class="eye icon"></i> 2342
-                          </div>
-                        </div>
-                      </div>
-                      <div class="right aligned five wide column">
-                        <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="column">
-                        <a href="#" class="ui  basic teal left pointing label m-padded-mini m-text-thin">方法论</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="five wide column">
-                  <a href="#" target="_blank">
-                    <img src="https://unsplash.it/800/450?image=1005" alt="" class="ui rounded image">
-                  </a>
-                </div>
               </div>
             </div>
           </div>
 
+          <!--footer-->
           <div class="ui bottom attached segment">
-            <div class="ui middle aligned two column grid">
-              <div class="column">
-                <a href="#" class="ui mini teal basic button">上一页</a>
-              </div>
-              <div class="right aligned column">
-                <a href="#" class="ui mini teal basic button">下一页</a>
-              </div>
+            <div class="pagination-container">
+              <el-pagination
+                class="pagiantion"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="pagination.currentPage"
+                :page-sizes="[2,6,10,15]"
+                :page-size="pagination.pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="pagination.total">
+              </el-pagination>
             </div>
           </div>
 
@@ -344,27 +164,90 @@
 export default {
   data () {
     return {
+      activeId: '', // 被激活的标签id
+      tagList: [], // 标签列表的数据
+      dataList: [],
       user: {},
       nickname: '',
       // 被激活的链接地址
-      avatar: ''
+      avatar: '',
+      pagination: { // 分页相关模型数据
+        currentPage: 1, // 当前页码
+        pageSize: 6, // 每页显示的记录数
+        total: 0, // 总记录数
+        queryString: null // 查询条件
+      }
     }
   },
   created () {
     this.getUser()
+    this.findPage(this.activeId)
+    this.getTagList()
   },
   methods: {
+    async getTagList () {
+      const { data: res } = await this.$http.get('/home/getTagCount')
+      this.tagList = res.data
+    },
+    toBlog (blogId) {
+      sessionStorage.setItem('blogId', blogId)
+      this.$router.push('/blog')
+    },
+    async saveNavState (item) {
+      console.log('----item----' + JSON.stringify(item))
+      this.activeId = item.tagId
+      if (item.tagCount === 0) {
+        this.$message.error('查询失败，当前所在标签的博客数为0')
+      } else {
+        await this.findPage(this.activeId)
+      }
+    },
+    // 分页查询
+    async findPage (tagId) {
+      const id = sessionStorage.getItem('tagId')
+      if (id !== null) {
+        tagId = id
+        this.activeId = id
+      }
+      sessionStorage.removeItem('tagId')
+      // 发送ajax，提交分页请求（页码，每页显示条数，查询条件)
+      const param = {
+        currentPage: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        queryString: this.pagination.queryString,
+        tagId: tagId
+      }
+      // var param2 = this.$encruption(JSON.stringify(param))
+      const { data: res } = await this.$http.post('/tagShow/getById', param)
+      // 解析controller响应回的数据
+      if (!res.flag) {
+        return this.$message.error('获取首页列表失败！')
+      }
+      this.pagination.total = res.data.total
+      this.dataList = res.data.records
+    },
     getUser () {
       this.user = window.sessionStorage.getItem('user')
-      this.nickname = JSON.parse(this.user).nickname
-      this.avatar = JSON.parse(this.user).avatar
-      console.log(this.user)
+      if (this.user != null) {
+        this.nickname = JSON.parse(this.user).nickname
+        this.avatar = JSON.parse(this.user).avatar
+      }
     },
     logout () {
       window.sessionStorage.clear()
       this.$router.push('/login')
       // 刷新页面，删除vuex数据
       window.location.reload()
+    },
+    handleCurrentChange (currentPage) {
+      // 设置最新的页码
+      this.pagination.currentPage = currentPage
+      // 重新调用findPage方法进行分页查询
+      this.findPage()
+    },
+    handleSizeChange (newSize) {
+      this.pagination.pageSize = newSize
+      this.findPage()
     }
   },
   mounted () {

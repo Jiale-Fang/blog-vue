@@ -17,10 +17,52 @@
           </el-form-item>
           <!-- 按钮区域 -->
           <el-form-item class="btns">
+            <el-button type="success" @click="handleCreate">注册</el-button>
             <el-button type="primary" @click="login">登录</el-button>
             <el-button type="info" @click="resetLoginForm">重置</el-button>
           </el-form-item>
         </el-form>
+      </div>
+      <!-- 注册弹层-->
+      <div class="add-form">
+        <el-dialog title="新增分类" :visible.sync="dialogFormVisible">
+          <el-form ref="registForm" :model="formData" :rules="loginFormRules" label-position="right"
+                   label-width="100px">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="用户名" prop="username">
+                  <el-input v-model="formData.username"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="密码" prop="password">
+                  <el-input v-model="formData.password"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="昵称" prop="nickname">
+                <el-input v-model="formData.nickname"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="邮箱">
+                <el-input v-model="formData.email"/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+            <el-col :span="24">
+              <el-form-item label="头像地址">
+                <el-input v-model="formData.avatar"/>
+              </el-form-item>
+            </el-col>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取消</el-button>
+            <el-button type="primary" @click="regist()">确定</el-button>
+          </div>
+        </el-dialog>
       </div>
     </div>
 </template>
@@ -29,6 +71,14 @@
 export default {
   data () {
     return {
+      formData: {
+        username: 'rosie',
+        password: '123456',
+        nickname: '',
+        email: '',
+        avatar: '头像参考地址：https://picsum.photos/images，将右边链接image后的id换成自己的即可（https://unsplash.it/100/100?image=1）'
+      },
+      dialogFormVisible: false, // 增加表单是否可见
       // 这是登录表单的数据绑定对象
       loginForm: {
         username: 'rosie',
@@ -39,12 +89,16 @@ export default {
         // 验证用户名是否合法
         username: [
           { required: true, message: '请输入登录名称', trigger: 'blur' },
-          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+          { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
         ],
         // 验证密码是否合法
         password: [
           { required: true, message: '请输入登录密码', trigger: 'blur' },
-          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
+          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
+        ],
+        nickname: [
+          { required: true, message: '请输入昵称', trigger: 'blur' },
+          { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
         ]
       }
     }
@@ -53,6 +107,35 @@ export default {
     // 点击重置按钮，重置登录表单
     resetLoginForm () {
       this.$refs.loginFormRef.resetFields()
+    },
+    // 弹出添加窗口
+    handleCreate () {
+      this.dialogFormVisible = true
+    },
+    regist () {
+      // 进行表单校验
+      this.$refs.registForm.validate((valid) => {
+        if (valid) {
+          // 表单校验通过，发ajax请求，把数据录入至后台处理
+          // const param = this.$encruption(JSON.stringify(this.formData))
+          this.$http.post('/user/add', this.formData).then((res) => {
+            // 关闭新增窗口
+            this.dialogFormVisible = false
+            if (res.data.flag) {
+              // 弹出提示信息
+              this.$message({
+                message: '注册成功，快来登录吧！',
+                type: 'success'
+              })
+            } else { // 执行失败
+              this.$message.error(res.data.message)
+            }
+          })
+        } else { // 校验不通过
+          this.$message.error('校验失败，请检查输入格式')
+          return false
+        }
+      })
     },
     login () {
       this.$refs.loginFormRef.validate(async valid => {

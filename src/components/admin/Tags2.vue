@@ -5,9 +5,9 @@
       <div class="ui container">
         <div class="ui inverted secondary stackable menu">
           <h2 class="ui teal header item">管理后台</h2>
-          <a href="/#/blogs" class="active m-item item m-mobile-hide"><i class="mini edit icon"></i>博客管理</a>
-          <a href="/#/types2" class=" m-item item m-mobile-hide"><i class="mini idea icon"></i>分类管理</a>
-          <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签管理</a>
+          <a href="/#/blogs" class=" m-item item m-mobile-hide"><i class="mini edit icon"></i>博客管理</a>
+          <a href="/#/types2" class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类管理</a>
+          <a href="/#/tags2" class="active m-item item m-mobile-hide"><i class="mini tags icon"></i>标签管理</a>
           <a href="/#/home" class="m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
           <div class="right m-item m-mobile-hide menu">
             <div class="ui dropdown item">
@@ -30,7 +30,7 @@
     <div class="ui attached pointing menu">
       <div class="ui container">
         <div class="right menu">
-          <a href="#"  @click="pushPostBlogs" class="item">新增</a>
+          <a href="#"  @click="handleCreate" class="item">新增</a>
           <a href="#" class="teal active item">列表</a>
         </div>
       </div>
@@ -38,35 +38,11 @@
 
     <!--中间内容-->
     <div  class="m-container-small m-padded-tb-big">
-      <div class="filter-container">
-        <el-input placeholder="请输入标题" v-model="pagination.queryString" style="width: 200px;"
-                  class="filter-item" clearable @clear="findPage"></el-input>
-        <el-select v-model="value" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-button @click="findPage()" icon="el-icon-search" class="dalfBut">查询博客</el-button>
-        <el-button type="primary" class="butT" @click="pushPostBlogs">添加博客</el-button>
-      </div>
       <div class="ui container">
         <el-table size="middle" current-row-key="id" :data="dataList" stripe highlight-current-row>
           <!--                        id,用户名，真实姓名，角色，备注，最后登录时间，创建时间-->
-          <el-table-column type="index" min-width="15px" align="center" label="序号"></el-table-column>
-          <el-table-column prop="title" label="标题" align="center"></el-table-column>
-          <el-table-column prop="typeName" label="类型" align="center"></el-table-column>
-          <el-table-column label="推荐" prop="recommend">
-            <template slot-scope="scope">
-              <el-switch v-model="scope.row.recommend"
-                         @change="recommendStateChanged(scope.row)">
-              </el-switch>
-            </template>
-          </el-table-column>
-          <el-table-column prop="flag" label="状态" align="center"></el-table-column>
-          <el-table-column prop="updateTime" label="更新时间" align="center"></el-table-column>
+          <el-table-column prop="tagId" min-width="15px" align="center" label="序号"></el-table-column>
+          <el-table-column prop="tagName" label="标签名称" align="center"></el-table-column>
           <el-table-column label="管理" align="center">
             <template slot-scope="scope">
               <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
@@ -94,13 +70,13 @@
                      label-width="100px">
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="分类编号" prop="typeId">
-                    <el-input v-model="formData.typeId"/>
+                  <el-form-item label="标签编号" prop="typeId">
+                    <el-input v-model="formData.tagId"/>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="分类名" prop="name">
-                    <el-input v-model="formData.name"/>
+                  <el-form-item label="标签名" prop="typeName">
+                    <el-input v-model="formData.tagName"/>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -174,8 +150,8 @@ export default {
       // 被激活的链接地址
       avatar: '',
       rules: { // 校验规则
-        // 真实姓名
-        name: [
+        // 分类名称
+        typeName: [
           { required: true, message: '请输入分类名称', trigger: 'blur' },
           { min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur' }
         ]
@@ -187,9 +163,6 @@ export default {
     this.getUser()
   },
   methods: {
-    pushPostBlogs () {
-      this.$router.push('/postblogs')
-    },
     // 分页查询
     async findPage () {
       // 发送ajax，提交分页请求（页码，每页显示条数，查询条件)
@@ -199,60 +172,48 @@ export default {
         queryString: this.pagination.queryString
       }
       // var param2 = this.$encruption(JSON.stringify(param))
-      const { data: res } = await this.$http.post('blog/findPage', param)
+      const { data: res } = await this.$http.post('tag/findPage', param)
       // 解析controller响应回的数据
       console.log('===>' + res.flag)
       if (!res.flag) {
-        return this.$message.error('获取分类列表失败！')
+        return this.$message.error('获取标签列表失败！')
       }
       this.pagination.total = res.data.total
       this.dataList = res.data.records
     },
     // 添加按钮
     handleAdd () {
+      this.$message.error('对不起，普通用户没有该权限')
       // 进行表单校验
-      this.$refs.dataAddForm.validate((valid) => {
-        if (valid) {
-          // 表单校验通过，发ajax请求，把数据录入至后台处理
-          // const param = this.$encruption(JSON.stringify(this.formData))
-          this.$http.post('/types2/add', this.formData).then((res) => {
-            // 关闭新增窗口
-            this.dialogFormVisible = false
-            if (res.data.flag) {
-              // 新增成功后，重新调用分页查询方法，查询出最新的数据
-              this.findPage()
-              // 弹出提示信息
-              this.$message({
-                message: '添加成功',
-                type: 'success'
-              })
-            } else { // 执行失败
-              this.$message.error(res.data.code)
-            }
-          })
-        } else { // 校验不通过
-          this.$message.error('校验失败，请检查输入格式')
-          return false
-        }
-      })
-    },
-    // 监听 switch 开关状态的改变
-    async recommendStateChanged (userinfo) {
-      // console.log(userinfo)
-      // const { data: res } = await this.$http.put(
-      //   `/server/user/${userinfo.id}/state/${userinfo.dataStatus}`
-      // )
-      // if (res.flag !== true) {
-      //   userinfo.dataStatus = !userinfo.dataStatus
-      //   return this.$message.error('更新用户状态失败！')
-      // }
-      // this.$message.success('更新用户状态成功！')
+      // this.$refs.dataAddForm.validate((valid) => {
+      //   if (valid) {
+      //     // 表单校验通过，发ajax请求，把数据录入至后台处理
+      //     // const param = this.$encruption(JSON.stringify(this.formData))
+      //     this.$http.post('/types2/add', this.formData).then((res) => {
+      //       // 关闭新增窗口
+      //       this.dialogFormVisible = false
+      //       if (res.data.flag) {
+      //         // 新增成功后，重新调用分页查询方法，查询出最新的数据
+      //         this.findPage()
+      //         // 弹出提示信息
+      //         this.$message({
+      //           message: '添加成功',
+      //           type: 'success'
+      //         })
+      //       } else { // 执行失败
+      //         this.$message.error(res.data.code)
+      //       }
+      //     })
+      //   } else { // 校验不通过
+      //     this.$message.error('校验失败，请检查输入格式')
+      //     return false
+      //   }
+      // })
     },
     getUser () {
       this.user = window.sessionStorage.getItem('user')
       this.nickname = JSON.parse(this.user).nickname
       this.avatar = JSON.parse(this.user).avatar
-      console.log(this.user)
     },
     logout () {
       window.sessionStorage.clear()
