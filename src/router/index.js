@@ -1,18 +1,31 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../components/admin/Login'
-import Home from '../components/Home'
 import Blog from '../components/Blog'
-import Types from '../components/Types'
-import Tags from '../components/Tags'
-import Archives from '../components/Archives'
-import About from '../components/About'
-import Blogs from '../components/admin/Blogs'
-import PostBlogs from '../components/admin/PostBlogs'
-import NotFound from '../components/NotFound'
-import Types2 from '../components/admin/Types2'
-import AddTypes from '../components/admin/AddTypes'
-import Tags2 from '../components/admin/Tags2'
+const Login = () => import(/* webpackChunkName: "Login_NotFound" */ '../components/admin/Login.vue')
+const NotFound = () => import(/* webpackChunkName: "Login_NotFound" */ '../components/NotFound.vue')
+// import Login from '../components/admin/Login'
+// /import NotFound from '../components/NotFound'
+const Home = () => import(/* webpackChunkName: "Home_Types_Tag" */ '../components/Home.vue')
+const Types = () => import(/* webpackChunkName: "Home_Types_Tag" */ '../components/Types.vue')
+const Tags = () => import(/* webpackChunkName: "Home_Types_Tag" */ '../components/Tags.vue')
+// import Home from '../components/Home'
+// import Types from '../components/Types'
+// import Tags from '../components/Tags'
+const Archives = () => import(/* webpackChunkName: "Archives_About" */ '../components/Archives.vue')
+const About = () => import(/* webpackChunkName: "Archives_About" */ '../components/About.vue')
+// import Archives from '../components/Archives'
+// import About from '../components/About'
+// const Blog = () => import(/* webpackChunkName: "Blog" */ '../components/Blog.vue')
+const PostBlogs = () => import(/* webpackChunkName: "admin" */ '../components/admin/PostBlogs.vue')
+const Blogs = () => import(/* webpackChunkName: "admin" */ '../components/admin/Blogs.vue')
+const Types2 = () => import(/* webpackChunkName: "admin" */ '../components/admin/Types2.vue')
+const AddTypes = () => import(/* webpackChunkName: "admin" */ '../components/admin/AddTypes.vue')
+const Tags2 = () => import(/* webpackChunkName: "admin" */ '../components/admin/Tags2.vue')
+// import PostBlogs from '../components/admin/PostBlogs'
+// import Blogs from '../components/admin/Blogs'
+// import Types2 from '../components/admin/Types2'
+// import AddTypes from '../components/admin/AddTypes'
+// import Tags2 from '../components/admin/Tags2'
 Vue.use(VueRouter)
 
 const routes = [

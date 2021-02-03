@@ -87,7 +87,7 @@
                   <div class="eleven wide column">
                     <div class="ui mini horizontal link list">
                       <div class="item">
-                        <img src="https://picsum.photos/seed/picsum/100/100?image=1005" alt="" class="ui avatar image">
+                        <img v-bind:src=item.avatar class="ui avatar image">
                         <div class="content"><a href="#" class="header">{{item.nickname}}</a></div>
                       </div>
                       <div class="item">
@@ -213,7 +213,7 @@ export default {
       }
     },
     async getTypeList () {
-      const { data: res } = await this.$http.get('/home/getTypeCount')
+      const { data: res } = await this.$http.get('/server/home/getTypeCount')
       this.typeList = res.data
     },
     // 分页查询
@@ -231,8 +231,8 @@ export default {
         queryString: this.pagination.queryString,
         typeId: typeId
       }
-      // var param2 = this.$encruption(JSON.stringify(param))
-      const { data: res } = await this.$http.post('/type/getById', param)
+      var param2 = this.$encruption(JSON.stringify(param))
+      const { data: res } = await this.$http.post('/server/type/getById', param2)
       // 解析controller响应回的数据
       if (!res.flag) {
         return this.$message.error('获取首页列表失败！')

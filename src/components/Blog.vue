@@ -41,14 +41,14 @@
         <div class="ui top attached segment">
           <div class="ui horizontal link list">
             <div class="item">
-              <img src="https://picsum.photos/seed/picsum/100/100?image=1005" alt="" class="ui avatar image">
-              <div class="content"><a href="#" class="header">Fjl</a></div>
+              <img v-bind:src="dataList.avatar" class="ui avatar image">
+              <div class="content"><a class="header">{{dataList.nickname}}</a></div>
             </div>
             <div class="item">
-              <i class="calendar icon"></i> 2017-10-01
+              <i class="calendar icon"></i> {{dataList.createTime}}
             </div>
             <div class="item">
-              <i class="eye icon"></i> 2342
+              <i class="eye icon"></i> {{dataList.views}}
             </div>
           </div>
         </div>
@@ -61,6 +61,8 @@
           <div class="ui right aligned basic segment">
             <div class="ui orange basic label">{{dataList.shareStatement}}</div>
           </div>
+          <h2 class="ui center aligned header" v-text="dataList.title"></h2>
+          <br>
           <div id="content" class="typo  typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-large" v-html="dataList.content" style="width: 800px">
           </div>
 
@@ -327,7 +329,7 @@ export default {
         const commentId = item.commentId
         const blogId = sessionStorage.getItem('blogId')
         // 表单校验通过，发ajax请求，把数据录入至后台处理
-        this.$http.delete(`/comment/${blogId}/${commentId}`).then((res) => {
+        this.$http.delete(`/server/comment/${blogId}/${commentId}`).then((res) => {
           if (res.data.flag) {
             this.getCommentList()
             sessionStorage.setItem('parentCommentId', -1)
@@ -355,8 +357,9 @@ export default {
         const blogId = sessionStorage.getItem('blogId')
         this.formData.blogId = blogId
         this.formData.parentCommentId = parentCommentId
+        var param = this.$encruption(JSON.stringify(this.formData))
         // 表单校验通过，发ajax请求，把数据录入至后台处理
-        this.$http.post('/comment/replyComment', this.formData).then((res) => {
+        this.$http.post('/server/comment/replyComment', param).then((res) => {
           if (res.data.flag) {
             this.getCommentList()
             sessionStorage.setItem('parentCommentId', -1)
@@ -378,7 +381,7 @@ export default {
     },
     async getCommentList () {
       const blogId = sessionStorage.getItem('blogId')
-      const { data: res } = await this.$http.get(`/comment/${blogId}`)
+      const { data: res } = await this.$http.get(`/server/comment/${blogId}`)
       console.log(res)
       if (!res.flag) {
         return this.$message.error('获取评论列表信息失败！')
@@ -391,7 +394,7 @@ export default {
     // 获取所有的菜单
     async getOneBlog () {
       const blogId = sessionStorage.getItem('blogId')
-      const { data: res } = await this.$http.get(`/blog/${blogId}`)
+      const { data: res } = await this.$http.get(`/server/blog/${blogId}`)
       if (!res.flag) {
         return this.$message.error('获取博客信息失败！')
       }

@@ -161,9 +161,10 @@ export default {
   methods: {
     getUser () {
       this.user = window.sessionStorage.getItem('user')
-      this.nickname = JSON.parse(this.user).nickname
-      this.avatar = JSON.parse(this.user).avatar
-      console.log(this.user)
+      if (this.user != null) {
+        this.nickname = JSON.parse(this.user).nickname
+        this.avatar = JSON.parse(this.user).avatar
+      }
     },
     logout () {
       window.sessionStorage.clear()

@@ -9,11 +9,15 @@
         <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
           <!-- 用户名 -->
           <el-form-item prop="username">
-            <el-input v-model="loginForm.username" prefix-icon="iconfont icon-user"></el-input>
+            <el-input v-model="loginForm.username" placeholder="请输入用户名" prefix-icon="iconfont icon-user"></el-input>
           </el-form-item>
           <!-- 密码 -->
           <el-form-item prop="password">
-            <el-input v-model="loginForm.password" prefix-icon="iconfont icon-3702mima" type="password"></el-input>
+            <el-input v-model="loginForm.password" placeholder="请输入密码" prefix-icon="iconfont icon-3702mima" type="password"></el-input>
+          </el-form-item>
+          <el-form-item prop="code">
+            <el-input v-model="loginForm.code" placeholder="请输入验证码" prefix-icon="iconfont icon-3702mima" style="width: 50%"></el-input>
+            <img v-bind:src="verifyCode" @click="getVerifyCode()" width="130px" height="35px" style="float: right;cursor:pointer;" />
           </el-form-item>
           <!-- 按钮区域 -->
           <el-form-item class="btns">
@@ -31,7 +35,7 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="用户名" prop="username">
-                  <el-input v-model="formData.username"/>
+                  <el-input label="请输入用户名" v-model="formData.username"/>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -71,9 +75,10 @@
 export default {
   data () {
     return {
+      verifyCode: '',
       formData: {
-        username: 'rosie',
-        password: '123456',
+        username: '',
+        password: '',
         nickname: '',
         email: '',
         avatar: '头像参考地址：https://picsum.photos/images，将右边链接image后的id换成自己的即可（https://unsplash.it/100/100?image=1）'
@@ -81,8 +86,10 @@ export default {
       dialogFormVisible: false, // 增加表单是否可见
       // 这是登录表单的数据绑定对象
       loginForm: {
-        username: 'rosie',
-        password: '123456'
+        username: '',
+        password: '',
+        verKey: '',
+        code: ''
       },
       // 这是表单的验证规则对象
       loginFormRules: {
@@ -96,6 +103,10 @@ export default {
           { required: true, message: '请输入登录密码', trigger: 'blur' },
           { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
         ],
+        // 验证码
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' }
+        ],
         nickname: [
           { required: true, message: '请输入昵称', trigger: 'blur' },
           { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
@@ -103,7 +114,19 @@ export default {
       }
     }
   },
+  created () {
+    this.getVerifyCode()
+  },
   methods: {
+    async getVerifyCode () {
+      const { data: res } = await this.$http.get('/server/admapi/captcha')
+      this.verifyCode = res.data
+      this.loginForm.verKey = res.code
+      this.$message({
+        message: '部分功能只在用户登录后开发',
+        type: 'info'
+      })
+    },
     // 点击重置按钮，重置登录表单
     resetLoginForm () {
       this.$refs.loginFormRef.resetFields()
@@ -142,19 +165,23 @@ export default {
         if (!valid) return
         // console.log('===>' + JSON.stringify(this.loginForm))
         // console.log('===>' + this.$encruption(param))
-        // var param = this.$encruption(JSON.stringify(this.loginForm))
+        var param = this.$encruption(JSON.stringify(this.loginForm))
         // console.log('param2' + param2)
-        const { data: res } = await this.$http.post('admapi/login', this.loginForm)
+        const { data: res } = await this.$http.post('server/admapi/login', param)
         console.log(res.flag)
-        if (res.flag !== true) return this.$message.error('登录失败！')
-        this.$message.success('登录成功')
-        // 1. 将登录成功之后的 token，保存到客户端的 sessionStorage 中
-        //   1.1 项目中出了登录之外的其他API接口，必须在登录之后才能访问
-        //   1.2 token 只应在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
-        window.sessionStorage.setItem('token', res.code)
-        window.sessionStorage.setItem('user', JSON.stringify(res.data))
-        // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
-        this.$router.push('/home')
+        if (res.flag !== true) {
+          this.$message.error(res.message)
+          await this.getVerifyCode()
+        } else {
+          this.$message.success('登录成功')
+          // 1. 将登录成功之后的 token，保存到客户端的 sessionStorage 中
+          //   1.1 项目中出了登录之外的其他API接口，必须在登录之后才能访问
+          //   1.2 token 只应在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
+          window.sessionStorage.setItem('token', res.code)
+          window.sessionStorage.setItem('user', JSON.stringify(res.data))
+          // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
+          this.$router.push('/home')
+        }
       })
     }
   }
@@ -169,7 +196,7 @@ export default {
 
   .login_box {
     width: 450px;
-    height: 300px;
+    height: 360px;
     background-color: #fff;
     border-radius: 3px;
     position: absolute;

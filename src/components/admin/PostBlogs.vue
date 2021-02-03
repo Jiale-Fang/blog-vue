@@ -10,14 +10,14 @@
           <a href="#" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签管理</a>
           <a href="/#/home" class="m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
           <div class="right m-item m-mobile-hide menu">
-            <div class="ui dropdown  item">
+            <div class="ui dropdown item">
               <div class="text">
-                <img class="ui avatar image" src="https://unsplash.it/100/100?image=1005">
-                fjl
+                <img class="ui avatar image" v-bind:src="avatar">
+                <span>{{this.nickname}}</span>
               </div>
               <i class="dropdown icon"></i>
               <div class="menu">
-                <a href="#" class="item">注销</a>
+                <a href="#" @click="logout" class="item">注销</a>
               </div>
             </div>
           </div>
@@ -106,13 +106,11 @@
               </el-input>
             </el-form-item>
           </div>
-
           <div class="inline fields" style="margin-top: 10px">
-              <el-checkbox v-model="formData.recommend">推荐</el-checkbox>
-              <el-checkbox v-model="formData.appreciation">赞赏</el-checkbox>
-              <el-checkbox v-model="formData.commentabled">评论</el-checkbox>
+            <el-checkbox v-model="formData.recommend">推荐</el-checkbox>
+            <el-checkbox v-model="formData.appreciation">赞赏</el-checkbox>
+            <el-checkbox v-model="formData.commentabled">评论</el-checkbox>
           </div>
-
           <div class="ui right aligned container">
             <button type="button" class="ui button" onclick="window.history.go(-1)" >返回</button>
             <button type="button" id="save-btn" class="ui secondary button">保存</button>
@@ -169,6 +167,10 @@
 export default {
   data () {
     return {
+      user: {},
+      nickname: '',
+      // 被激活的链接地址
+      avatar: '',
       rules: { // 校验规则
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' },
@@ -259,9 +261,21 @@ export default {
   },
   created () {
     this.getTypeList()
+    this.getUser()
     this.getTagList()
   },
   methods: {
+    getUser () {
+      this.user = window.sessionStorage.getItem('user')
+      this.nickname = JSON.parse(this.user).nickname
+      this.avatar = JSON.parse(this.user).avatar
+    },
+    logout () {
+      window.sessionStorage.clear()
+      this.$router.push('/login')
+      // 刷新页面，删除vuex数据
+      window.location.reload()
+    },
     addBlog () {
       // 进行表单校验
       this.$refs.addForm.validate((valid) => {
@@ -269,7 +283,8 @@ export default {
           // 表单校验通过，发ajax请求，把数据录入至后台处理
           // const param = this.$encruption(JSON.stringify(this.formData))
           this.formData.flag = '发布'
-          this.$http.post('/blog/add', this.formData).then((res) => {
+          // var param = this.$encruption(this.formData)
+          this.$http.post('/server/blog/add', this.formData).then((res) => {
             // 关闭新增窗口
             this.dialogFormVisible = false
             if (res.data.flag) {
@@ -278,6 +293,7 @@ export default {
                 message: '添加成功',
                 type: 'success'
               })
+              this.$router.push('/blogs')
             } else { // 执行失败
               this.$message.error('添加失败')
             }
@@ -290,12 +306,12 @@ export default {
     },
     // 获取所有的分类并回显
     async getTypeList () {
-      const { data: res } = await this.$http.get('types2/getTypeList')
+      const { data: res } = await this.$http.get('server/types2/getTypeList')
       this.typeList = res.data
     },
     // 获取所有的标签并回显
     async getTagList () {
-      const { data: res } = await this.$http.get('tag/getTagList')
+      const { data: res } = await this.$http.get('server/tag/getTagList')
       this.tagList = res.data
     }
   },

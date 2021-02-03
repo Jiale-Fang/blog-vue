@@ -7,11 +7,12 @@ module.exports = {
 
       config.set('externals', {
         vue: 'Vue',
+        'vue-router': 'VueRouter',
         axios: 'axios',
         lodash: '_',
-        echarts: 'echarts',
-        nprogress: 'NProgress',
-        'mavon-editor': 'MavonEditor'
+        // echarts: 'echarts',
+        nprogress: 'NProgress'
+        // 'mavon-editor': 'mavon-editor' // 配置有问题，不知道如何修改
       })
 
       config.plugin('html').tap(args => {

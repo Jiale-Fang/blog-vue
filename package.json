@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "axios": "^0.21.1",
     "babel-plugin-component": "^1.1.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
@@ -15,6 +16,7 @@
     "element-ui": "^2.15.0",
     "gulp": "^4.0.2",
     "jquery": "^3.5.1",
+    "jsencrypt": "^3.0.0-rc.1",
     "less": "^4.1.0",
     "less-loader": "^7.3.0",
     "mavon-editor": "^2.9.1",

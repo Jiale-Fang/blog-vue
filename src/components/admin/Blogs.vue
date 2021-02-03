@@ -159,6 +159,10 @@
 export default {
   data () {
     return {
+      value: {},
+      options: [
+        { label: '个人编写的博客数较少，本查询功能接口暂未实现' }
+      ],
       pagination: { // 分页相关模型数据
         currentPage: 1, // 当前页码
         pageSize: 10, // 每页显示的记录数
@@ -198,8 +202,8 @@ export default {
         pageSize: this.pagination.pageSize,
         queryString: this.pagination.queryString
       }
-      // var param2 = this.$encruption(JSON.stringify(param))
-      const { data: res } = await this.$http.post('blog/findPage', param)
+      var param2 = this.$encruption(JSON.stringify(param))
+      const { data: res } = await this.$http.post('/server/blog/findPage', param2)
       // 解析controller响应回的数据
       console.log('===>' + res.flag)
       if (!res.flag) {

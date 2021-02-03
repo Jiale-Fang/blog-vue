@@ -171,8 +171,8 @@ export default {
         pageSize: this.pagination.pageSize,
         queryString: this.pagination.queryString
       }
-      // var param2 = this.$encruption(JSON.stringify(param))
-      const { data: res } = await this.$http.post('tag/findPage', param)
+      var param2 = this.$encruption(JSON.stringify(param))
+      const { data: res } = await this.$http.post('server/tag/findPage', param2)
       // 解析controller响应回的数据
       console.log('===>' + res.flag)
       if (!res.flag) {
