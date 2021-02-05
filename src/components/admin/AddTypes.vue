@@ -79,7 +79,7 @@
           <div class="three wide column">
             <div class="ui inverted link list">
               <div class="item">
-                <img src="../../assets/images/wechat.jpg" class="ui rounded image" alt="" style="width: 110px">
+                <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" class="ui rounded image" alt="" style="width: 110px">
               </div>
             </div>
           </div>

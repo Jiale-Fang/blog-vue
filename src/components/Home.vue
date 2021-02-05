@@ -1,42 +1,28 @@
 <template>
-  <div class="home">
-    <!--导航-->
-    <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
-      <div class="ui container">
-        <div class="ui inverted secondary stackable menu">
-          <h2 class="ui teal header item">Blog</h2>
-          <a href="/#/home" class="active m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
-          <a href="/#/types" class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
-          <a href="/#/tags" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
-          <a href="/#/Archives" class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档</a>
-          <a href="/#/About" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我</a>
-          <a href="/#/blogs" class="m-item item m-mobile-hide"><i class="mini user icon"></i>后台管理</a>
-          <div class="right m-item m-mobile-hide menu">
-            <div class="ui icon inverted transparent input m-margin-tb-tiny" >
-              <input type="text" placeholder="Search...." v-model="pagination.queryString">
-              <i class="search link icon" @click="search"></i>
-            </div>
-            <div class="ui dropdown item">
-              <div class="text">
-                <img class="ui avatar image" v-bind:src="avatar">
-                <span>{{this.nickname}}</span>
-              </div>
-              <i class="dropdown icon"></i>
-              <div class="menu">
-                <a href="/#/login" class="item">登录</a>
-                <a @click="logout" class="item">注销</a>
-              </div>
-            </div>
-          </div>
+  <div id="app" class="home">
+    <!-- banner -->
+    <div class="home-banner">
+      <div class="banner-container">
+        <h1 class="blog-title animated zoomIn">
+          首页
+        </h1>
+        <!-- 联系方式 -->
+        <div class="blog-contact animated zoomIn">
+          <a class="github circular icon button" data-content="https://gitee.com/fang-jiale" data-position="bottom center" style="margin-right: 50px"><i class="github icon"></i></a>
+          <a class="wechat circular icon button" style="margin-right: 50px"><i class="weixin icon"></i></a>
+          <a class="qq circular icon button" data-content="1626680964" data-position="bottom center"><i class="qq icon"></i></a>
+        </div>
+        <div class="ui wechat-qr flowing popup transition hidden">
+          <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui rounded image" style="width: 110px">
+        </div>
+        <!-- 向下滚动 -->
+        <div class="scroll-down" @click="scrollDown">
+            <h4>向下滚动<i class="el-icon-arrow-down"></i></h4>
         </div>
       </div>
-      <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
-        <i class="sidebar icon"></i>
-      </a>
-    </nav>
-
-    <!--中间内容,如果太窄了可放到container    <div  class="m-container m-padded-tb-big">-->
-    <div  class="m-padded-tb-big">
+      <!--中间内容,如果太窄了可放到container    <div  class="m-container m-padded-tb-big">-->
+    </div>
+    <div  class="m-home">
       <div class="ui container">
         <div class="ui stackable grid">
           <!--左边博客列表-->
@@ -47,7 +33,7 @@
                 <div class="column">
                   <h3 class="ui teal header">博客</h3>
                 </div>
-                <div class="right aligned column">
+                <div class="right aligned column"><h4 class="ui header m-inline-block m-text" v-if="pagination.queryString!=='' && pagination.queryString!==null" style="height: 1px !important;">根据"{{pagination.queryString}}"的搜索结果</h4>
                   共 <h2 class="ui orange header m-inline-block m-text-thin">{{pagination.total}}</h2> 篇
                 </div>
               </div>
@@ -66,7 +52,7 @@
                         <div class="ui mini horizontal link list">
                           <div class="item">
                             <img v-bind:src=item.avatar class="ui avatar image">
-                            <div class="content"><a href="#" class="header">{{item.nickname}}</a></div>
+                            <div class="content"><a class="header">{{item.nickname}}</a></div>
                           </div>
                           <div class="item">
                             <i class="calendar icon"></i> {{item.createTime}}
@@ -77,7 +63,7 @@
                         </div>
                       </div>
                       <div class="right aligned five wide column">
-                        <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">{{item.typeName}}</a>
+                        <a target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">{{item.typeName}}</a>
                       </div>
                     </div>
                   </div>
@@ -150,9 +136,9 @@
               </div>
               <div class="ui teal segment">
                 <template v-for="(item, index) in tagList">
-                <a target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny" v-if='index<15' :key="item.tagId" @click="toTag(item.tagId)">
-                  {{item.tagName}} <div class="detail">{{item.tagCount}}</div>
-                </a>
+                  <a target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny" v-if='index<15' :key="item.tagId" @click="toTag(item.tagId)">
+                    {{item.tagName}} <div class="detail">{{item.tagCount}}</div>
+                  </a>
                 </template>
               </div>
             </div>
@@ -170,51 +156,15 @@
             <!--二维码-->
             <h4 class="ui horizontal divider header m-margin-top-large">扫码关注我</h4>
             <div class="ui centered card" style="width: 11em">
-              <img src="../assets/images/wechat.jpg" alt="" class="ui rounded image" >
+              <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui rounded image" >
             </div>
           </div>
 
         </div>
       </div>
-
     </div>
-
-    <!--底部footer-->
-    <footer class="ui inverted vertical segment m-padded-tb-massive">
-      <div class="ui center aligned container">
-        <div class="ui inverted divided stackable grid">
-          <div class="three wide column">
-            <div class="ui inverted link list">
-              <div class="item">
-                <img src="../assets/images/wechat.jpg" class="ui rounded image" alt="" style="width: 110px">
-              </div>
-            </div>
-          </div>
-          <div class="three wide column">
-            <h4 class="ui inverted header m-text-thin m-text-spaced " >最新博客</h4>
-            <div class="ui inverted link list">
-              <a href="#" class="item m-text-thin">用户故事（User Story）</a>
-              <a href="#" class="item m-text-thin">用户故事（User Story）</a>
-              <a href="#" class="item m-text-thin">用户故事（User Story）</a>
-            </div>
-          </div>
-          <div class="three wide column">
-            <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
-            <div class="ui inverted link list">
-              <a href="#" class="item m-text-thin">Email：1626680964@qq.com</a>
-              <a href="#" class="item m-text-thin">QQ：1626680964</a>
-            </div>
-          </div>
-          <div class="seven wide column">
-            <h4 class="ui inverted header m-text-thin m-text-spaced ">Blog</h4>
-            <p class="m-text-thin m-text-spaced m-opacity-mini">这是我的个人博客、会分享关于编程、写作、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
-          </div>
-        </div>
-        <div class="ui inverted section divider"></div>
-        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2020 - 2021 Fjl Designed by Fjl</p>
-      </div>
-
-    </footer>
+    <br>
+    <br>
   </div>
 
 </template>
@@ -236,7 +186,20 @@ export default {
       user: {},
       nickname: '',
       // 被激活的链接地址
-      avatar: ''
+      avatar: '',
+      tip: false,
+      obj: {
+        isEnd: false,
+        speed: 300,
+        singleBack: false,
+        sleep: 0,
+        type: 'rollback',
+        backSpeed: 40,
+        sentencePause: true
+      },
+      articleList: [],
+      blogInfo: {},
+      current: 1
     }
   },
   created () {
@@ -247,6 +210,13 @@ export default {
     this.getLatestList()
   },
   methods: {
+    // 初始化
+    scrollDown () {
+      window.scrollTo({
+        behavior: 'smooth',
+        top: document.documentElement.clientHeight
+      })
+    },
     search () {
       this.findPage()
       this.pagination.queryString = null
@@ -277,6 +247,12 @@ export default {
     },
     // 分页查询
     async findPage () {
+      const str = sessionStorage.getItem('queryString')
+      if (str !== null) {
+        this.pagination.queryString = str
+        sessionStorage.removeItem('queryString')
+        this.$message.info('搜索结果已经显示在页面下方')
+      }
       // 发送ajax，提交分页请求（页码，每页显示条数，查询条件)
       const param = {
         currentPage: this.pagination.currentPage,
@@ -287,7 +263,7 @@ export default {
       const { data: res } = await this.$http.post('/server/home/findHomePage', param2)
       // 解析controller响应回的数据
       if (!res.flag) {
-        return this.$message.error('获取首页列表失败！')
+        return this.$message.error('获取博客列表失败！')
       }
       this.pagination.total = res.data.total
       this.dataList = res.data.records
@@ -323,10 +299,269 @@ export default {
     $('.ui.dropdown').dropdown({
       on: 'hover'
     })
+    $('.wechat').popup({
+      popup: $('.wechat-qr'),
+      position: 'bottom center'
+    })
+    $('.qq').popup()
+    $('.github').popup()
   }
 }
 </script>
-
-<style>
+<style scoped>
  @import "../assets/css/me.css";
+ .m-home {
+   padding-top: 740px !important;
+   padding-bottom: 0px !important;
+ }
+ .home-banner {
+   position: absolute;
+   top: 0px;
+   left: 0;
+   right: 0;
+   height: 100vh;
+   background: url("http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjqLW3e23.UCR78O5Km8SpsknNgOGpEzdY7QHY1usDO6pbksfeQBV5CqlMGgsjJVV9s!/r") center center /
+    cover no-repeat;
+   background-color: #49b1f5;
+   background-attachment: fixed;
+   text-align: center;
+   color: #fff !important;
+   animation: header-effect 1s !important;
+ }
+ .banner-container {
+   margin-top: 43vh;
+   line-height: 1.5;
+   color: #eee;
+ }
+ .blog-contact a {
+   color: #fff !important;
+ }
+ .card-info-social {
+   line-height: 40px;
+   text-align: center;
+   font-size: 1.5rem;
+   margin: 6px 0 -6px;
+ }
+ .left-radius {
+   border-radius: 8px 0 0 8px !important;
+   order: 0;
+ }
+ .right-radius {
+   border-radius: 0 8px 8px 0 !important;
+   order: 1;
+ }
+ .article-wrapper {
+   font-size: 14px;
+ }
+ @media (min-width: 760px) {
+   .blog-title {
+     font-size: 2.5rem;
+   }
+   .blog-intro {
+     font-size: 1.5rem;
+   }
+   .blog-contact {
+     line-height: 40px;
+     text-align: center;
+     font-size: 1.5rem;
+     margin: 6px 0 -6px;
+   }
+   .home-container {
+     max-width: 1200px;
+     margin: calc(100vh - 50px) auto 0 auto;
+     padding: 0 3px;
+   }
+   .article-card {
+     display: flex;
+     align-items: center;
+     height: 280px;
+     width: 100%;
+     margin-top: 20px;
+   }
+   .article-cover {
+     overflow: hidden;
+     height: 100%;
+     width: 45%;
+   }
+   .on-hover {
+     transition: all 0.6s;
+   }
+   .article-card:hover .on-hover {
+     transform: scale(1.1);
+   }
+   .article-wrapper {
+     padding: 0 2.5rem;
+     width: 55%;
+   }
+   .article-wrapper a {
+     font-size: 1.5rem;
+     transition: all 0.3s;
+   }
+ }
+ @media (max-width: 759px) {
+   .blog-title {
+     font-size: 24px;
+   }
+   .blog-contact {
+     font-size: 1.25rem;
+     line-height: 2;
+   }
+   .home-container {
+     width: 100%;
+     margin: calc(100vh - 66px) auto 0 auto;
+   }
+   .article-card {
+     margin-top: 1rem;
+   }
+   .article-cover {
+     border-radius: 8px 8px 0 0 !important;
+     height: 230px !important;
+     width: 100%;
+   }
+   .article-cover div {
+     border-radius: 8px 8px 0 0 !important;
+   }
+   .article-wrapper {
+     padding: 1.25rem 1.25rem 1.875rem;
+   }
+   .article-wrapper a {
+     font-size: 1.25rem;
+     transition: all 0.3s;
+   }
+ }
+ .scroll-down {
+   cursor: pointer;
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+ }
+ .scroll-down i {
+   font-size: 2rem;
+ }
+ .article-wrapper a:hover {
+   color: #8e8cd8;
+ }
+ .article-info {
+   font-size: 95%;
+   color: #858585;
+   line-height: 2;
+   margin: 0.375rem 0;
+ }
+ .article-info a {
+   font-size: 95%;
+   color: #858585 !important;
+ }
+ .article-content {
+   line-height: 2;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 3;
+   -webkit-box-orient: vertical;
+ }
+ .blog-wrapper {
+   position: sticky;
+   top: 10px;
+ }
+ .blog-card {
+   line-height: 2;
+   padding: 1.25rem 1.5rem;
+ }
+ .author-wrapper {
+   text-align: center;
+ }
+ .blog-info-wrapper {
+   display: flex;
+   justify-self: center;
+   padding: 0.875rem 0;
+ }
+ .blog-info-data {
+   flex: 1;
+   text-align: center;
+ }
+ .blog-info-data a {
+   text-decoration: none;
+ }
+ .collection-btn {
+   text-align: center;
+   z-index: 1;
+   font-size: 14px;
+   position: relative;
+   display: block;
+   background-color: #49b1f5;
+   color: #fff !important;
+   height: 32px;
+   line-height: 32px;
+   transition-duration: 1s;
+   transition-property: color;
+ }
+ .collection-btn:before {
+   position: absolute;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   z-index: -1;
+   background: #ff7242;
+   content: "";
+   transition-timing-function: ease-out;
+   transition-duration: 0.5s;
+   transition-property: transform;
+   transform: scaleX(0);
+   transform-origin: 0 50%;
+ }
+ .collection-btn:hover:before {
+   transition-timing-function: cubic-bezier(0.45, 1.64, 0.47, 0.66);
+   transform: scaleX(1);
+ }
+ .author-avatar {
+   transition: all 0.5s;
+ }
+ .author-avatar:hover {
+   transform: rotate(360deg);
+ }
+ .web-info {
+   padding: 0.25rem;
+   font-size: 0.875rem;
+ }
+ .scroll-down-effects {
+   color: #eee !important;
+   text-align: center;
+   text-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.15);
+   line-height: 1.5;
+   display: inline-block;
+   text-rendering: auto;
+   -webkit-font-smoothing: antialiased;
+   animation: scroll-down-effect 1.5s infinite;
+ }
+ @keyframes scroll-down-effect {
+   0% {
+     top: 0;
+     opacity: 0.4;
+     filter: alpha(opacity=40);
+   }
+   50% {
+     top: -16px;
+     opacity: 1;
+     filter: none;
+   }
+   100% {
+     top: 0;
+     opacity: 0.4;
+     filter: alpha(opacity=40);
+   }
+ }
+ .big i {
+   color: #f00;
+   animation: big 0.8s linear infinite;
+ }
+ @keyframes big {
+   0%,
+   100% {
+     transform: scale(1);
+   }
+   50% {
+     transform: scale(1.2);
+   }
+ }
 </style>

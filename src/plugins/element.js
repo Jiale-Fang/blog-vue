@@ -30,9 +30,11 @@ import {
   Select,
   Option,
   OptionGroup,
-  DatePicker
+  DatePicker,
+  Footer
 } from 'element-ui'
 
+Vue.use(Footer)
 Vue.use(OptionGroup)
 Vue.use(DatePicker)
 Vue.use(Button)

@@ -1,41 +1,10 @@
 <template>
     <div class="tags">
-      <!--导航-->
-      <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
-        <div class="ui container">
-          <div class="ui inverted secondary stackable menu">
-            <h2 class="ui teal header item">Blog</h2>
-            <a href="/#/home" class="m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
-            <a href="/#/types" class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
-            <a href="/#/tags" class="active m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
-            <a href="/#/Archives" class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档</a>
-            <a href="/#/About" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我</a>
-            <a href="/#/blogs" class="m-item item m-mobile-hide"><i class="mini user icon"></i>后台管理</a>
-            <div class="right m-item m-mobile-hide menu">
-              <div class="ui icon inverted transparent input m-margin-tb-tiny">
-                <input type="text" placeholder="Search....">
-                <i class="search link icon"></i>
-              </div>
-              <div class="ui dropdown item">
-                <div class="text">
-                  <img class="ui avatar image" v-bind:src="avatar">
-                  <span>{{this.nickname}}</span>
-                </div>
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                  <a href="#" @click="logout" class="item">注销</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
-          <i class="sidebar icon"></i>
-        </a>
-      </nav>
-
+      <div class="tags-banner banner">
+        <h1 class="banner-title">标签</h1>
+      </div>
       <!--中间内容-->
-      <div  class="m-container-small m-padded-tb-big">
+      <div  class="m-container-small m-tags">
         <div class="ui container">
           <!--header-->
           <div class="ui top attached segment">
@@ -75,7 +44,7 @@
                       <div class="ui mini horizontal link list">
                         <div class="item">
                           <img v-bind:src=item.avatar class="ui avatar image">
-                          <div class="content"><a href="#" class="header">{{item.nickname}}</a></div>
+                          <div class="content"><a class="header">{{item.nickname}}</a></div>
                         </div>
                         <div class="item">
                           <i class="calendar icon"></i> {{item.createTime}}
@@ -86,7 +55,7 @@
                       </div>
                     </div>
                     <div class="right aligned five wide column">
-                      <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">{{item.typeName}}</a>
+                      <a target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">{{item.typeName}}</a>
                     </div>
                   </div>
                 </div>
@@ -121,42 +90,6 @@
 
       <br>
       <br>
-      <!--底部footer-->
-      <footer class="ui inverted vertical segment m-padded-tb-massive">
-        <div class="ui center aligned container">
-          <div class="ui inverted divided stackable grid">
-            <div class="three wide column">
-              <div class="ui inverted link list">
-                <div class="item">
-                  <img src="../assets/images/wechat.jpg" class="ui rounded image" alt="" style="width: 110px">
-                </div>
-              </div>
-            </div>
-            <div class="three wide column">
-              <h4 class="ui inverted header m-text-thin m-text-spaced " >最新博客</h4>
-              <div class="ui inverted link list">
-                <a href="#" class="item m-text-thin">用户故事（User Story）</a>
-                <a href="#" class="item m-text-thin">用户故事（User Story）</a>
-                <a href="#" class="item m-text-thin">用户故事（User Story）</a>
-              </div>
-            </div>
-            <div class="three wide column">
-              <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
-              <div class="ui inverted link list">
-                <a href="#" class="item m-text-thin">Email：1626680964@qq.com</a>
-                <a href="#" class="item m-text-thin">QQ：1626680964</a>
-              </div>
-            </div>
-            <div class="seven wide column">
-              <h4 class="ui inverted header m-text-thin m-text-spaced ">Blog</h4>
-              <p class="m-text-thin m-text-spaced m-opacity-mini">这是我的个人博客、会分享关于编程、写作、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
-            </div>
-          </div>
-          <div class="ui inverted section divider"></div>
-          <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2020 - 2021 Fjl Designed by Fjl</p>
-        </div>
-
-      </footer>
     </div>
 </template>
 
@@ -262,5 +195,17 @@ export default {
 </script>
 
 <style scoped>
-
+  .container{
+    animation: main 1s;
+  }
+  .m-tags {
+    padding-top: 460px !important;
+    padding-bottom: 0px !important;
+  }
+  .tags-banner {
+    height: 480px;
+    background: url(https://www.static.talkxj.com/wallhaven-13mk9v.jpg) center
+    center / cover no-repeat;
+    background-color: #49b1f5;
+  }
 </style>

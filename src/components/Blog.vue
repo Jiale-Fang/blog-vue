@@ -1,42 +1,10 @@
 <template>
   <div class="home">
-    <!--导航-->
-    <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
-      <div class="ui container">
-        <div class="ui inverted secondary stackable menu">
-          <h2 class="ui teal header item">Blog</h2>
-          <a href="/#/home" class="m-item item m-mobile-hide"><i class="mini home icon"></i>首页</a>
-          <a href="/#/types" class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
-          <a href="/#/tags" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
-          <a href="/#/Archives" class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档</a>
-          <a href="/#/About" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我</a>
-          <a href="/#/blogs" class="m-item item m-mobile-hide"><i class="mini user icon"></i>后台管理</a>
-          <div class="right m-item m-mobile-hide menu">
-            <div class="ui icon inverted transparent input m-margin-tb-tiny">
-              <input type="text" placeholder="Search....">
-              <i class="search link icon"></i>
-            </div>
-            <div class="ui dropdown item">
-              <div class="text">
-                <img class="ui avatar image" v-bind:src="avatar">
-                <span>{{this.nickname}}</span>
-              </div>
-              <i class="dropdown icon"></i>
-              <div class="menu">
-                <a href="/#/login" class="item">登录</a>
-                <a @click="logout" class="item">注销</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
-        <i class="sidebar icon"></i>
-      </a>
-    </nav>
-
+    <div class="blog-banner banner">
+      <h1 class="banner-title">博客详情</h1>
+    </div>
     <!--中间内容-->
-    <div id="waypoint" class="m-container-small m-padded-tb-big animated fadeInLeft">
+    <div id="waypoint" class="m-container-small m-blog animated fadeInLeft">
       <div class="ui container">
         <div class="ui top attached segment">
           <div class="ui horizontal link list">
@@ -79,11 +47,11 @@
             <div class="ui orange basic label">
               <div class="ui images" style="font-size: inherit !important;">
                 <div class="image">
-                  <img src="../assets/images/Ali-Pay.png" alt="" class="ui rounded bordered image" style="width: 120px">
+                  <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcUTT*ciAgjJ0cppZCI5w1ILm3Q2J4WJdIQXJXdXVu5HUtU4pM3n8zAHqY3rf6z3B415ulY*M0Dp.HBBJhfDaF*E!/r" alt="" class="ui rounded bordered image" style="width: 120px">
                   <div>支付宝</div>
                 </div>
                 <div class="image">
-                  <img src="../assets/images/WeChat-Pay.jpg" alt="" class="ui rounded bordered image" style="width: 120px">
+                  <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVJnvoxLW18OIo4.CeFhPXXRsV3xEfxMyKMRodIkn6GwaENGRnt8bkvhKT7JrLFzM.w!/r" alt="" class="ui rounded bordered image" style="width: 120px">
                   <div>微信</div>
                 </div>
               </div>
@@ -103,7 +71,7 @@
               </ui>
             </div>
             <div class="five wide column">
-              <img src="../assets/images/wechat.jpg" alt="" class="ui right floated rounded bordered image" style="width: 110px">
+              <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui right floated rounded bordered image" style="width: 110px">
             </div>
           </div>
         </div>
@@ -195,18 +163,6 @@
             </div>
             </el-form>
             <div class="fields">
-<!--              <div class="field m-mobile-wide m-margin-bottom-small">-->
-<!--                <div class="ui left icon input">-->
-<!--                  <i class="user icon"></i>-->
-<!--                  <input type="text" name="nickname" placeholder="姓名">-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="field m-mobile-wide m-margin-bottom-small">-->
-<!--                <div class="ui left icon input">-->
-<!--                  <i class="mail icon"></i>-->
-<!--                  <input type="text" name="email" placeholder="邮箱">-->
-<!--                </div>-->
-<!--              </div>-->
               <div class="field  m-margin-bottom-small m-mobile-wide">
                 <button class="ui teal button m-mobile-wide" @click="addComment"><i class="edit icon"></i>发布</button>
               </div>
@@ -236,43 +192,6 @@
 
     <br>
     <br>
-
-    <!--底部footer-->
-    <footer class="ui inverted vertical segment m-padded-tb-massive">
-      <div class="ui center aligned container">
-        <div class="ui inverted divided stackable grid">
-          <div class="three wide column">
-            <div class="ui inverted link list">
-              <div class="item">
-                <img src="../assets/images/wechat.jpg" class="ui rounded image" alt="" style="width: 110px">
-              </div>
-            </div>
-          </div>
-          <div class="three wide column">
-            <h4 class="ui inverted header m-text-thin m-text-spaced " >最新博客</h4>
-            <div class="ui inverted link list">
-              <a href="#" class="item m-text-thin">用户故事（User Story）</a>
-              <a href="#" class="item m-text-thin">用户故事（User Story）</a>
-              <a href="#" class="item m-text-thin">用户故事（User Story）</a>
-            </div>
-          </div>
-          <div class="three wide column">
-            <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
-            <div class="ui inverted link list">
-              <a href="#" class="item m-text-thin">Email：1626680964@qq.com</a>
-              <a href="#" class="item m-text-thin">QQ：1626680964</a>
-            </div>
-          </div>
-          <div class="seven wide column">
-            <h4 class="ui inverted header m-text-thin m-text-spaced ">Blog</h4>
-            <p class="m-text-thin m-text-spaced m-opacity-mini">这是我的个人博客、会分享关于编程、写作、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
-          </div>
-        </div>
-        <div class="ui inverted section divider"></div>
-        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2020 - 2021 Fjl Designed by Fjl</p>
-      </div>
-
-    </footer>
   </div>
 
 </template>
@@ -470,4 +389,17 @@ export default {
   @import "../assets/css/animate.css";
   @import "../assets/lib/tocbot/tocbot.css";
  @import "../assets/css/me.css";
+  .container{
+    animation: main 1s;
+  }
+  .m-blog {
+    padding-top: 460px !important;
+    padding-bottom: 0px !important;
+  }
+  .blog-banner {
+    height: 480px;
+    background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcSPhM*LqG*bYzP4o2JVbahf8eHd4Yd9FO1B4n8UbWJRaQANKT1EBypIfvSNRueI1LSu6d212FUoavpm63ZrUI3E!/r) center
+    center / cover no-repeat;
+    background-color: #49b1f5;
+  }
 </style>

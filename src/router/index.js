@@ -11,8 +11,10 @@ const Tags = () => import(/* webpackChunkName: "Home_Types_Tag" */ '../component
 // import Home from '../components/Home'
 // import Types from '../components/Types'
 // import Tags from '../components/Tags'
-const Archives = () => import(/* webpackChunkName: "Archives_About" */ '../components/Archives.vue')
-const About = () => import(/* webpackChunkName: "Archives_About" */ '../components/About.vue')
+const Link = () => import(/* webpackChunkName: "Archives_About_Link_message" */ '../components/Link.vue')
+const Archives = () => import(/* webpackChunkName: "Archives_About_Link_message" */ '../components/Archives.vue')
+const About = () => import(/* webpackChunkName: "Archives_About_Link_message" */ '../components/About.vue')
+const Message = () => import(/* webpackChunkName: "Archives_About_Link_message" */ '../components/Message.vue')
 // import Archives from '../components/Archives'
 // import About from '../components/About'
 // const Blog = () => import(/* webpackChunkName: "Blog" */ '../components/Blog.vue')
@@ -70,6 +72,16 @@ const routes = [
     path: '/Archives',
     name: 'Archives',
     component: Archives
+  },
+  {
+    path: '/Link',
+    name: 'Link',
+    component: Link
+  },
+  {
+    path: '/Message',
+    name: 'message',
+    component: Message
   },
   {
     path: '/About',

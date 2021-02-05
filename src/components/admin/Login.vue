@@ -1,5 +1,9 @@
 <template>
     <div class="login_container">
+      <!-- banner -->
+      <div class="archive-banner banner">
+        <h1 class="banner-title">归档</h1>
+      </div>
       <div class="login_box">
       <!-- 头像区域 -->
       <div class="avatar_box">
@@ -140,8 +144,8 @@ export default {
       this.$refs.registForm.validate((valid) => {
         if (valid) {
           // 表单校验通过，发ajax请求，把数据录入至后台处理
-          // const param = this.$encruption(JSON.stringify(this.formData))
-          this.$http.post('/user/add', this.formData).then((res) => {
+          const param = this.$encruption(JSON.stringify(this.formData))
+          this.$http.post('/server/user/add', param).then((res) => {
             // 关闭新增窗口
             this.dialogFormVisible = false
             if (res.data.flag) {
@@ -181,6 +185,7 @@ export default {
           window.sessionStorage.setItem('user', JSON.stringify(res.data))
           // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
           this.$router.push('/home')
+          window.location.reload()
         }
       })
     }
@@ -189,11 +194,26 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .banner-title {
+    animation: title-scale 1s;
+    position: absolute;
+    top: 25rem;
+    padding: 0 0.5rem;
+    width: 100%;
+    font-size: 2.5rem;
+    text-align: center;
+    color: #eee;
+  }
+  .archive-banner {
+    height: 110vh;
+    background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mccYPEGHYJF8vf05Y7Jp3Sq4PYCDwfPyvkq4c5VlhffPJbHw4QoE1dsiS8OtN2H5XvhPtg1C1JZwAOMeqYFSoGDg!/r) center center /
+    cover no-repeat;
+    background-color: #49b1f5;
+  }
   .login_container {
     background-color: #2b4b6b;
     height: 100%;
   }
-
   .login_box {
     width: 450px;
     height: 360px;

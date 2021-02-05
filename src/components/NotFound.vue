@@ -2,10 +2,10 @@
   <div class="wscn-http404-container">
     <div class="wscn-http404">
       <div class="pic-404">
-        <img class="pic-404__parent" src="../assets/images/404_images/404.png" alt="404">
-        <img class="pic-404__child left" src="../assets/images/404_images/404_cloud.png" alt="404">
-        <img class="pic-404__child mid" src="../assets/images/404_images/404_cloud.png" alt="404">
-        <img class="pic-404__child right" src="../assets/images/404_images/404_cloud.png" alt="404">
+        <img class="pic-404__parent" src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVKO4vUrdnCdANCZRIyINfL6oLF0L0.2nZPKB5BZah3MkAqVMxhjtgWN0DWzC.5e*ws!/r" alt="404">
+        <img class="pic-404__child left" src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLjePo*86yZfWZC8LlJmCCoYKIhCLPaK*BhAns93qF1GpxqNsa0q8szpAP*82fPiG8!/r" alt="404">
+        <img class="pic-404__child mid" src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLjePo*86yZfWZC8LlJmCCoYKIhCLPaK*BhAns93qF1GpxqNsa0q8szpAP*82fPiG8!/r" alt="404">
+        <img class="pic-404__child right" src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLjePo*86yZfWZC8LlJmCCoYKIhCLPaK*BhAns93qF1GpxqNsa0q8szpAP*82fPiG8!/r" alt="404">
       </div>
       <div class="bullshit">
         <div class="bullshit__oops">OOPS!</div>

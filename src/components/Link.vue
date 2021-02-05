@@ -1,8 +1,8 @@
 <template>
-    <div class="archives">
+    <div class="link">
       <!-- banner -->
-      <div class="archive-banner banner">
-        <h1 class="banner-title">归档</h1>
+      <div class="link-banner banner">
+        <h1 class="banner-title">友链</h1>
       </div>
       <br>
       <br>
@@ -60,16 +60,16 @@ export default {
     text-align: center;
     color: #eee;
   }
-  .archive-banner {
+  .link-banner {
     height: 110vh;
-    background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjp1i*p*43XTdPNTx*Qw5X3kLZcdY7f2PP*HY0CLM5irJV7KRGdQZhNlKutHE4uqHzE!/r) center center /
+    background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjrcd90GMu1NvFVRUxh.ZERBAbPSIeInGGY0C9uI2uTdJATSv*Nt3RFEYI4RVJUCXqo!/r) center center /
     cover no-repeat;
     background-color: #49b1f5;
   }
   .container{
     animation: main 1.0s;
   }
-  .m-archives {
+  .m-link {
     padding-top: 460px !important;
     padding-bottom: 0px !important;
   }

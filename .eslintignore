@@ -2,3 +2,4 @@ src/assets/lib/prism/prism.js
 src/assets/lib/tocbot/tocbot.min.js
 src/assets/lib/qrcode/qrcode.min.js
 src/assets/lib/waypoints/jquery.waypoints.min.js
+public/ribbon.js
