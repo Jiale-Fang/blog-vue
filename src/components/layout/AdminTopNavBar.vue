@@ -4,14 +4,14 @@
       <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
         <div class="ui container">
           <div class="ui inverted secondary stackable menu">
-            <h2 class="ui teal header item">管理后台</h2>
+            <h2 class="ui my-blue header item">管理后台</h2>
             <template v-for="item in dataList">
               <div @click="saveNavState(item.id)"  :key="item.id" style="padding-top: 14px">
-                <a v-bind:href="item.path" v-if="item.id==activeIndex" v-bind:class="'active '+item.active"><i v-bind:class="item.icon"></i>{{item.name}}</a>
-                <a v-bind:href="item.path" v-else :key="item.id" v-bind:class="item.active"><i v-bind:class="item.icon"></i>{{item.name}}</a>
+                <a v-bind:href="item.path" v-if="item.id==activeIndex" v-bind:class="'active '+item.active"><i v-bind:class="item.icon" style="width: 15px"></i>{{item.name}}</a>
+                <a v-bind:href="item.path" v-else :key="item.id" v-bind:class="item.active"><i v-bind:class="item.icon" style="width: 15px"></i>{{item.name}}</a>
               </div>
             </template>
-            <div class="right m-item m-mobile-hide menu">
+            <div class="right m-item m-mobile-hide menu" >
               <div class="ui dropdown item">
                 <div class="text">
                   <img class="ui avatar image" v-bind:src="avatar">
@@ -25,7 +25,7 @@
             </div>
           </div>
         </div>
-        <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <a class="ui menu toggle black icon button m-right-top m-mobile-show">
           <i class="sidebar icon"></i>
         </a>
       </nav>
