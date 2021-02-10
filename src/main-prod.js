@@ -5,9 +5,8 @@ import axios from 'axios'
 import './assets/css/me.css'
 import './assets/css/iconfont.css'
 import './assets/css/index.css'
-// import './plugins/element.js'
-// import ElementUI from 'element-ui'
-// import 'element-ui/lib/theme-chalk/index.css'
+// vue-baberrage的bug导致这里element ui只能npm引入
+import './plugins/element.js'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import prismCss from './assets/lib/prism/prism.css'
@@ -21,7 +20,6 @@ Vue.use(prismjs)
 // use
 Vue.use(mavonEditor)
 
-// Vue.use(ElementUI)
 Vue.prototype.$http = axios
 Vue.prototype.$encruption = function (obj) {
   const encrypt = new JsEncrypt()

@@ -53,6 +53,9 @@ body {
 }
 
 /*-------text -----*/
+.my-blue {
+    color: #1685a9 !important;
+}
 
 .m-text {
     font-weight: 300 !important;
@@ -143,6 +146,20 @@ body {
 
 
 /*-----color-----*/
+.my-blog-shadow:hover{
+    border-radius: 8px !important;
+    box-shadow: 0px 4px 12px 12px rgba(7, 17, 27, 0.15) !important;
+}
+.my-shadow {
+    background: #fff !important;
+    color: #4c4948;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 8px 6px rgba(7, 17, 27, 0.06) !important;
+    transition: all 0.3s;
+}
+.my-shadow:hover {
+    box-shadow: 0 4px 12px 12px rgba(7, 17, 27, 0.15) !important;
+}
 .m-black {
     color: #333 !important;
 }

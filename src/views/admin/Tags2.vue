@@ -4,7 +4,7 @@
       <div class="ui container">
         <div class="right menu">
           <a  @click="handleCreate" class="item">新增</a>
-          <a class="teal active item">列表</a>
+          <a class="my-blue active item">列表</a>
         </div>
       </div>
     </div>
@@ -152,12 +152,6 @@ export default {
       this.nickname = JSON.parse(this.user).nickname
       this.avatar = JSON.parse(this.user).avatar
     },
-    logout () {
-      window.sessionStorage.clear()
-      this.$router.push('/login')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
-    },
     // 切换页码
     handleCurrentChange (currentPage) {
       // 设置最新的页码
@@ -185,18 +179,11 @@ export default {
     handleUpdate () {
       this.$message.info('对不起，普通用户暂且没有此功能！在后台管理中，普通用户暂且只有添加博客的权限')
     }
-  },
-  mounted () {
-    $('.ui.dropdown').dropdown({
-      on: 'hover'
-    })
-    $('.menu.toggle').click(function () {
-      $('.m-item').toggleClass('m-mobile-hide')
-    })
   }
 }
 </script>
 
 <style lang="less" scoped>
+  @import "../../assets/css/me.css";
   @import "../../assets/css/style.css";
 </style>

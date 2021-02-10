@@ -6,8 +6,6 @@ import './assets/css/iconfont.css'
 import './assets/css/index.css'
 import './assets/css/me.css'
 import './plugins/element.js'
-// import ElementUI from 'element-ui'
-// import 'element-ui/lib/theme-chalk/index.css'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import prismCss from './assets/lib/prism/prism.css'
@@ -16,13 +14,10 @@ import JsEncrypt from 'jsencrypt'
 // 导入 NProgress 包对应的JS和CSS
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
 Vue.use(prismCss)
 Vue.use(prismjs)
 // use
 Vue.use(mavonEditor)
-
-// Vue.use(ElementUI)
 Vue.prototype.$http = axios
 /**
  * 配置全局接口加密方法

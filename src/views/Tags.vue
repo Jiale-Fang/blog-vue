@@ -7,10 +7,10 @@
       <div  class="m-container-small m-tags">
         <div class="ui container">
           <!--header-->
-          <div class="ui top attached segment">
+          <div class="ui top attached segment my-shadow">
             <div class="ui middle aligned two column grid">
               <div class="column">
-                <h3 class="ui teal header">标签</h3>
+                <h3 class="ui my-blue header">标签</h3>
               </div>
               <div class="right aligned column">
                 共 <h2 class="ui orange header m-inline-block m-text-thin"> {{tagList.length}} </h2> 个
@@ -18,11 +18,11 @@
             </div>
           </div>
 
-          <div class="ui attached segment m-padded-tb-large">
+          <div class="ui attached segment m-padded-tb-large my-shadow">
             <template v-for="item in tagList">
               <div class="ui labeled button m-margin-tb-tiny" @click="saveNavState(item)" v-if="activeId===item.tagId" :key="item.tagId">
-                <a class="ui basic teal button">{{item.tagName}}</a>
-                <div class="ui basic teal left pointing label">{{item.tagCount}}</div>
+                <a class="ui blue basic button">{{item.tagName}}</a>
+                <div class="ui basic blue left pointing label">{{item.tagCount}}</div>
               </div>
               <div class="ui labeled button m-margin-tb-tiny" @click="saveNavState(item)" v-else :key="item.tagId">
                 <a class="ui basic button">{{item.tagName}}</a>
@@ -32,13 +32,13 @@
           </div>
 
           <!--content-->
-          <div class="ui attached  segment">
+          <div class="ui attached  segment my-blog-shadow">
 
             <div class="ui padded vertical segment m-padded-tb-large" v-for="item in dataList" :key="item.blogId">
               <div class="ui middle aligned mobile reversed stackable grid">
                 <div class="eleven wide column" style="cursor:pointer;">
                   <h3 class="ui header" @click="toBlog(item.blogId)">{{item.title}}</h3>
-                  <p class="m-text">{{item.description}}</p>
+                  <p class="m-text" @click="toBlog(item.blogId)">{{item.description}}</p>
                   <div class="ui grid">
                     <div class="eleven wide column">
                       <div class="ui mini horizontal link list">
@@ -55,7 +55,7 @@
                       </div>
                     </div>
                     <div class="right aligned five wide column">
-                      <a target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">{{item.typeName}}</a>
+                      <a target="_blank" class="ui my-blue basic label m-padded-tiny m-text-thin">{{item.typeName}}</a>
                     </div>
                   </div>
                 </div>
@@ -70,7 +70,7 @@
           </div>
 
           <!--footer-->
-          <div class="ui bottom attached segment">
+          <div class="ui bottom attached segment my-blog-shadow">
             <div class="pagination-container">
               <el-pagination
                 class="pagiantion"

@@ -33,7 +33,7 @@
       </div>
       <!-- 注册弹层-->
       <div class="add-form">
-        <el-dialog title="新增分类" :visible.sync="dialogFormVisible">
+        <el-dialog title="注册用户" :visible.sync="dialogFormVisible">
           <el-form ref="registForm" :model="formData" :rules="loginFormRules" label-position="right"
                    label-width="100px">
             <el-row>
@@ -184,7 +184,7 @@ export default {
           window.sessionStorage.setItem('token', res.code)
           window.sessionStorage.setItem('user', JSON.stringify(res.data))
           // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
-          this.$router.push('/home')
+          await this.$router.push('/home')
           window.location.reload()
         }
       })

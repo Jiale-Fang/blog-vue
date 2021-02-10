@@ -77,7 +77,7 @@
         </div>
         <div id="comment-container" class="ui bottom attached segment">
           <!--留言区域列表-->
-          <div class="ui teal segment">
+          <div class="ui blue segment">
             <div class="ui threaded comments" style="max-width: 100%">
               <h3 class="ui dividing header">Comments</h3>
               <div class="comment" v-for="item in dataList2" :key="item.commentId">
@@ -164,7 +164,7 @@
             </el-form>
             <div class="fields">
               <div class="field  m-margin-bottom-small m-mobile-wide">
-                <button class="ui teal button m-mobile-wide" @click="addComment"><i class="edit icon"></i>发布</button>
+                <button class="ui blue button m-mobile-wide" @click="addComment"><i class="edit icon"></i>发布</button>
               </div>
             </div>
 
@@ -175,8 +175,8 @@
 
     <div id="toolbar" class="m-padded m-fixed m-right-bottom" >
       <div class="ui vertical icon buttons ">
-        <button type="button" class="ui toc teal button" >目录</button>
-        <a href="#comment-container" class="ui teal button" >留言</a>
+        <button type="button" class="ui toc blue button" >目录</button>
+        <a href="#comment-container" class="ui blue button" >留言</a>
         <button class="ui wechat icon button"><i class="weixin icon"></i></button>
         <div id="toTop-button" class="ui icon button" ><i class="chevron up icon"></i></div>
       </div>
@@ -387,8 +387,6 @@ export default {
 <style scoped>
   @import "../assets/css/typo.css";
   @import "../assets/css/animate.css";
-  @import "../assets/lib/tocbot/tocbot.css";
- @import "../assets/css/me.css";
   .container{
     animation: main 1s;
   }

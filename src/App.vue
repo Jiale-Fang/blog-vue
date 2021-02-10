@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- 导航栏 -->
-    <TopNavBar v-show="!(path==='/blogs' || path==='/tags2' || path==='/types2' || path==='/postblogs')"></TopNavBar>
+    <TopNavBar v-show="!( path==='/blogs' || path==='/tags2' || path==='/types2' || path==='/postblogs')"></TopNavBar>
 <!--    <TopNavBar></TopNavBar>-->
     <AdminTopNavBar v-show="( path==='/blogs' || path==='/tags2' || path==='/types2' || path==='/postblogs')"></AdminTopNavBar>
     <router-view/>

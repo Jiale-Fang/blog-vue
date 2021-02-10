@@ -29,9 +29,9 @@
           <div class="eleven wide column">
             <!--header-->
             <div class="ui top attached segment">
-              <div class="ui middle aligned two column grid">
+              <div class="ui middle aligned two column grid my-shadow">
                 <div class="column">
-                  <h3 class="ui teal header">博客</h3>
+                  <h3 class="ui my-blue header" >博客</h3>
                 </div>
                 <div class="right aligned column"><h4 class="ui header m-inline-block m-text" v-if="pagination.queryString!=='' && pagination.queryString!==null" style="height: 1px !important;">根据"{{pagination.queryString}}"的搜索结果</h4>
                   共 <h2 class="ui orange header m-inline-block m-text-thin">{{pagination.total}}</h2> 篇
@@ -40,13 +40,13 @@
             </div>
 
             <!--content-->
-            <div class="ui attached  segment">
+            <div class="ui attached  segment my-blog-shadow">
 
               <div class="ui padded vertical segment m-padded-tb-large" v-for="item in dataList" :key="item.blogId">
                 <div class="ui middle aligned mobile reversed stackable grid">
                   <div class="eleven wide column" style="cursor:pointer;">
                     <h3 class="ui header" @click="toBlog(item.blogId)">{{item.title}}</h3>
-                    <p class="m-text">{{item.description}}</p>
+                    <p class="m-text" @click="toBlog(item.blogId)">{{item.description}}</p>
                     <div class="ui grid">
                       <div class="eleven wide column">
                         <div class="ui mini horizontal link list">
@@ -63,7 +63,7 @@
                         </div>
                       </div>
                       <div class="right aligned five wide column">
-                        <a target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">{{item.typeName}}</a>
+                        <a target="_blank" class="ui my-blue basic label m-padded-tiny m-text-thin">{{item.typeName}}</a>
                       </div>
                     </div>
                   </div>
@@ -78,7 +78,7 @@
             </div>
 
             <!--footer-->
-            <div class="ui bottom attached segment">
+            <div class="ui bottom attached segment my-blog-shadow">
               <div class="pagination-container">
                 <el-pagination
                   class="pagiantion"
@@ -96,10 +96,10 @@
           </div>
 
           <!--右边的top-->
-          <div class="five wide column">
+          <div class="five wide column" style="left: 34px !important;">
 
             <!--分类-->
-            <div class="ui segments">
+            <div class="ui segments my-shadow">
               <div class="ui secondary segment">
                 <div class="ui two column grid">
                   <div class="column">
@@ -110,12 +110,12 @@
                   </div>
                 </div>
               </div>
-              <div class="ui teal segment">
+              <div class="ui my-blue segment">
                 <div class="ui fluid vertical menu">
                   <template v-for="(item, index) in typeList">
                     <a class="item" v-if='index<6' :key="item.typeId" @click="toType(item.typeId)">
                       {{ item.typeName }}
-                      <div class="ui teal basic left pointing label">{{item.typeCount}}</div>
+                      <div class="ui blue basic left pointing label">{{item.typeCount}}</div>
                     </a>
                   </template>
                 </div>
@@ -123,7 +123,7 @@
             </div>
 
             <!--标签-->
-            <div class="ui segments m-margin-top-large">
+            <div class="ui segments m-margin-top-large my-shadow">
               <div class="ui secondary segment">
                 <div class="ui two column grid">
                   <div class="column">
@@ -134,9 +134,9 @@
                   </div>
                 </div>
               </div>
-              <div class="ui teal segment">
+              <div class="ui my-blue segment">
                 <template v-for="(item, index) in tagList">
-                  <a target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny" v-if='index<15' :key="item.tagId" @click="toTag(item.tagId)">
+                  <a target="_blank" class="ui my-blue basic left pointing label m-margin-tb-tiny" v-if='index<15' :key="item.tagId" @click="toTag(item.tagId)">
                     {{item.tagName}} <div class="detail">{{item.tagCount}}</div>
                   </a>
                 </template>
@@ -144,7 +144,7 @@
             </div>
 
             <!--最新推荐-->
-            <div class="ui segments m-margin-top-large">
+            <div class="ui segments m-margin-top-large my-shadow">
               <div class="ui secondary segment ">
                 <i class="bookmark icon"></i>最新推荐
               </div>
@@ -155,7 +155,7 @@
 
             <!--二维码-->
             <h4 class="ui horizontal divider header m-margin-top-large">扫码关注我</h4>
-            <div class="ui centered card" style="width: 11em">
+            <div class="ui centered card my-shadow" style="width: 11em">
               <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui rounded image" >
             </div>
           </div>
@@ -309,7 +309,6 @@ export default {
 }
 </script>
 <style scoped>
- @import "../assets/css/me.css";
  .m-home {
    padding-top: 740px !important;
    padding-bottom: 0px !important;

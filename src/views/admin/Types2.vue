@@ -4,7 +4,7 @@
       <div class="ui container">
         <div class="right menu">
           <a @click="handleCreate" class="item">新增</a>
-          <a class="teal active item">列表</a>
+          <a class="my-blue active item">列表</a>
         </div>
       </div>
     </div>
@@ -37,40 +37,44 @@
           </el-pagination>
         </div>
         <!-- 新增标签弹层 手机号 真实姓名（*） 密码 备注 角色-->
-        <div class="add-form">
-          <el-dialog title="新增分类" :visible.sync="dialogFormVisible">
-            <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right"
-                     label-width="100px">
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item label="分类编号" prop="typeId">
-                    <el-input v-model="formData.typeId"/>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="分类名" prop="typeName">
-                    <el-input v-model="formData.typeName"/>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogFormVisible = false">取消</el-button>
-              <el-button type="primary" @click="handleAdd()">确定</el-button>
-            </div>
-          </el-dialog>
-        </div>
+<!--        <div class="add-form">-->
+<!--          <el-dialog title="新增分类" :visible.sync="dialogFormVisible">-->
+<!--            <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right"-->
+<!--                     label-width="100px">-->
+<!--              <el-row>-->
+<!--                <el-col :span="12">-->
+<!--                  <el-form-item label="分类编号" prop="typeId">-->
+<!--                    <el-input v-model="formData.typeId"/>-->
+<!--                  </el-form-item>-->
+<!--                </el-col>-->
+<!--                <el-col :span="12">-->
+<!--                  <el-form-item label="分类名" prop="typeName">-->
+<!--                    <el-input v-model="formData.typeName"/>-->
+<!--                  </el-form-item>-->
+<!--                </el-col>-->
+<!--              </el-row>-->
+<!--            </el-form>-->
+<!--            <div slot="footer" class="dialog-footer">-->
+<!--              <el-button @click="dialogFormVisible = false">取消</el-button>-->
+<!--              <el-button type="primary" @click="handleAdd()">确定</el-button>-->
+<!--            </div>-->
+<!--          </el-dialog>-->
+<!--        </div>-->
+          <AddTypes ref="addTypes"></AddTypes>
       </div>
     </div>
 
     <br>
     <br>
-
   </div>
 </template>
 
 <script>
+import AddTypes from '../../components/adminTypes/AddTypes'
 export default {
+  components: {
+    AddTypes
+  },
   data () {
     return {
       pagination: { // 分页相关模型数据
@@ -80,7 +84,6 @@ export default {
         queryString: null // 查询条件
       },
       formData: {}, // 表单数据
-      dialogFormVisible: false, // 增加表单是否可见
       dialogFormVisible4Edit: false, // 编辑表单是否可见
       dataList: [], // 当前页要展示的分页列表数据
       user: {},
@@ -98,7 +101,6 @@ export default {
   },
   created () {
     this.findPage()
-    this.getUser()
   },
   methods: {
     // 分页查询
@@ -148,11 +150,6 @@ export default {
       //   }
       // })
     },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      this.nickname = JSON.parse(this.user).nickname
-      this.avatar = JSON.parse(this.user).avatar
-    },
     logout () {
       window.sessionStorage.clear()
       this.$router.push('/login')
@@ -170,15 +167,10 @@ export default {
       this.pagination.pageSize = newSize
       this.findPage()
     },
-    // 重置表单
-    resetForm () {
-      this.formData = {}// 重置表格数据
-      this.$refs.dataAddForm.resetFields()
-    },
     // 弹出添加窗口
     handleCreate () {
-      this.dialogFormVisible = true
-      this.resetForm()
+      // this.dialogFormVisible = true
+      this.$refs.addTypes.handleCreate()
     },
     handleDelete () {
       this.$message.info('对不起，普通用户暂且没有此功能！在后台管理中，普通用户暂且只有添加博客的权限')
@@ -199,5 +191,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  @import "../../assets/css/me.css";
   @import "../../assets/css/style.css";
 </style>

@@ -6,7 +6,7 @@ module.exports = {
       config.entry('app').clear().add('./src/main-prod.js')
 
       config.set('externals', {
-        vue: 'Vue',
+        // vue: 'Vue',
         'vue-router': 'VueRouter',
         axios: 'axios',
         lodash: '_',

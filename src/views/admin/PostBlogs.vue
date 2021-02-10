@@ -3,7 +3,7 @@
     <div class="ui attached pointing menu">
       <div class="ui container">
         <div class="right menu">
-          <a class="teal active item">发布</a>
+          <a class="my-blue active item">发布</a>
           <a href="/#/blogs" class="item">列表</a>
         </div>
       </div>
@@ -86,7 +86,7 @@
           <div class="ui right aligned container">
             <button type="button" class="ui button" onclick="window.history.go(-1)" >返回</button>
             <button type="button" id="save-btn" class="ui secondary button">保存</button>
-            <button type="button" id="publish-btn" class="ui teal button" @click="addBlog">发布</button>
+            <button type="button" id="publish-btn" class="ui my-blue button" @click="addBlog">发布</button>
           </div>
         </el-form>
 <!--        </form>-->
@@ -275,10 +275,7 @@ export default {
 </script>
 
 <style scoped>
-/*@import "/src/assets/lib/editormd/css/editormd.min.css";*/
-/*@import "src/assets/css/typo.css";*/
-/*@import "src/assets/css/animate.css";*/
-  @import "/src/assets/css/me.css";
+  @import "../../assets/css/me.css";
 .mavonEditor {
   width: 100%;
   height: 100%;

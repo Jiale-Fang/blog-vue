@@ -4,7 +4,7 @@
       <div class="ui container">
         <div class="right menu">
           <a @click="pushPostBlogs" class="item">新增</a>
-          <a class="teal active item">列表</a>
+          <a class="my-blue active item">列表</a>
         </div>
       </div>
     </div>
@@ -242,4 +242,5 @@ export default {
 
 <style lang="less" scoped>
   @import "../../assets/css/style.css";
+  @import "../../assets/css/me.css";
 </style>
