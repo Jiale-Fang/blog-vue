@@ -79,6 +79,11 @@
                 </router-link>
               </li>
               <li>
+                <router-link to="/postblogs">
+                  <i class="el-icon-edit" /> 发布博客
+                </router-link>
+              </li>
+              <li>
                 <a @click="logout"><i class="iconfont icontuichu" /> 退出</a>
               </li>
             </ul>
