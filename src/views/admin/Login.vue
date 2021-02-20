@@ -126,10 +126,10 @@ export default {
       const { data: res } = await this.$http.get('/server/admapi/captcha')
       this.verifyCode = res.data
       this.loginForm.verKey = res.code
-      this.$message({
-        message: '部分功能只在用户登录后开发',
-        type: 'info'
-      })
+      // this.$message({
+      //   message: '部分功能只在用户登录后开发',
+      //   type: 'info'
+      // })
     },
     // 点击重置按钮，重置登录表单
     resetLoginForm () {
@@ -184,7 +184,7 @@ export default {
           window.sessionStorage.setItem('token', res.code)
           window.sessionStorage.setItem('user', JSON.stringify(res.data))
           // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
-          await this.$router.push('/home')
+          await this.$router.push('/welcome')
           window.location.reload()
         }
       })

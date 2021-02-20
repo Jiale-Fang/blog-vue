@@ -74,7 +74,7 @@
             />
             <ul class="user-submenu">
               <li>
-                <router-link to="/blogs">
+                <router-link to="/adminHome">
                   <i class="iconfont icongerenzhongxin" /> 个人中心
                 </router-link>
               </li>

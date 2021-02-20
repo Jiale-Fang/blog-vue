@@ -10,7 +10,7 @@ module.exports = {
         'vue-router': 'VueRouter',
         axios: 'axios',
         lodash: '_',
-        // echarts: 'echarts',
+        echarts: 'echarts',
         nprogress: 'NProgress'
         // 'mavon-editor': 'mavon-editor' // 配置有问题，不知道如何修改
       })

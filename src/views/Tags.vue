@@ -52,6 +52,9 @@
                         <div class="item">
                           <i class="eye icon"></i> {{item.views}}
                         </div>
+                        <div class="item">
+                          <i class="thumbs up outline icon"></i> {{item.thumbs}}
+                        </div>
                       </div>
                     </div>
                     <div class="right aligned five wide column">

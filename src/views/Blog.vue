@@ -18,6 +18,9 @@
             <div class="item">
               <i class="eye icon"></i> {{dataList.views}}
             </div>
+            <div class="item">
+              <i class="thumbs up outline icon"></i> {{dataList.thumbs}}
+            </div>
           </div>
         </div>
         <div class="ui attached segment">
@@ -178,6 +181,10 @@
         <button type="button" class="ui toc blue button" >目录</button>
         <a href="#comment-container" class="ui blue button" >留言</a>
         <button class="ui wechat icon button"><i class="weixin icon"></i></button>
+        <button class="ui icon button" @click="thumbsUp">
+          <i v-if="thumbsFlag" class="thumbs up icon"></i>
+          <i v-else class="thumbs up outline icon"></i>
+        </button>
         <div id="toTop-button" class="ui icon button" ><i class="chevron up icon"></i></div>
       </div>
     </div>
@@ -214,7 +221,8 @@ export default {
       // 被激活的链接地址
       avatar: '',
       dataList: [],
-      dataList2: []
+      dataList2: [],
+      thumbsFlag: false
     }
   },
   created () {
@@ -223,11 +231,24 @@ export default {
     this.getCommentList()
   },
   methods: {
+    async thumbsUp () {
+      if (this.toLogin()) {
+        const blogId = sessionStorage.getItem('blogId')
+        const { data: res } = await this.$http.get(`server/blog/${blogId}/${this.uid}`)
+        if (res.flag) {
+          this.$message.success(res.message)
+          this.thumbsFlag = true
+        } else {
+          this.$message.info(res.message)
+          this.thumbsFlag = false
+        }
+      }
+    },
     toLogin () {
       const tokenStr = window.sessionStorage.getItem('token')
       // 后端指定接口验证了token的正确性
       if (!tokenStr) {
-        this.$confirm('登录后才能发表评论，请问是否先登录？', '提示', { // 确认框
+        this.$confirm('登录后才能发表评论或者点赞，请问是否先登录？', '提示', { // 确认框
           type: 'info'
         }).then(() => {
           this.$router.push('/login')
@@ -273,8 +294,7 @@ export default {
       if (this.toLogin()) {
         console.log(JSON.stringify(this.formData))
         const parentCommentId = sessionStorage.getItem('parentCommentId')
-        const blogId = sessionStorage.getItem('blogId')
-        this.formData.blogId = blogId
+        this.formData.blogId = sessionStorage.getItem('blogId')
         this.formData.parentCommentId = parentCommentId
         var param = this.$encruption(JSON.stringify(this.formData))
         // 表单校验通过，发ajax请求，把数据录入至后台处理

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import {
+  Avatar,
   Button,
   Form,
   FormItem,
@@ -34,6 +35,7 @@ import {
   Footer
 } from 'element-ui'
 
+Vue.use(Avatar)
 Vue.use(Footer)
 Vue.use(OptionGroup)
 Vue.use(DatePicker)

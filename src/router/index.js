@@ -1,6 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Blog from '../views/Blog'
+// import Welcome from '../views/admin/Welcome'
+// const Blog = () => import(/* webpackChunkName: "BW" */ '../views/Blog')
+const Welcome = () => import(/* webpackChunkName: "BW" */ '../views/admin/Welcome')
+const AdminHome = () => import(/* webpackChunkName: "BW" */ '../components/layout/AdminHome')
+
+// import Users from '../views/admin/users/Users'
+const Users = () => import(/* webpackChunkName: "Users" */ '../views/admin/users/Users')
+const Comments = () => import(/* webpackChunkName: "Users" */ '../views/admin/users/Comments')
+
+const Report = () => import(/* webpackChunkName: "dataWatch" */ '../views/admin/dataWatch/Report')
+
 const Login = () => import(/* webpackChunkName: "Login_NotFound" */ '../views/admin/Login.vue')
 const NotFound = () => import(/* webpackChunkName: "Login_NotFound" */ '../views/NotFound.vue')
 // import Login from '../components/admin/Login'
@@ -18,10 +29,10 @@ const Message = () => import(/* webpackChunkName: "Archives_About_Link_message" 
 // import Archives from '../components/Archives'
 // import About from '../components/About'
 // const Blog = () => import(/* webpackChunkName: "Blog" */ '../components/Blog.vue')
-const PostBlogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/PostBlogs.vue')
-const Blogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/Blogs.vue')
-const Types2 = () => import(/* webpackChunkName: "admin" */ '../views/admin/Types2.vue')
-const Tags2 = () => import(/* webpackChunkName: "admin" */ '../views/admin/Tags2.vue')
+const PostBlogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/PostBlogs.vue')
+const Blogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/Blogs.vue')
+const Types2 = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/Types2.vue')
+const Tags2 = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/Tags2.vue')
 // import PostBlogs from '../components/admin/PostBlogs'
 // import Blogs from '../components/admin/Blogs'
 // import Types2 from '../components/admin/Types2'
@@ -48,19 +59,9 @@ const routes = [
     component: Types
   },
   {
-    path: '/Types2',
-    name: 'Types2',
-    component: Types2
-  },
-  {
     path: '/Tags',
     name: 'Tags',
     component: Tags
-  },
-  {
-    path: '/Tags2',
-    name: 'Tags2',
-    component: Tags2
   },
   {
     path: '/Archives',
@@ -83,14 +84,18 @@ const routes = [
     component: About
   },
   {
-    path: '/Blogs',
-    name: 'Blogs',
-    component: Blogs
-  },
-  {
-    path: '/PostBlogs',
-    name: 'PostBlogs',
-    component: PostBlogs
+    path: '/AdminHome',
+    component: AdminHome,
+    redirect: '/welcome',
+    children: [{ path: '/welcome', component: Welcome },
+      { path: '/users', component: Users },
+      { path: '/comments', component: Comments },
+      { path: '/PostBlogs', component: PostBlogs },
+      { path: '/Blogs', component: Blogs },
+      { path: '/tags2', component: Tags2 },
+      { path: '/types2', component: Types2 },
+      { path: '/report', component: Report }
+    ]
   },
   {
     path: '*',

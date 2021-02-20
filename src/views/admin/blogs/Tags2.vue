@@ -1,21 +1,36 @@
 <template>
-  <div class="types">
-    <div class="ui attached pointing menu">
-      <div class="ui container">
-        <div class="right menu">
-          <a @click="handleCreate" class="item">新增</a>
-          <a class="my-blue active item">列表</a>
-        </div>
-      </div>
+  <div class="blogs">
+    <div class="content-header">
+      <h1>博客管理<small>标签管理</small></h1>
+      <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+        <el-breadcrumb-item :to="{ path: '/' }">后台管理</el-breadcrumb-item>
+        <el-breadcrumb-item>博客管理</el-breadcrumb-item>
+        <el-breadcrumb-item>标签管理</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
 
     <!--中间内容-->
-    <div  class="m-container-small m-padded-tb-big">
+    <div class="app-container">
+      <div class="box">
+        <div class="filter-container">
+          <el-input placeholder="请输入标签名" v-model="pagination.queryString" style="width: 200px;"
+                    class="filter-item" clearable @clear="findPage"></el-input>
+          <el-select v-model="value" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-button @click="findPage()" icon="el-icon-search" class="dalfBut">查询标签</el-button>
+          <el-button type="primary" class="butT" @click="handleAdd">添加标签</el-button>
+        </div>
       <div class="ui container">
         <el-table size="middle" current-row-key="id" :data="dataList" stripe highlight-current-row>
           <!--                        id,用户名，真实姓名，角色，备注，最后登录时间，创建时间-->
-          <el-table-column prop="typeId" min-width="15px" align="center" label="序号"></el-table-column>
-          <el-table-column prop="typeName" label="分类名称" align="center"></el-table-column>
+          <el-table-column prop="tagId" min-width="15px" align="center" label="序号"></el-table-column>
+          <el-table-column prop="tagName" label="标签名称" align="center"></el-table-column>
           <el-table-column label="管理" align="center">
             <template slot-scope="scope">
               <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
@@ -37,44 +52,39 @@
           </el-pagination>
         </div>
         <!-- 新增标签弹层 手机号 真实姓名（*） 密码 备注 角色-->
-<!--        <div class="add-form">-->
-<!--          <el-dialog title="新增分类" :visible.sync="dialogFormVisible">-->
-<!--            <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right"-->
-<!--                     label-width="100px">-->
-<!--              <el-row>-->
-<!--                <el-col :span="12">-->
-<!--                  <el-form-item label="分类编号" prop="typeId">-->
-<!--                    <el-input v-model="formData.typeId"/>-->
-<!--                  </el-form-item>-->
-<!--                </el-col>-->
-<!--                <el-col :span="12">-->
-<!--                  <el-form-item label="分类名" prop="typeName">-->
-<!--                    <el-input v-model="formData.typeName"/>-->
-<!--                  </el-form-item>-->
-<!--                </el-col>-->
-<!--              </el-row>-->
-<!--            </el-form>-->
-<!--            <div slot="footer" class="dialog-footer">-->
-<!--              <el-button @click="dialogFormVisible = false">取消</el-button>-->
-<!--              <el-button type="primary" @click="handleAdd()">确定</el-button>-->
-<!--            </div>-->
-<!--          </el-dialog>-->
-<!--        </div>-->
-          <AddTypes ref="addTypes"></AddTypes>
+        <div class="add-form">
+          <el-dialog title="新增分类" :visible.sync="dialogFormVisible">
+            <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right"
+                     label-width="100px">
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="标签编号" prop="typeId">
+                    <el-input v-model="formData.tagId"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="标签名" prop="typeName">
+                    <el-input v-model="formData.tagName"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogFormVisible = false">取消</el-button>
+              <el-button type="primary" @click="handleAdd()">确定</el-button>
+            </div>
+          </el-dialog>
+        </div>
       </div>
     </div>
-
+    </div>
     <br>
     <br>
   </div>
 </template>
 
 <script>
-import AddTypes from '../../components/adminTypes/AddTypes'
 export default {
-  components: {
-    AddTypes
-  },
   data () {
     return {
       pagination: { // 分页相关模型数据
@@ -84,6 +94,7 @@ export default {
         queryString: null // 查询条件
       },
       formData: {}, // 表单数据
+      dialogFormVisible: false, // 增加表单是否可见
       dialogFormVisible4Edit: false, // 编辑表单是否可见
       dataList: [], // 当前页要展示的分页列表数据
       user: {},
@@ -101,6 +112,7 @@ export default {
   },
   created () {
     this.findPage()
+    this.getUser()
   },
   methods: {
     // 分页查询
@@ -112,11 +124,11 @@ export default {
         queryString: this.pagination.queryString
       }
       var param2 = this.$encruption(JSON.stringify(param))
-      const { data: res } = await this.$http.post('server/types2/findPage', param2)
+      const { data: res } = await this.$http.post('server/tag/findPage', param2)
       // 解析controller响应回的数据
       console.log('===>' + res.flag)
       if (!res.flag) {
-        return this.$message.error('获取分类列表失败！')
+        return this.$message.error('获取标签列表失败！')
       }
       this.pagination.total = res.data.total
       this.dataList = res.data.records
@@ -150,11 +162,10 @@ export default {
       //   }
       // })
     },
-    logout () {
-      window.sessionStorage.clear()
-      this.$router.push('/login')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
+    getUser () {
+      this.user = window.sessionStorage.getItem('user')
+      this.nickname = JSON.parse(this.user).nickname
+      this.avatar = JSON.parse(this.user).avatar
     },
     // 切换页码
     handleCurrentChange (currentPage) {
@@ -167,10 +178,15 @@ export default {
       this.pagination.pageSize = newSize
       this.findPage()
     },
+    // 重置表单
+    resetForm () {
+      this.formData = {}// 重置表格数据
+      this.$refs.dataAddForm.resetFields()
+    },
     // 弹出添加窗口
     handleCreate () {
-      // this.dialogFormVisible = true
-      this.$refs.addTypes.handleCreate()
+      this.dialogFormVisible = true
+      this.resetForm()
     },
     handleDelete () {
       this.$message.info('对不起，普通用户暂且没有此功能！在后台管理中，普通用户暂且只有添加博客的权限')
@@ -178,19 +194,11 @@ export default {
     handleUpdate () {
       this.$message.info('对不起，普通用户暂且没有此功能！在后台管理中，普通用户暂且只有添加博客的权限')
     }
-  },
-  mounted () {
-    $('.ui.dropdown').dropdown({
-      on: 'hover'
-    })
-    $('.menu.toggle').click(function () {
-      $('.m-item').toggleClass('m-mobile-hide')
-    })
   }
 }
 </script>
 
 <style lang="less" scoped>
-  @import "../../assets/css/me.css";
-  @import "../../assets/css/style.css";
+  @import "../../../assets/css/me.css";
+  @import "../../../assets/css/style.css";
 </style>
