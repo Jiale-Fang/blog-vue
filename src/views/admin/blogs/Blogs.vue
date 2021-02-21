@@ -1,16 +1,17 @@
 <template>
   <div class="blogs">
-    <div class="ui attached pointing menu">
-      <div class="ui container">
-        <div class="right menu">
-          <a @click="pushPostBlogs" class="item">新增</a>
-          <a class="my-blue active item">列表</a>
-        </div>
-      </div>
+    <div class="content-header">
+      <h1>博客管理<small>查看博客</small></h1>
+      <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+        <el-breadcrumb-item :to="{ path: '/' }">后台管理</el-breadcrumb-item>
+        <el-breadcrumb-item>博客管理</el-breadcrumb-item>
+        <el-breadcrumb-item>查看博客</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
-
     <!--中间内容-->
-    <div  class="m-container-small m-padded-tb-big">
+    <div class="app-container">
+    <div class="box">
+<!--    <div  class="m-container-small m-padded-tb-big">-->
       <div class="filter-container">
         <el-input placeholder="请输入标题" v-model="pagination.queryString" style="width: 200px;"
                   class="filter-item" clearable @clear="findPage"></el-input>
@@ -86,7 +87,7 @@
         </div>
       </div>
     </div>
-
+    </div>
     <br>
     <br>
   </div>
@@ -241,6 +242,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "../../assets/css/style.css";
-  @import "../../assets/css/me.css";
+  @import "../../../assets/css/style.css";
+  @import "../../../assets/css/me.css";
+  .blogs {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
 </style>

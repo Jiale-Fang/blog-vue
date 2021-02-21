@@ -115,68 +115,6 @@ export default {
           ]
         },
         {
-          id: 301,
-          authName: '权限管理',
-          path: null,
-          children: [
-            {
-              id: 302,
-              authName: '角色列表',
-              path: 'Role',
-              children: []
-            },
-            {
-              id: 303,
-              authName: '权限列表',
-              path: 'Rights',
-              children: []
-            }
-          ]
-        },
-        {
-          id: 401,
-          authName: '后台管理',
-          path: null,
-          children: [
-            {
-              id: 402,
-              authName: '员工列表',
-              path: 'Staff',
-              children: []
-            },
-            {
-              id: 403,
-              authName: '部门列表',
-              path: 'Department',
-              children: []
-            },
-            {
-              id: 404,
-              authName: '供应商列表',
-              path: 'Supplier',
-              children: []
-            },
-            {
-              id: 405,
-              authName: '供应关系列表',
-              path: 'Supply',
-              children: []
-            },
-            {
-              id: 406,
-              authName: '收银台列表',
-              path: 'Cashier',
-              children: []
-            },
-            {
-              id: 407,
-              authName: '仓库列表',
-              path: 'Warehouse',
-              children: []
-            }
-          ]
-        },
-        {
           id: 501,
           authName: '数据统计',
           path: null,
@@ -190,8 +128,9 @@ export default {
             },
             {
               id: 503,
-              authName: '饼状图',
-              path: 'Pie',
+              icon: 'el-icon-s-management',
+              authName: '单篇博客分析',
+              path: 'Report2',
               children: []
             }
           ]

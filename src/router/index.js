@@ -11,6 +11,7 @@ const Users = () => import(/* webpackChunkName: "Users" */ '../views/admin/users
 const Comments = () => import(/* webpackChunkName: "Users" */ '../views/admin/users/Comments')
 
 const Report = () => import(/* webpackChunkName: "dataWatch" */ '../views/admin/dataWatch/Report')
+const Report2 = () => import(/* webpackChunkName: "dataWatch" */ '../views/admin/dataWatch/Report2')
 
 const Login = () => import(/* webpackChunkName: "Login_NotFound" */ '../views/admin/Login.vue')
 const NotFound = () => import(/* webpackChunkName: "Login_NotFound" */ '../views/NotFound.vue')
@@ -94,7 +95,8 @@ const routes = [
       { path: '/Blogs', component: Blogs },
       { path: '/tags2', component: Tags2 },
       { path: '/types2', component: Types2 },
-      { path: '/report', component: Report }
+      { path: '/report', component: Report },
+      { path: '/report2', component: Report2 }
     ]
   },
   {

@@ -1,22 +1,20 @@
 <template>
-  <div class="psot-blogs">
-    <div class="ui attached pointing menu">
-      <div class="ui container">
-        <div class="right menu">
-          <a class="my-blue active item">发布</a>
-          <a href="/#/blogs" class="item">列表</a>
-        </div>
-      </div>
+  <div class="blogs">
+    <div class="content-header">
+      <h1>博客管理<small>发布博客</small></h1>
+      <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+        <el-breadcrumb-item :to="{ path: '/' }">后台管理</el-breadcrumb-item>
+        <el-breadcrumb-item>博客管理</el-breadcrumb-item>
+        <el-breadcrumb-item>发布博客</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
-    <!--中间内容-->
-    <div class="m-container-small m-padded-tb-big">
-      <div class="ui container">
-<!--        <form action="#" method="post" class="ui form">-->
-        <el-form ref="addForm" :model="formData" :rules="rules">
+      <div class="app-container">
+        <div class="blog-box" style="">
+        <el-form ref="addForm" :model="formData" :rules="rules" >
           <div class="required field">
             <div class="ui left labeled input">
               <el-form-item prop="shareStatement">
-                <el-select v-model="formData.shareStatement" placeholder="原创" style="margin-right: 10px; width: 100px">
+                <el-select v-model="formData.shareStatement" placeholder="原创" style="margin-right: 10px; width: 100px;margin-left: 155px">
                   <el-option
                     v-for="item in shareStatementList"
                     :key="item.id"
@@ -29,7 +27,7 @@
                 <el-button type="primary">
                   <i class="el-icon-arrow-down el-icon-s-opportunity"></i>
                 </el-button>
-                <el-input v-model="formData.title" placeholder="请输入标题" style="width: 670px"></el-input>
+                <el-input v-model="formData.title" placeholder="请输入标题" style="width: 790px"></el-input>
               </el-form-item>
             </div>
           </div>
@@ -44,7 +42,7 @@
           <div class="two fields" style="margin-top: 3px">
             <el-form-item prop="typeId">
               <el-row>
-                <el-select v-model="formData.typeId" placeholder="请选择分类" style="float:left; width: 415px; margin-right: 8px">
+                <el-select v-model="formData.typeId" placeholder="请选择分类" style="margin-left: 155px;float:left; width: 470px; margin-right: 8px">
                   <el-option
                     v-for="item in typeList"
                     :key="item.typeId"
@@ -52,7 +50,7 @@
                     :value="item.typeId">
                   </el-option>
                 </el-select>
-                <el-select v-model="formData.value" multiple placeholder="请选择标签" style="width: 415px">
+                <el-select v-model="formData.value" multiple placeholder="请选择标签" style="width: 470px">
                   <el-option
                     v-for="item in tagList"
                     :key="item.tagId"
@@ -64,21 +62,21 @@
             </el-form-item>
           </div>
 
-          <div class="field" style="margin-top: 5px">
+          <div class="field" style="margin-top: 8px;margin-left: 155px">
             <el-button type="primary">
               <i class="el-icon-arrow-down el-icon-picture"></i>
             </el-button>
-            <el-input v-model="formData.firstPicture" style="width: 780px"></el-input>
-            <el-form-item prop="description">
+            <el-input v-model="formData.firstPicture" style="width: 895px"></el-input>
+            <el-form-item prop="description" style="margin-top: 8px">
               <el-input
                 type="textarea"
                 :autosize="{ minRows: 2, maxRows: 5}"
                 placeholder="请写一下关于文章的摘要，这将让你的博客显示在首页时，帮助你吸引更多的读者"
-                v-model="formData.description" style="margin-top: 10px">
+                v-model="formData.description" style="margin-top: 10px;width: 950px">
               </el-input>
             </el-form-item>
           </div>
-          <div class="inline fields" style="margin-top: 10px">
+          <div class="inline fields" style="margin-top: 10px;margin-left: 155px">
             <el-checkbox v-model="formData.recommend">推荐</el-checkbox>
             <el-checkbox v-model="formData.appreciation">赞赏</el-checkbox>
             <el-checkbox v-model="formData.commentabled">评论</el-checkbox>
@@ -89,10 +87,8 @@
             <button type="button" id="publish-btn" class="ui my-blue button" @click="addBlog">发布</button>
           </div>
         </el-form>
-<!--        </form>-->
+        </div>
       </div>
-    </div>
-
     <br>
     <br>
   </div>
@@ -275,9 +271,20 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../assets/css/me.css";
+  @import "../../../assets/css/me.css";
 .mavonEditor {
-  width: 100%;
+  width: 75%;
   height: 100%;
+  margin: 0 auto;
 }
+  .blog-box {
+    position: relative;
+    border-radius: 3px;
+    background: #ffffff;
+    border-top: 3px solid #3c8dbc;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  }
 </style>

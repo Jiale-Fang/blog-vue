@@ -185,7 +185,10 @@ export default {
           window.sessionStorage.setItem('user', JSON.stringify(res.data))
           // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
           await this.$router.push('/welcome')
-          window.location.reload()
+          // 刷新页面，删除vuex数据
+          setTimeout(() => {
+            window.location.reload()
+          }, 100)
         }
       })
     }
