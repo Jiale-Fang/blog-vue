@@ -58,7 +58,7 @@ export default {
         },
         yAxis: {
           type: 'category',
-          data: ['访问量', '评论数', '点赞量']
+          data: ['点赞量', '评论数', '访问量']
         },
         series: [
         ]

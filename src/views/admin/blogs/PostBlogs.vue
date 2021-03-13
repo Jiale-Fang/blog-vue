@@ -32,7 +32,7 @@
             </div>
           </div>
 <!--          <div class="field">-->
-            <div class="mavonEditor" style="margin-top: 10px">
+            <div class="mavonEditor" style="margin-top: 10px;">
               <el-form-item prop="content">
                 <mavon-editor :codeStyle="markdownOption.codeStyle" :ishljs="true" :toolbars="markdownOption"  v-model="formData.content"/>
 <!--                <mavon-editor :toolbars="markdownOption" v-model="formData.content"/>-->

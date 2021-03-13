@@ -33,7 +33,7 @@
                 <div class="column">
                   <h3 class="ui my-blue header" >博客</h3>
                 </div>
-                <div class="right aligned column"><h4 class="ui header m-inline-block m-text" v-if="pagination.queryString!=='' && pagination.queryString!==null" style="height: 1px !important;">根据"{{pagination.queryString}}"的搜索结果</h4>
+                <div class="right aligned column"><h4 class="ui header m-inline-block m-text" v-if="this.flag" style="height: 1px !important;">与"{{pagination.queryString}}"有关的搜索结果</h4>
                   共 <h2 class="ui orange header m-inline-block m-text-thin">{{pagination.total}}</h2> 篇
                 </div>
               </div>
@@ -45,8 +45,8 @@
               <div class="ui padded vertical segment m-padded-tb-large" v-for="item in dataList" :key="item.blogId">
                 <div class="ui middle aligned mobile reversed stackable grid">
                   <div class="eleven wide column" style="cursor:pointer;">
-                    <h3 class="ui header" @click="toBlog(item.blogId)">{{item.title}}</h3>
-                    <p class="m-text" @click="toBlog(item.blogId)">{{item.description}}</p>
+                    <h3 class="ui header" @click="toBlog(item.blogId)" v-html="item.title"></h3>
+                    <p class="m-text" @click="toBlog(item.blogId)" v-html="item.description"></p>
                     <div class="ui grid">
                       <div class="eleven wide column">
                         <div class="ui mini horizontal link list">
@@ -55,7 +55,7 @@
                             <div class="content"><a class="header">{{item.nickname}}</a></div>
                           </div>
                           <div class="item">
-                            <i class="calendar icon"></i> {{item.createTime}}
+                            <i class="calendar icon"></i> {{item.create_time}}
                           </div>
                           <div class="item">
                             <i class="eye icon"></i> {{item.views}}
@@ -72,7 +72,7 @@
                   </div>
                   <div class="five wide column">
                     <a target="_blank">
-                      <img v-bind:src=item.firstPicture @click="toBlog(item.blogId)" alt="" class="ui rounded image">
+                      <img v-bind:src=item.first_picture @click="toBlog(item.blogId)" alt="" class="ui rounded image">
                     </a>
                   </div>
 
@@ -176,6 +176,7 @@
 export default {
   data () {
     return {
+      flag: false,
       dataList: [], // 当前页要展示的博客分页列表数据
       typeList: [], // 分类列表的数据
       tagList: [], // 标签列表的数据
@@ -220,9 +221,29 @@ export default {
         top: document.documentElement.clientHeight
       })
     },
-    search () {
-      this.findPage()
-      this.pagination.queryString = null
+    async search () {
+      // this.findPage()
+      this.flag = true
+      const str = sessionStorage.getItem('queryString')
+      if (str !== null) {
+        this.pagination.queryString = str
+        sessionStorage.removeItem('queryString')
+        this.$message.info('搜索结果已经显示在页面下方')
+      }
+      // 发送ajax，提交分页请求（页码，每页显示条数，查询条件)
+      const param = {
+        currentPage: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        queryString: this.pagination.queryString
+      }
+      const param2 = this.$encruption(JSON.stringify(param))
+      const { data: res } = await this.$http.post('/es/search/searchPage1', param2)
+      // 解析controller响应回的数据
+      if (!res.flag) {
+        return this.$message.error('获取博客列表失败！')
+      }
+      this.pagination.total = res.data.total
+      this.dataList = res.data.records
     },
     toTag (tagId) {
       sessionStorage.setItem('tagId', tagId)
@@ -252,24 +273,23 @@ export default {
     async findPage () {
       const str = sessionStorage.getItem('queryString')
       if (str !== null) {
-        this.pagination.queryString = str
-        sessionStorage.removeItem('queryString')
-        this.$message.info('搜索结果已经显示在页面下方')
+        await this.search()
+      } else {
+        // 发送ajax，提交分页请求（页码，每页显示条数，查询条件)
+        const param = {
+          currentPage: this.pagination.currentPage,
+          pageSize: this.pagination.pageSize,
+          queryString: null
+        }
+        const param2 = this.$encruption(JSON.stringify(param))
+        const { data: res } = await this.$http.post('/es/search/homePage', param2)
+        // 解析controller响应回的数据
+        if (!res.flag) {
+          return this.$message.error('获取博客列表失败！')
+        }
+        this.pagination.total = res.data.total
+        this.dataList = res.data.records
       }
-      // 发送ajax，提交分页请求（页码，每页显示条数，查询条件)
-      const param = {
-        currentPage: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize,
-        queryString: this.pagination.queryString
-      }
-      var param2 = this.$encruption(JSON.stringify(param))
-      const { data: res } = await this.$http.post('/server/home/findHomePage', param2)
-      // 解析controller响应回的数据
-      if (!res.flag) {
-        return this.$message.error('获取博客列表失败！')
-      }
-      this.pagination.total = res.data.total
-      this.dataList = res.data.records
     },
     getUser () {
       this.user = window.sessionStorage.getItem('user')
@@ -313,7 +333,7 @@ export default {
 </script>
 <style scoped>
  .m-home {
-   padding-top: 740px !important;
+   padding-top: 105vh !important;
    padding-bottom: 0px !important;
  }
  .home-banner {
