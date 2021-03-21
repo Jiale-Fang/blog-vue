@@ -67,7 +67,7 @@ export default {
       }
       const userAvatar = this.avatar
         ? this.avatar
-        : 'https://gravatar.loli.net/avatar/d41d8cd98f00b204e9800998ecf8427e?d=mp&v=1.4.14'
+        : 'http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mccJUo7*q6gaMPZmbFDSW8tjmAm4XwuoUZmMKw3asmvn1mxsE*Tf0fj.VOh2G6OX7v4duFOfedV2oGNQ*GrJEPkA!/r'
       const userNickname = this.nickname
         ? this.nickname
         : '游客'
@@ -114,7 +114,7 @@ export default {
     left: 0;
     right: 0;
     height: 100vh;
-    background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606901653454&di=8da42ee1bb5a8f94eb9bd9f6b2a9b968&imgtype=0&src=http%3A%2F%2Fwww.deskcar.com%2Fdesktop%2Felse%2F201272223323%2F5.jpg) center center /
+    background: url(https://img-blog.csdnimg.cn/20210309194854908.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0RsaWhjdGNlZnJlcA==,size_16,color_FFFFFF,t_70#pic_center) center center /
     cover no-repeat;
     background-color: #49b1f5;
     animation: header-effect 1s;
