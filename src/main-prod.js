@@ -17,12 +17,22 @@ import prismjs from './assets/lib/prism/prism'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import JsEncrypt from 'jsencrypt'
+import APlayer from '@moefe/vue-aplayer'
+Vue.use(APlayer, {
+  defaultCover: 'https://github.com/u3u.png',
+  productionTip: true
+})
 Vue.use(prismCss)
 Vue.use(prismjs)
 // use
 Vue.use(mavonEditor)
-
 Vue.prototype.$http = axios
+axios.withCredentials = true
+const instance = axios.create({ // 网易云接口api地址
+  // baseURL: 'https://autumnfish.cn'
+  baseURL: 'http://39.108.136.207:3000'
+})
+Vue.prototype.$musicApi = instance
 Vue.prototype.$encruption = function (obj) {
   const encrypt = new JsEncrypt()
   encrypt.setPublicKey('MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzSJK+Pc1IdFWz83FWvKH' +
