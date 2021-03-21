@@ -102,14 +102,14 @@ export default {
               id: 204,
               authName: '标签管理',
               path: 'tags2',
-              icon: 'iconfont iconbiaoqian',
+              icon: 'iconfont2 iconbiaoqian',
               children: []
             },
             {
               id: 205,
               authName: '分类管理',
               path: 'types2',
-              icon: 'iconfont iconfenlei',
+              icon: 'iconfont2 iconfenlei',
               children: []
             }
           ]
@@ -216,7 +216,7 @@ export default {
     background-color: #eaedf1;
   }
 
-  .iconfont {
+  .iconfont2 {
     margin-right: 10px;
   }
 

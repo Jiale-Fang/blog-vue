@@ -16,11 +16,21 @@ import JsEncrypt from 'jsencrypt'
 // 导入 NProgress 包对应的JS和CSS
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import APlayer from '@moefe/vue-aplayer'
+Vue.use(APlayer, {
+  defaultCover: 'https://github.com/u3u.png',
+  productionTip: true
+})
 Vue.use(prismCss)
 Vue.use(prismjs)
 // use
 Vue.use(mavonEditor)
 Vue.prototype.$http = axios
+axios.withCredentials = true
+const instance = axios.create({ // 网易云接口api地址
+  baseURL: 'https://autumnfish.cn'
+})
+Vue.prototype.$musicApi = instance
 /**
  * 配置全局接口加密方法
  * @param obj

@@ -18,8 +18,8 @@
               <div class="ui header">关于我</div>
             </div>
             <div class="ui attached segment my-shadow">
-              <p class="m-text">一个独立开发者，折腾在 0 和 1 世界的人；一个终身学习者，誓将学习无限循环. 希望结识可以共同成长的小伙伴.</p>
-              <p class="m-text">热爱编程，喜欢折腾，正在探索高效学习编程技术的方法...</p>
+              <p class="m-text">一个普通的在校生，对新奇的技术有着求知的欲望，但愿能与各位共同进步</p>
+              <p class="m-text">热爱编程，喜欢仰望星空，希望此站能够记录我的学习心得</p>
             </div>
             <div class="ui attached segment my-shadow">
               <div class="ui orange basic left pointing label">编程</div>
@@ -32,7 +32,7 @@
               <div class="ui my-blue basic left pointing label m-margin-tb-tiny">JavaScript</div>
               <div class="ui my-blue basic left pointing label m-margin-tb-tiny">Node</div>
               <div class="ui my-blue basic left pointing label m-margin-tb-tiny">ElasticSearch</div>
-              <div class="ui my-blue basic left pointing label m-margin-tb-tiny">S</div>
+              <div class="ui my-blue basic left pointing label m-margin-tb-tiny">Deeplearning4j</div>
               <div class="ui my-blue basic left pointing label m-margin-tb-tiny">MYSQL</div>
               <div class="ui my-blue basic left pointing label m-margin-tb-tiny">...</div>
             </div>
