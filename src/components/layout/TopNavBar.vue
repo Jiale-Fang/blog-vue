@@ -1,18 +1,5 @@
 <template>
   <div id="navClass" class="navClass" hide-on-scroll flat height="58">
-    <!-- 手机端导航栏 -->
-<!--    <div class="d-md-none nav-mobile-container">-->
-<!--      <div style="font-size:18px;font-weight:bold">-->
-<!--        <router-link to="/">-->
-<!--        </router-link>-->
-<!--      </div>-->
-<!--      <div style="margin-left:auto">-->
-<!--        <a @click="openSearch"><i class="iconfont iconsousuo"/></a>-->
-<!--        <a @click="openDrawer" style="margin-left:10px;font-size:20px">-->
-<!--          <i class="iconfont iconhanbao" />-->
-<!--        </a>-->
-<!--      </div>-->
-<!--    </div>-->
     <!-- 电脑导航栏 -->
     <div class="d-md-block d-none nav-container">
       <div class="float-left blog-title">
@@ -22,47 +9,80 @@
       <div class="float-right nav-title">
         <el-input v-model="queryString" v-if="searchFlag" style="float: top;width: 100px" placeholder="请输入内容"></el-input><i class="el-icon-circle-close" v-if="searchFlag" @click="closeSearch"></i>
         <div class="menus-item">
-          <a @click="search"><i class="iconfont iconsousuo" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 15px">搜索</span></a>
+          <a @click="search"><i class="iconfont2 iconsousuo" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 15px">搜索</span></a>
         </div>
         <div class="menus-item">
           <router-link to="/home">
-            <i class="iconfont iconzhuye" style="color: whitesmoke" /><span style="color: whitesmoke;margin-right: 10px">首页</span>
+            <i class="iconfont2 iconzhuye" style="color: whitesmoke" /><span style="color: whitesmoke;margin-right: 10px">首页</span>
+          </router-link>
+        </div>
+        <div class="menus-item">
+          <router-link to="/discovery">
+            <i class="el-icon-headset" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">音乐盒</span>
           </router-link>
         </div>
         <div class="menus-item">
           <router-link to="/types">
-            <i class="iconfont iconfenlei" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">分类</span>
+            <i class="iconfont2 iconfenlei" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">分类</span>
           </router-link>
         </div>
         <div class="menus-item">
           <router-link to="/tags">
-            <i class="iconfont iconbiaoqian" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">标签</span>
+            <i class="iconfont2 iconbiaoqian" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">标签</span>
           </router-link>
         </div>
         <div class="menus-item">
           <router-link to="/archives">
-            <i class="iconfont iconguidang" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">归档</span>
+            <i class="iconfont2 iconguidang" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">归档</span>
           </router-link>
         </div>
         <div class="menus-item">
           <router-link to="/link">
-            <i class="iconfont iconlianjie" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">友链</span>
-          </router-link>
-        </div>
-        <div class="menus-item">
-          <router-link to="/about">
-            <i class="iconfont iconzhifeiji" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">关于我</span>
+            <i class="iconfont2 iconlianjie" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">友链</span>
           </router-link>
         </div>
         <div class="menus-item">
           <router-link to="/message">
-            <i class="iconfont iconpinglunzu" style="color: whitesmoke"/> <span style="color: whitesmoke;margin-right: 10px">留言</span>
+            <i class="iconfont2 iconpinglunzu" style="color: whitesmoke"/> <span style="color: whitesmoke;margin-right: 10px">留言</span>
           </router-link>
         </div>
         <div class="user-btn">
+          <a>
+            <i class="el-icon-sugar" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">后花园</span>
+            <ul class="user-submenu">
+              <li>
+                <router-link to="/crawler">
+                  <i class="el-icon-magic-stick"/> 爬虫
+                </router-link>
+              </li>
+              <li>
+                <router-link to="/about">
+                  <i class="iconfont2 iconzhifeiji"/> 关于我
+                </router-link>
+              </li>
+            </ul>
+          </a>
+<!--          <ul class="user-submenu">-->
+<!--            <i class="el-icon-magic-stick" style="color: whitesmoke"/> <span style="color: whitesmoke;margin-right: 10px">爬虫</span>-->
+<!--            <li>-->
+<!--              <router-link to="/postblogs">-->
+<!--                <i class="el-icon-edit" /> 发布博客-->
+<!--              </router-link>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <a @click="logout"><i class="iconfont2 icontuichu" /> 退出</a>-->
+<!--            </li>-->
+<!--          </ul>-->
+        </div>
+<!--        <div class="menus-item">-->
+<!--          <router-link to="/crawler">-->
+<!--            <i class="el-icon-magic-stick" style="color: whitesmoke"/> <span style="color: whitesmoke;margin-right: 10px">爬虫</span>-->
+<!--          </router-link>-->
+<!--        </div>-->
+        <div class="user-btn">
           <a v-if="avatar===''">
             <router-link to="/login">
-            <i class="iconfont icondenglu" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">登录</span>
+            <i class="iconfont2 icondenglu" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">登录</span>
             </router-link>
           </a>
           <template v-else>
@@ -75,7 +95,7 @@
             <ul class="user-submenu">
               <li>
                 <router-link to="/adminHome">
-                  <i class="iconfont icongerenzhongxin" /> 个人中心
+                  <i class="iconfont2 icongerenzhongxin" /> 个人中心
                 </router-link>
               </li>
               <li>
@@ -84,7 +104,7 @@
                 </router-link>
               </li>
               <li>
-                <a @click="logout"><i class="iconfont icontuichu" /> 退出</a>
+                <a @click="logout"><i class="iconfont2 icontuichu" /> 退出</a>
               </li>
             </ul>
           </template>

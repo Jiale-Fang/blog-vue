@@ -32,9 +32,19 @@ import {
   Option,
   OptionGroup,
   DatePicker,
-  Footer
+  Footer,
+  Tabs,
+  TabPane,
+  Carousel,
+  CarouselItem,
+  Popover
 } from 'element-ui'
 
+Vue.use(Popover)
+Vue.use(Carousel)
+Vue.use(CarouselItem)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.use(Avatar)
 Vue.use(Footer)
 Vue.use(OptionGroup)

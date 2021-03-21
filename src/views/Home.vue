@@ -17,7 +17,7 @@
         </div>
         <!-- 向下滚动 -->
         <div class="scroll-down" @click="scrollDown">
-            <h4>向下滚动<i class="el-icon-arrow-down"></i></h4>
+          <h4>向下滚动<i class="el-icon-arrow-down"></i></h4>
         </div>
       </div>
       <!--中间内容,如果太窄了可放到container    <div  class="m-container m-padded-tb-big">-->
@@ -168,12 +168,21 @@
     </div>
     <br>
     <br>
+<!--    &lt;!&ndash; 主体组件 &ndash;&gt;-->
+<!--    <index style="width: 100%"></index>-->
   </div>
 
 </template>
 
 <script>
+import { Notification } from 'element-ui'
+// import index from '../components/music/Index.vue'
 export default {
+  // 注册组件
+  components: {
+    // Top, // top:top
+    // index// index:index
+  },
   data () {
     return {
       dataList: [], // 当前页要展示的博客分页列表数据
@@ -206,13 +215,41 @@ export default {
     }
   },
   created () {
+    this.message()
     this.getUser()
     this.findPage()
     this.getTypeList()
     this.getTagList()
     this.getLatestList()
+    this.reload()
   },
   methods: {
+    // 再次回到博客首页要刷新
+    reload () {
+      const str = window.sessionStorage.getItem('reload')
+      if (str !== null) {
+        window.location.reload()
+        window.sessionStorage.removeItem('reload')
+      }
+    },
+    message () {
+      const messageFlag = sessionStorage.getItem('messageFlag')
+      if (messageFlag == null) {
+        Notification({
+          title: '消息',
+          message: '在本站中各位可以创建用户发布博客、评论、留言等进行测试，但是没有实际意义的博客会被站主删除，望各位知悉',
+          duration: 0
+        })
+        const h = this.$createElement
+        Notification({
+          title: '通知',
+          message: h('i', { style: 'color: teal' }, '此次更新了一个新模块，文章内容都是从csdn上爬取下来的，用了DeepLearning4j的cnn进行文本分类，用三千篇文章迭代了20次，所以文本分类可能还不太精准，爬取下来的文章仅做' +
+            '学习使用，侵删。此外，还新增了音乐盒功能，是调了网易云的api，相信各位一定会喜欢的！'),
+          duration: 0
+        })
+      }
+      sessionStorage.setItem('messageFlag', 'true')
+    },
     // 初始化
     scrollDown () {
       window.scrollTo({
@@ -312,258 +349,258 @@ export default {
 }
 </script>
 <style scoped>
- .m-home {
-   padding-top: 740px !important;
-   padding-bottom: 0px !important;
- }
- .home-banner {
-   position: absolute;
-   top: 0px;
-   left: 0;
-   right: 0;
-   height: 100vh;
-   background: url("http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjqLW3e23.UCR78O5Km8SpsknNgOGpEzdY7QHY1usDO6pbksfeQBV5CqlMGgsjJVV9s!/r") center center /
+  .m-home {
+    padding-top: 740px !important;
+    padding-bottom: 0px !important;
+  }
+  .home-banner {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background: url("http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjqLW3e23.UCR78O5Km8SpsknNgOGpEzdY7QHY1usDO6pbksfeQBV5CqlMGgsjJVV9s!/r") center center /
     cover no-repeat;
-   background-color: #49b1f5;
-   background-attachment: fixed;
-   text-align: center;
-   color: #fff !important;
-   animation: header-effect 1s !important;
- }
- .banner-container {
-   margin-top: 43vh;
-   line-height: 1.5;
-   color: #eee;
- }
- .blog-contact a {
-   color: #fff !important;
- }
- .card-info-social {
-   line-height: 40px;
-   text-align: center;
-   font-size: 1.5rem;
-   margin: 6px 0 -6px;
- }
- .left-radius {
-   border-radius: 8px 0 0 8px !important;
-   order: 0;
- }
- .right-radius {
-   border-radius: 0 8px 8px 0 !important;
-   order: 1;
- }
- .article-wrapper {
-   font-size: 14px;
- }
- @media (min-width: 760px) {
-   .blog-title {
-     font-size: 2.5rem;
-   }
-   .blog-intro {
-     font-size: 1.5rem;
-   }
-   .blog-contact {
-     line-height: 40px;
-     text-align: center;
-     font-size: 1.5rem;
-     margin: 6px 0 -6px;
-   }
-   .home-container {
-     max-width: 1200px;
-     margin: calc(100vh - 50px) auto 0 auto;
-     padding: 0 3px;
-   }
-   .article-card {
-     display: flex;
-     align-items: center;
-     height: 280px;
-     width: 100%;
-     margin-top: 20px;
-   }
-   .article-cover {
-     overflow: hidden;
-     height: 100%;
-     width: 45%;
-   }
-   .on-hover {
-     transition: all 0.6s;
-   }
-   .article-card:hover .on-hover {
-     transform: scale(1.1);
-   }
-   .article-wrapper {
-     padding: 0 2.5rem;
-     width: 55%;
-   }
-   .article-wrapper a {
-     font-size: 1.5rem;
-     transition: all 0.3s;
-   }
- }
- @media (max-width: 759px) {
-   .blog-title {
-     font-size: 24px;
-   }
-   .blog-contact {
-     font-size: 1.25rem;
-     line-height: 2;
-   }
-   .home-container {
-     width: 100%;
-     margin: calc(100vh - 66px) auto 0 auto;
-   }
-   .article-card {
-     margin-top: 1rem;
-   }
-   .article-cover {
-     border-radius: 8px 8px 0 0 !important;
-     height: 230px !important;
-     width: 100%;
-   }
-   .article-cover div {
-     border-radius: 8px 8px 0 0 !important;
-   }
-   .article-wrapper {
-     padding: 1.25rem 1.25rem 1.875rem;
-   }
-   .article-wrapper a {
-     font-size: 1.25rem;
-     transition: all 0.3s;
-   }
- }
- .scroll-down {
-   cursor: pointer;
-   position: absolute;
-   bottom: 0;
-   width: 100%;
- }
- .scroll-down i {
-   font-size: 2rem;
- }
- .article-wrapper a:hover {
-   color: #8e8cd8;
- }
- .article-info {
-   font-size: 95%;
-   color: #858585;
-   line-height: 2;
-   margin: 0.375rem 0;
- }
- .article-info a {
-   font-size: 95%;
-   color: #858585 !important;
- }
- .article-content {
-   line-height: 2;
-   overflow: hidden;
-   text-overflow: ellipsis;
-   display: -webkit-box;
-   -webkit-line-clamp: 3;
-   -webkit-box-orient: vertical;
- }
- .blog-wrapper {
-   position: sticky;
-   top: 10px;
- }
- .blog-card {
-   line-height: 2;
-   padding: 1.25rem 1.5rem;
- }
- .author-wrapper {
-   text-align: center;
- }
- .blog-info-wrapper {
-   display: flex;
-   justify-self: center;
-   padding: 0.875rem 0;
- }
- .blog-info-data {
-   flex: 1;
-   text-align: center;
- }
- .blog-info-data a {
-   text-decoration: none;
- }
- .collection-btn {
-   text-align: center;
-   z-index: 1;
-   font-size: 14px;
-   position: relative;
-   display: block;
-   background-color: #49b1f5;
-   color: #fff !important;
-   height: 32px;
-   line-height: 32px;
-   transition-duration: 1s;
-   transition-property: color;
- }
- .collection-btn:before {
-   position: absolute;
-   top: 0;
-   right: 0;
-   bottom: 0;
-   left: 0;
-   z-index: -1;
-   background: #ff7242;
-   content: "";
-   transition-timing-function: ease-out;
-   transition-duration: 0.5s;
-   transition-property: transform;
-   transform: scaleX(0);
-   transform-origin: 0 50%;
- }
- .collection-btn:hover:before {
-   transition-timing-function: cubic-bezier(0.45, 1.64, 0.47, 0.66);
-   transform: scaleX(1);
- }
- .author-avatar {
-   transition: all 0.5s;
- }
- .author-avatar:hover {
-   transform: rotate(360deg);
- }
- .web-info {
-   padding: 0.25rem;
-   font-size: 0.875rem;
- }
- .scroll-down-effects {
-   color: #eee !important;
-   text-align: center;
-   text-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.15);
-   line-height: 1.5;
-   display: inline-block;
-   text-rendering: auto;
-   -webkit-font-smoothing: antialiased;
-   animation: scroll-down-effect 1.5s infinite;
- }
- @keyframes scroll-down-effect {
-   0% {
-     top: 0;
-     opacity: 0.4;
-     filter: alpha(opacity=40);
-   }
-   50% {
-     top: -16px;
-     opacity: 1;
-     filter: none;
-   }
-   100% {
-     top: 0;
-     opacity: 0.4;
-     filter: alpha(opacity=40);
-   }
- }
- .big i {
-   color: #f00;
-   animation: big 0.8s linear infinite;
- }
- @keyframes big {
-   0%,
-   100% {
-     transform: scale(1);
-   }
-   50% {
-     transform: scale(1.2);
-   }
- }
+    background-color: #49b1f5;
+    background-attachment: fixed;
+    text-align: center;
+    color: #fff !important;
+    animation: header-effect 1s !important;
+  }
+  .banner-container {
+    margin-top: 43vh;
+    line-height: 1.5;
+    color: #eee;
+  }
+  .blog-contact a {
+    color: #fff !important;
+  }
+  .card-info-social {
+    line-height: 40px;
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 6px 0 -6px;
+  }
+  .left-radius {
+    border-radius: 8px 0 0 8px !important;
+    order: 0;
+  }
+  .right-radius {
+    border-radius: 0 8px 8px 0 !important;
+    order: 1;
+  }
+  .article-wrapper {
+    font-size: 14px;
+  }
+  @media (min-width: 760px) {
+    .blog-title {
+      font-size: 2.5rem;
+    }
+    .blog-intro {
+      font-size: 1.5rem;
+    }
+    .blog-contact {
+      line-height: 40px;
+      text-align: center;
+      font-size: 1.5rem;
+      margin: 6px 0 -6px;
+    }
+    .home-container {
+      max-width: 1200px;
+      margin: calc(100vh - 50px) auto 0 auto;
+      padding: 0 3px;
+    }
+    .article-card {
+      display: flex;
+      align-items: center;
+      height: 280px;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .article-cover {
+      overflow: hidden;
+      height: 100%;
+      width: 45%;
+    }
+    .on-hover {
+      transition: all 0.6s;
+    }
+    .article-card:hover .on-hover {
+      transform: scale(1.1);
+    }
+    .article-wrapper {
+      padding: 0 2.5rem;
+      width: 55%;
+    }
+    .article-wrapper a {
+      font-size: 1.5rem;
+      transition: all 0.3s;
+    }
+  }
+  @media (max-width: 759px) {
+    .blog-title {
+      font-size: 24px;
+    }
+    .blog-contact {
+      font-size: 1.25rem;
+      line-height: 2;
+    }
+    .home-container {
+      width: 100%;
+      margin: calc(100vh - 66px) auto 0 auto;
+    }
+    .article-card {
+      margin-top: 1rem;
+    }
+    .article-cover {
+      border-radius: 8px 8px 0 0 !important;
+      height: 230px !important;
+      width: 100%;
+    }
+    .article-cover div {
+      border-radius: 8px 8px 0 0 !important;
+    }
+    .article-wrapper {
+      padding: 1.25rem 1.25rem 1.875rem;
+    }
+    .article-wrapper a {
+      font-size: 1.25rem;
+      transition: all 0.3s;
+    }
+  }
+  .scroll-down {
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+  .scroll-down i {
+    font-size: 2rem;
+  }
+  .article-wrapper a:hover {
+    color: #8e8cd8;
+  }
+  .article-info {
+    font-size: 95%;
+    color: #858585;
+    line-height: 2;
+    margin: 0.375rem 0;
+  }
+  .article-info a {
+    font-size: 95%;
+    color: #858585 !important;
+  }
+  .article-content {
+    line-height: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .blog-wrapper {
+    position: sticky;
+    top: 10px;
+  }
+  .blog-card {
+    line-height: 2;
+    padding: 1.25rem 1.5rem;
+  }
+  .author-wrapper {
+    text-align: center;
+  }
+  .blog-info-wrapper {
+    display: flex;
+    justify-self: center;
+    padding: 0.875rem 0;
+  }
+  .blog-info-data {
+    flex: 1;
+    text-align: center;
+  }
+  .blog-info-data a {
+    text-decoration: none;
+  }
+  .collection-btn {
+    text-align: center;
+    z-index: 1;
+    font-size: 14px;
+    position: relative;
+    display: block;
+    background-color: #49b1f5;
+    color: #fff !important;
+    height: 32px;
+    line-height: 32px;
+    transition-duration: 1s;
+    transition-property: color;
+  }
+  .collection-btn:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    background: #ff7242;
+    content: "";
+    transition-timing-function: ease-out;
+    transition-duration: 0.5s;
+    transition-property: transform;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+  .collection-btn:hover:before {
+    transition-timing-function: cubic-bezier(0.45, 1.64, 0.47, 0.66);
+    transform: scaleX(1);
+  }
+  .author-avatar {
+    transition: all 0.5s;
+  }
+  .author-avatar:hover {
+    transform: rotate(360deg);
+  }
+  .web-info {
+    padding: 0.25rem;
+    font-size: 0.875rem;
+  }
+  .scroll-down-effects {
+    color: #eee !important;
+    text-align: center;
+    text-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.15);
+    line-height: 1.5;
+    display: inline-block;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    animation: scroll-down-effect 1.5s infinite;
+  }
+  @keyframes scroll-down-effect {
+    0% {
+      top: 0;
+      opacity: 0.4;
+      filter: alpha(opacity=40);
+    }
+    50% {
+      top: -16px;
+      opacity: 1;
+      filter: none;
+    }
+    100% {
+      top: 0;
+      opacity: 0.4;
+      filter: alpha(opacity=40);
+    }
+  }
+  .big i {
+    color: #f00;
+    animation: big 0.8s linear infinite;
+  }
+  @keyframes big {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
 </style>

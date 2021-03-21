@@ -1,4 +1,17 @@
 module.exports = {
+  devServer: {
+    proxy: {
+      '/music': {
+        target: 'https://autumnfish.cn',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/music': ''
+        }
+      }
+    },
+    before: app => {}
+  },
   chainWebpack: config => {
     // 发布模式
     config.when(process.env.NODE_ENV === 'production', config => {
