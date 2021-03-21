@@ -17,9 +17,21 @@ const Login = () => import(/* webpackChunkName: "Login_NotFound" */ '../views/ad
 const NotFound = () => import(/* webpackChunkName: "Login_NotFound" */ '../views/NotFound.vue')
 // import Login from '../components/admin/Login'
 // /import NotFound from '../components/NotFound'
-const Home = () => import(/* webpackChunkName: "Home_Types_Tag" */ '../views/Home.vue')
-const Types = () => import(/* webpackChunkName: "Home_Types_Tag" */ '../views/Types.vue')
-const Tags = () => import(/* webpackChunkName: "Home_Types_Tag" */ '../views/Tags.vue')
+const Home = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/Home.vue')
+const Types = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/Types.vue')
+const Tags = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/Tags.vue')
+const Crawler = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/crawler/Crawler.vue')
+const CrawlerBlog = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/crawler/CrawlerBlog.vue')
+
+const Music = () => import(/* webpackChunkName: "Music" */ '../views/Music.vue')
+const Playlists = () => import(/* webpackChunkName: "Music" */ '../views/music/Playlists.vue')
+const Mvs = () => import(/* webpackChunkName: "Music" */ '../views/music/Mvs.vue')
+const Songs = () => import(/* webpackChunkName: "Music" */ '../views/music/Songs.vue')
+const Discovery = () => import(/* webpackChunkName: "Music" */ '../views/music/Discovery.vue')
+const Result = () => import(/* webpackChunkName: "Music" */ '../views/music/Result.vue')
+const Mv = () => import(/* webpackChunkName: "Music" */ '../views/music/Mv.vue')
+const Playlist = () => import(/* webpackChunkName: "Music" */ '../views/music/Playlist.vue')
+
 // import Home from '../components/Home'
 // import Types from '../components/Types'
 // import Tags from '../components/Tags'
@@ -83,6 +95,58 @@ const routes = [
     path: '/About',
     name: 'About',
     component: About
+  },
+  {
+    path: '/Crawler',
+    name: 'Crawler',
+    component: Crawler
+  },
+  {
+    path: '/CrawlerBlog',
+    name: 'CrawlerBlog',
+    component: CrawlerBlog
+  },
+  {
+    path: '/Music',
+    name: 'Music',
+    component: Music,
+    children: [
+      {
+        // 发现音乐
+        path: '/Discovery',
+        component: Discovery
+      },
+      {
+        // 推荐歌单
+        path: '/Playlists',
+        component: Playlists
+      },
+      {
+        // 推荐歌单
+        path: '/Playlist',
+        component: Playlist
+      },
+      {
+        // 最新音乐
+        path: '/Songs',
+        component: Songs
+      },
+      {
+        // 最新音乐
+        path: '/Mvs',
+        component: Mvs
+      },
+      // mv详情
+      {
+        path: '/Mv',
+        component: Mv
+      },
+      // 搜索结果页
+      {
+        path: '/Result',
+        component: Result
+      }
+    ]
   },
   {
     path: '/AdminHome',
