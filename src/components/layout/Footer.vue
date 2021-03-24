@@ -1,33 +1,43 @@
 <template>
-      <!--底部footer-->
-<!--      <div class="ui inverted vertical m-padded-tb-footer">-->
-        <div class="el-myFooter">
-          <el-footer>Copyright &copy; 2020-{{ new Date().getFullYear() }}, Designed by Fjl</el-footer>
-        </div>
-<!--      </div>-->
+  <el-footer app padless absolute>
+    <div class="footer-wrap">
+      <div>&copy; 2021 - {{ new Date().getFullYear() }} By Tcefrep</div>
+      <a href="https://gitee.com/" target="_blank">
+        暂无备份
+      </a>
+    </div>
+  </el-footer>
 </template>
 
 <script>
 </script>
 
 <style scoped>
-  .el-myFooter {
-    color: #606266;
+  .footer-wrap {
+    bottom: 0!important;
+    width: 100%;
+    line-height: 2;
+    position: relative;
+    padding: 40px 20px;
+    color: #eee;
+    font-size: 14px;
     text-align: center;
-    line-height: 10px !important;
-    height: 10px;
-    margin-bottom: 2px !important;
-    bottom: -1000px!important;
+    background: linear-gradient(-45deg, #ee7752, #ce3e75, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: Gradient 10s ease infinite;
   }
-  .m-padded-tb-footer {
-    padding-top: 1em !important;
-    padding-bottom: 1em !important;
-    bottom: 2px !important;
+  .footer-wrap a {
+    color: #eee !important;
   }
-  .footer {
-    font-size: 0.75rem;
-  }
-  .footer div {
-    line-height: 1.75;
+  @keyframes Gradient {
+    0% {
+      background-position: 0 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0 50%;
+    }
   }
 </style>

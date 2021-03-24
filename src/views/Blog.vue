@@ -199,6 +199,7 @@
 
     <br>
     <br>
+    <Footer></Footer>
   </div>
 
 </template>
@@ -206,8 +207,13 @@
 import Prism from '../assets/lib/prism/prism'
 // import QRCode from '../assets/lib/qrcode/qrcode.min.js'
 import QRCode from 'qrcodejs2'
+import Footer from '../components/layout/Footer'
 
 export default {
+  // 注册组件
+  components: {
+    Footer
+  },
   data () {
     return {
       formData: {

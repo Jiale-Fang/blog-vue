@@ -259,44 +259,7 @@ export default {
     },
     // 播放歌曲
     playMusic (id) {
-      const ids = id
-      // 获取歌曲信息
-      this.$musicApi({
-        url: '/song/detail',
-        method: 'get',
-        params: {
-          ids // id:id
-        }
-      }).then(res => {
-        this.$parent.audio.name = res.data.songs[0].name
-        this.$parent.audio.artist = res.data.songs[0].ar[0].name
-        this.$parent.audio.cover = res.data.songs[0].al.picUrl
-      })
-      // 获取歌词
-      this.$musicApi({
-        url: '/lyric',
-        method: 'get',
-        params: {
-          id // id:id
-        }
-      }).then(res => {
-        const lrc = this.$parent.audio.lrc = res.data.lrc.lyric
-        this.$parent.audio.lrc = lrc
-      })
-      // 获取歌曲音源
-      this.$musicApi({
-        url: '/song/url',
-        method: 'get',
-        params: {
-          id // id:id
-        }
-      }).then(res => {
-        const url = res.data.data[0].url
-        console.log(res.data.data[0].url)
-        // 设置给父组件的 播放地址
-        this.$parent.audio.url = url
-        this.$parent.id = id
-      })
+      this.$root.$emit('songId', id)
     }
   }
 }

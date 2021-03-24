@@ -70,19 +70,18 @@
 
       </div>
     </div>
+    <Audio ref="audio" v-show="false"></Audio>
   </div>
 </template>
 
 <script>
 // 导入 axios
-// // Set config defaults when creating the instance
-// const instance = axios.create({
-//   baseURL: 'https://autumnfish.cn'
-// })
-import { Notification } from 'element-ui'
-
+import Audio from '../../components/music/Audio'
 export default {
   name: 'discovery',
+  components: {
+    Audio
+  },
   data () {
     return {
       // 轮播图
@@ -92,7 +91,8 @@ export default {
       // 最新音乐
       songs: [],
       // 推荐mv
-      mvs: []
+      mvs: [],
+      songId: 0
     }
   },
   created () {
@@ -133,19 +133,14 @@ export default {
       url: '/personalized/mv',
       method: 'get'
     }).then(res => {
-      // console.log(res)
       this.mvs = res.data.result
     })
     this.reload()
-    this.message()
   },
   methods: {
     // 再次回到博客首页要刷新
     reload () {
-      const str = window.sessionStorage.getItem('reload')
-      if (str == null) {
-        window.sessionStorage.setItem('reload', 'true')
-      }
+      window.sessionStorage.setItem('reload', 'true')
     },
     // 去mv详情页
     toMV (id) {
@@ -169,55 +164,8 @@ export default {
       this.$parent.audio.lrc = res.lrc.lyric
     },
     playMusic (id) {
-      const ids = id
-      // 获取歌曲信息
-      this.$musicApi({
-        url: '/song/detail',
-        method: 'get',
-        params: {
-          ids // id:id
-        }
-      }).then(res => {
-        this.$parent.audio.name = res.data.songs[0].name
-        this.$parent.audio.artist = res.data.songs[0].ar[0].name
-        this.$parent.audio.cover = res.data.songs[0].al.picUrl
-      })
-      // 获取歌词
-      this.$musicApi({
-        url: '/lyric',
-        method: 'get',
-        params: {
-          id // id:id
-        }
-      }).then(res => {
-        const lrc = this.$parent.audio.lrc = res.data.lrc.lyric
-        this.$parent.audio.lrc = lrc
-      })
-      // 获取歌曲音源
-      this.$musicApi({
-        url: '/song/url',
-        method: 'get',
-        params: {
-          id // id:id
-        }
-      }).then(res => {
-        const url = res.data.data[0].url
-        console.log(res.data.data[0].url)
-        // 设置给父组件的 播放地址
-        this.$parent.audio.url = url
-        this.$parent.id = id
-      })
-    },
-    message () {
-      const messageFlag = sessionStorage.getItem('messageFlag2')
-      if (messageFlag == null) {
-        Notification({
-          title: '消息',
-          message: '音乐盒的接口是调了网易云的api，有时会出现跨域或者网络问题导致页面无法正常显示，此时点击右键重新多加载几次页面即可',
-          duration: 0
-        })
-      }
-      sessionStorage.setItem('messageFlag2', 'true')
+      this.songId = id
+      this.$root.$emit('songId', id)
     }
   }
 }

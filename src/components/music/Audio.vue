@@ -10,8 +10,8 @@ export default {
   name: 'audio',
   data () {
     return {
-      id: '',
-      audio: {
+      id: 1468248736,
+      audio: { // 初始歌曲数据
         name: 'Redbone',
         artist: 'Childish Gambino',
         url: '',
@@ -22,19 +22,89 @@ export default {
     }
   },
   created () {
+    this.$root.$on('songId', (value) => {
+      console.log(value)
+      this.playMusic(value)
+    })
+    // 获取歌曲信息
+    this.$musicApi({
+      url: '/song/detail',
+      method: 'get',
+      params: {
+        ids: this.id
+      }
+    }).then(res => {
+      this.audio.name = res.data.songs[0].name
+      this.audio.artist = res.data.songs[0].ar[0].name
+      this.audio.cover = res.data.songs[0].al.picUrl
+      console.log(this.audio.name)
+    })
+    // 获取歌词
+    this.$musicApi({
+      url: '/lyric',
+      method: 'get',
+      params: {
+        id: this.id
+      }
+    }).then(res => {
+      const lrc = this.audio.lrc = res.data.lrc.lyric
+      this.audio.lrc = lrc
+    })
+    // }
     // 获取歌曲音源
     this.$musicApi({
       url: '/song/url',
       method: 'get',
       params: {
-        id: 1468248736
+        id: this.id
       }
     }).then(res => {
       const url = res.data.data[0].url
       console.log(res.data.data[0].url)
-      // 设置给父组件的 播放地址
+      // 设置播放地址
       this.audio.url = url
     })
+  },
+  methods: {
+    playMusic (songId) {
+      this.$musicApi({
+        url: '/song/detail',
+        method: 'get',
+        params: {
+          ids: songId
+        }
+      }).then(res => {
+        this.audio.name = res.data.songs[0].name
+        this.audio.artist = res.data.songs[0].ar[0].name
+        this.audio.cover = res.data.songs[0].al.picUrl
+        console.log(this.audio.name)
+      })
+      // 获取歌词
+      this.$musicApi({
+        url: '/lyric',
+        method: 'get',
+        params: {
+          id: songId
+        }
+      }).then(res => {
+        const lrc = this.audio.lrc = res.data.lrc.lyric
+        this.audio.lrc = lrc
+      })
+      // }
+      // 获取歌曲音源
+      this.$musicApi({
+        url: '/song/url',
+        method: 'get',
+        params: {
+          id: songId
+        }
+      }).then(res => {
+        const url = res.data.data[0].url
+        console.log(res.data.data[0].url)
+        // 设置播放地址
+        this.audio.url = url
+      })
+    }
   }
 }
 </script>

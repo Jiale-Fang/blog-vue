@@ -168,6 +168,7 @@
     </div>
     <br>
     <br>
+    <Footer></Footer>
 <!--    &lt;!&ndash; 主体组件 &ndash;&gt;-->
 <!--    <index style="width: 100%"></index>-->
   </div>
@@ -176,12 +177,11 @@
 
 <script>
 import { Notification } from 'element-ui'
-// import index from '../components/music/Index.vue'
+import Footer from '../components/layout/Footer'
 export default {
   // 注册组件
   components: {
-    // Top, // top:top
-    // index// index:index
+    Footer
   },
   data () {
     return {
@@ -224,7 +224,6 @@ export default {
     this.reload()
   },
   methods: {
-    // 再次回到博客首页要刷新
     reload () {
       const str = window.sessionStorage.getItem('reload')
       if (str !== null) {

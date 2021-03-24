@@ -4,10 +4,10 @@
     <div class="main" style="width: 100%">
       <router-view></router-view>
     </div>
-    <!-- 播放标签 -->
-<!--    <div class="player">-->
-<!--      <aplayer :audio="audio" :lrcType="1" :fixed=true :mini=true :autoplay =true />-->
-<!--    </div>-->
+<!--&lt;!&ndash;     播放标签 &ndash;&gt;-->
+<!--        <div class="player">-->
+<!--          <aplayer :audio="audio" :lrcType="1" :fixed=true :mini=true :autoplay =true />-->
+<!--        </div>-->
   </div>
 </template>
 
@@ -41,6 +41,9 @@ export default {
       // 设置给父组件的 播放地址
       this.audio.url = url
     })
+  },
+  methods () {
+
   }
 }
 </script>

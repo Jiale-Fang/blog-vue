@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <index v-show="( path==='/home' || path==='/types' || path==='/archives' || path==='/link' || path==='/blog' || path==='/tags' || path==='/about' || path==='/message' || path==='/login' || path==='/crawler' || path==='/crawlerBlog' )"></index>
     <!-- 导航栏 -->
     <TopNavBar v-show="( path==='/home' || path==='/types' || path==='/archives' || path==='/link' || path==='/blog' || path==='/tags' || path==='/about' || path==='/message' || path==='/login' || path==='/crawler' || path==='/crawlerBlog' )"></TopNavBar>
 <!--    <AdminTopNavBar v-show="( path==='/blogs' || path==='/tags2' || path==='/types2' || path==='/postblogs')"></AdminTopNavBar>-->
 <!--    <MusicTopNavBar v-show="( path==='/music' || path==='discovery' || path==='/playlists' || path==='/songs' || path==='/mvs' )"></MusicTopNavBar>-->
     <AdminTopNavBar v-show="false"></AdminTopNavBar>
     <Audio></Audio>
+<!--    <Audio v-show="( path==='/home' || path==='/types' || path==='/archives' || path==='/link' || path==='/blog' || path==='/tags' || path==='/about' || path==='/message' || path==='/login' || path==='/crawler' || path==='/crawlerBlog' )"></Audio>-->
     <router-view/>
 <!--    <Footer v-show="( path==='/home' || path==='/types' || path==='/archives' || path==='/link' || path==='/blog' || path==='/tags' || path==='/about')"></Footer>-->
   </div>
 </template>
 <script>
-// import MusicTopNavBar from './components/layout/MusicTopNavBar'
+import Vue from 'vue'
 import TopNavBar from './components/layout/TopNavBar'
 import AdminTopNavBar from './components/layout/AdminTopNavBar'
 import Audio from './components/music/Audio'
@@ -20,15 +20,15 @@ import Audio from './components/music/Audio'
 export default {
   data () {
     return {
-      path: ''
+      path: '',
+      myApp: new Vue() // 为了非父子组件共享值
     }
   },
   components: {
+    Audio,
     TopNavBar,
     // Footer,
-    Audio,
     AdminTopNavBar
-    // MusicTopNavBar
   },
   // 判断路由
   mounted () {
