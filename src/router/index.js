@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Blog from '../views/Blog'
+import SearchModel from '../components/model/SearchModel'
 // import Welcome from '../views/admin/Welcome'
 // const Blog = () => import(/* webpackChunkName: "BW" */ '../views/Blog')
 const Welcome = () => import(/* webpackChunkName: "BW" */ '../views/admin/Welcome')
@@ -18,8 +19,8 @@ const NotFound = () => import(/* webpackChunkName: "Login_NotFound" */ '../views
 // import Login from '../components/admin/Login'
 // /import NotFound from '../components/NotFound'
 const Home = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/Home.vue')
-const Types = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/Types.vue')
-const Tags = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/Tags.vue')
+const Types = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/type/Types.vue')
+const Tags = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/type/Tags.vue')
 const Crawler = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/crawler/Crawler.vue')
 const CrawlerBlog = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/crawler/CrawlerBlog.vue')
 
@@ -35,10 +36,13 @@ const Playlist = () => import(/* webpackChunkName: "Music" */ '../views/music/Pl
 // import Home from '../components/Home'
 // import Types from '../components/Types'
 // import Tags from '../components/Tags'
-const Link = () => import(/* webpackChunkName: "Archives_About_Link_message" */ '../views/Link.vue')
-const Archives = () => import(/* webpackChunkName: "Archives_About_Link_message" */ '../views/Archives.vue')
-const About = () => import(/* webpackChunkName: "Archives_About_Link_message" */ '../views/About.vue')
-const Message = () => import(/* webpackChunkName: "Archives_About_Link_message" */ '../views/Message.vue')
+const Link = () => import(/* webpackChunkName: "Archives_Link_message" */ '../views/Link.vue')
+const Archives = () => import(/* webpackChunkName: "Archives_Link_message" */ '../views/Archives.vue')
+const Message = () => import(/* webpackChunkName: "Archives_Link_message" */ '../views/Message.vue')
+
+const About = () => import(/* webpackChunkName: "Backyard" */ '../views/backyard/About.vue')
+const AI = () => import(/* webpackChunkName: "Backyard" */ '../views/backyard/AI.vue')
+
 // import Archives from '../components/Archives'
 // import About from '../components/About'
 // const Blog = () => import(/* webpackChunkName: "Blog" */ '../components/Blog.vue')
@@ -60,6 +64,11 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: SearchModel
   },
   {
     path: '/Blog',
@@ -95,6 +104,11 @@ const routes = [
     path: '/About',
     name: 'About',
     component: About
+  },
+  {
+    path: '/AI',
+    name: 'AI',
+    component: AI
   },
   {
     path: '/Crawler',

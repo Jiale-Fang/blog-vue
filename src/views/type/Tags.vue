@@ -202,11 +202,11 @@ export default {
     animation: main 1s;
   }
   .m-tags {
-    padding-top: 460px !important;
+    padding-top: 69vh !important;
     padding-bottom: 0px !important;
   }
   .tags-banner {
-    height: 480px;
+    height:  67vh;
     background: url(https://www.static.talkxj.com/wallhaven-13mk9v.jpg) center
     center / cover no-repeat;
     background-color: #49b1f5;

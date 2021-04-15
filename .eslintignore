@@ -1,4 +1,8 @@
 src/assets/lib/prism/prism.js
 src/assets/lib/qrcode/qrcode.min.js
 src/assets/lib/waypoints/jquery.waypoints.min.js
+src/assets/lib/emoji/mCustomScrollbar/css/jquery.mCustomScrollbar.min.css
+src/assets/lib/emoji/jquery-emoji/css/jquery.emoji.css
+src/assets/lib/emoji/mCustomScrollbar/script/jquery.mCustomScrollbar.min.js
+src/assets/lib/emoji/jquery-emoji/js/jquery.emoji.js
 public/ribbon.js

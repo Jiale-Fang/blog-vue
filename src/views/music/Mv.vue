@@ -38,7 +38,7 @@
             </div>
             <div class="content-wrap">
               <div class="content">
-                <span class="name">{{ item.user.nickname }}</span>
+                <span class="name">{{ item.user.nickname }}：</span>
                 <span class="comment">{{ item.content }}</span>
               </div>
               <div class="re-content" v-if="item.beReplied.length != 0">

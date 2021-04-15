@@ -31,6 +31,10 @@ const instance = axios.create({ // 网易云接口api地址
   baseURL: 'https://autumnfish.cn'
 })
 Vue.prototype.$musicApi = instance
+const instance2 = axios.create({ // 网易云接口api地址
+  baseURL: 'http://119.23.62.26:9007/'
+})
+Vue.prototype.$AI = instance2
 /**
  * 配置全局接口加密方法
  * @param obj

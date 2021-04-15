@@ -395,6 +395,7 @@ export default {
       position: 'left center'
     })
     $('#toTop-button').click(function () {
+      console.log('111')
       $(window).scrollTo(0, 500)
     })
     // eslint-disable-next-line no-unused-vars
@@ -417,11 +418,11 @@ export default {
     animation: main 1s;
   }
   .m-blog {
-    padding-top: 460px !important;
+    padding-top: 69vh !important;
     padding-bottom: 0px !important;
   }
   .blog-banner {
-    height: 480px;
+    height: 67vh;
     background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcSPhM*LqG*bYzP4o2JVbahf8eHd4Yd9FO1B4n8UbWJRaQANKT1EBypIfvSNRueI1LSu6d212FUoavpm63ZrUI3E!/r) center
     center / cover no-repeat;
     background-color: #49b1f5;

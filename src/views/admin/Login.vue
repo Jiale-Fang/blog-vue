@@ -13,14 +13,14 @@
         <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
           <!-- 用户名 -->
           <el-form-item prop="username">
-            <el-input v-model="loginForm.username" placeholder="请输入用户名" prefix-icon="iconfont icon-user"></el-input>
+            <el-input v-model="loginForm.username" placeholder="请输入用户名" prefix-icon="el-icon-user-solid"></el-input>
           </el-form-item>
           <!-- 密码 -->
           <el-form-item prop="password">
-            <el-input v-model="loginForm.password" placeholder="请输入密码" prefix-icon="iconfont icon-3702mima" type="password"></el-input>
+            <el-input v-model="loginForm.password" placeholder="请输入密码" prefix-icon="el-icon-moon-night" type="password"></el-input>
           </el-form-item>
           <el-form-item prop="code">
-            <el-input v-model="loginForm.code" placeholder="请输入验证码" prefix-icon="iconfont icon-3702mima" style="width: 50%"></el-input>
+            <el-input v-model="loginForm.code" placeholder="请输入验证码" prefix-icon="el-icon-picture-outline-round" style="width: 50%"></el-input>
             <img v-bind:src="verifyCode" @click="getVerifyCode()" width="130px" height="35px" style="float: right;cursor:pointer;" />
           </el-form-item>
           <!-- 按钮区域 -->

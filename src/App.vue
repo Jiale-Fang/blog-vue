@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- 导航栏 -->
-    <TopNavBar v-show="( path==='/home' || path==='/types' || path==='/archives' || path==='/link' || path==='/blog' || path==='/tags' || path==='/about' || path==='/message' || path==='/login' || path==='/crawler' || path==='/crawlerBlog' )"></TopNavBar>
+    <TopNavBar v-show="( path==='/home' || path==='/types' || path==='/archives' || path==='/link' || path==='/blog' || path==='/tags' || path==='/about' || path==='/message' || path==='/login' || path==='/crawler' || path==='/crawlerBlog' || path==='/AI' )"></TopNavBar>
 <!--    <AdminTopNavBar v-show="( path==='/blogs' || path==='/tags2' || path==='/types2' || path==='/postblogs')"></AdminTopNavBar>-->
 <!--    <MusicTopNavBar v-show="( path==='/music' || path==='discovery' || path==='/playlists' || path==='/songs' || path==='/mvs' )"></MusicTopNavBar>-->
     <AdminTopNavBar v-show="false"></AdminTopNavBar>

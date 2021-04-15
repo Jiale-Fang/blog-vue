@@ -12,7 +12,19 @@
 
 <script>
 export default {
-  name: 'Welcome'
+  name: 'Welcome',
+  created () {
+    this.reload()
+  },
+  methods: {
+    reload () {
+      const str = window.sessionStorage.getItem('reloadAdmin')
+      if (str !== null) {
+        window.location.reload()
+        window.sessionStorage.removeItem('reloadAdmin')
+      }
+    }
+  }
 }
 </script>
 

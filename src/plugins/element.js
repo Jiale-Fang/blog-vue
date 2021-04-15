@@ -37,9 +37,11 @@ import {
   TabPane,
   Carousel,
   CarouselItem,
-  Popover
+  Popover,
+  Icon
 } from 'element-ui'
 
+Vue.use(Icon)
 Vue.use(Popover)
 Vue.use(Carousel)
 Vue.use(CarouselItem)

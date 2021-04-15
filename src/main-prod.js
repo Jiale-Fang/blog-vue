@@ -33,6 +33,10 @@ const instance = axios.create({ // 网易云接口api地址
   baseURL: 'http://39.108.136.207:3000'
 })
 Vue.prototype.$musicApi = instance
+const instance2 = axios.create({ // 网易云接口api地址
+  baseURL: 'http://119.23.62.26:9007/'
+})
+Vue.prototype.$AI = instance2
 Vue.prototype.$encruption = function (obj) {
   const encrypt = new JsEncrypt()
   encrypt.setPublicKey('MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzSJK+Pc1IdFWz83FWvKH' +

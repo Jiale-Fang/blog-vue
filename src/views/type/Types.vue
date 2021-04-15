@@ -215,11 +215,11 @@ export default {
     animation: main 1.0s;
   }
   .m-types {
-    padding-top: 460px !important;
+    padding-top: 69vh !important;
     padding-bottom: 0px !important;
   }
   .types-banner {
-    height: 480px;
+    height: 67vh;
     background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcSPhM*LqG*bYzP4o2JVbaheOs2JWlUoBrHyiAhmNeT.Mc*97fdCoA2.t2KVGQ6m2uCiYugKboqB1H4fEZShV3MM!/r) center
     center / cover no-repeat;
     background-color: #49b1f5;

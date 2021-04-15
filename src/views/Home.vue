@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="home">
+  <div id="app" class="home" >
     <!-- banner -->
     <div class="home-banner">
       <div class="banner-container">
@@ -222,9 +222,11 @@ export default {
     this.getTagList()
     this.getLatestList()
     this.reload()
+    this.$http.get('server/admapi/test')
   },
   methods: {
     reload () {
+      window.sessionStorage.setItem('reloadAdmin', 'true')
       const str = window.sessionStorage.getItem('reload')
       if (str !== null) {
         window.location.reload()
@@ -242,8 +244,8 @@ export default {
         const h = this.$createElement
         Notification({
           title: '通知',
-          message: h('i', { style: 'color: teal' }, '此次更新了一个新模块，文章内容都是从csdn上爬取下来的，用了DeepLearning4j的cnn进行文本分类，用三千篇文章迭代了20次，所以文本分类可能还不太精准，爬取下来的文章仅做' +
-            '学习使用，侵删。此外，还新增了音乐盒功能，是调了网易云的api，相信各位一定会喜欢的！'),
+          message: h('i', { style: 'color: teal' }, '此次更新了一个新模块：聊天室模块，后花园也有新功能，测试还不完善可能还有bug。' +
+            '用户数据都被删除了，需要各位重新注册一个账号，不便之处敬请谅解！'),
           duration: 0
         })
       }
@@ -347,9 +349,9 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
   .m-home {
-    padding-top: 740px !important;
+    padding-top: 105vh !important;
     padding-bottom: 0px !important;
   }
   .home-banner {

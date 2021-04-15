@@ -21,15 +21,27 @@
             <i class="el-icon-headset" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">音乐盒</span>
           </router-link>
         </div>
-        <div class="menus-item">
-          <router-link to="/types">
-            <i class="iconfont2 iconfenlei" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">分类</span>
+        <div class="menus-item" @click="openRoom">
+          <router-link to="">
+            <i class="el-icon-chat-line-round" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">聊天室</span>
           </router-link>
         </div>
-        <div class="menus-item">
-          <router-link to="/tags">
-            <i class="iconfont2 iconbiaoqian" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">标签</span>
-          </router-link>
+        <div class="user-btn">
+          <a>
+            <i class="el-icon-s-operation" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">类别</span>
+            <ul class="user-submenu">
+              <li>
+                <router-link to="/types">
+                  <i class="iconfont2 iconfenlei"/> 分类
+                </router-link>
+              </li>
+              <li>
+                <router-link to="/tags">
+                  <i class="iconfont2 iconbiaoqian"/> 标签
+                </router-link>
+              </li>
+            </ul>
+          </a>
         </div>
         <div class="menus-item">
           <router-link to="/archives">
@@ -56,29 +68,18 @@
                 </router-link>
               </li>
               <li>
+                <router-link to="/AI">
+                  <i class="user secret icon"/> AI
+                </router-link>
+              </li>
+              <li>
                 <router-link to="/about">
                   <i class="iconfont2 iconzhifeiji"/> 关于我
                 </router-link>
               </li>
             </ul>
           </a>
-<!--          <ul class="user-submenu">-->
-<!--            <i class="el-icon-magic-stick" style="color: whitesmoke"/> <span style="color: whitesmoke;margin-right: 10px">爬虫</span>-->
-<!--            <li>-->
-<!--              <router-link to="/postblogs">-->
-<!--                <i class="el-icon-edit" /> 发布博客-->
-<!--              </router-link>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--              <a @click="logout"><i class="iconfont2 icontuichu" /> 退出</a>-->
-<!--            </li>-->
-<!--          </ul>-->
         </div>
-<!--        <div class="menus-item">-->
-<!--          <router-link to="/crawler">-->
-<!--            <i class="el-icon-magic-stick" style="color: whitesmoke"/> <span style="color: whitesmoke;margin-right: 10px">爬虫</span>-->
-<!--          </router-link>-->
-<!--        </div>-->
         <div class="user-btn">
           <a v-if="avatar===''">
             <router-link to="/login">
@@ -111,11 +112,19 @@
         </div>
       </div>
     </div>
+    <SearchModel ref="searchModel"></SearchModel>
+    <Room ref="room"></Room>
   </div>
 </template>
 
 <script>
+import SearchModel from '../model/SearchModel'
+import Room from '../../views/backyard/Room'
 export default {
+  components: {
+    Room,
+    SearchModel
+  },
   created () {
     this.getUser()
   },
@@ -137,19 +146,41 @@ export default {
     }
   },
   methods: {
+    toLogin () {
+      const tokenStr = window.sessionStorage.getItem('token')
+      // 后端指定接口验证了token的正确性
+      if (!tokenStr) {
+        this.$confirm('登录后才能开启聊天室，请问是否先登录？', '提示', { // 确认框
+          type: 'info'
+        }).then(() => {
+          this.$router.push('/login')
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '你选择不登录'
+          })
+          return false
+        })
+      }
+      return !!tokenStr
+    },
+    openRoom () {
+      if (this.toLogin()) { this.$refs.room.openFrame() }
+    },
     closeSearch () {
       this.searchFlag = false
     },
     search () {
-      this.searchFlag = true
-      if (this.queryString !== '') {
-        sessionStorage.setItem('queryString', this.queryString)
-        this.queryString = ''
-        this.searchFlag = false
-        if (this.$route.path === '/home') { window.location.reload() } else {
-          this.$router.push('/home')
-        }
-      }
+      this.$refs.searchModel.setDialogVisible()
+      // this.searchFlag = true
+      // if (this.queryString !== '') {
+      //   sessionStorage.setItem('queryString', this.queryString)
+      //   this.queryString = ''
+      //   this.searchFlag = false
+      //   if (this.$route.path === '/home') { window.location.reload() } else {
+      //     this.$router.push('/home')
+      //   }
+      // }
     },
     scroll () {
       const that = this
