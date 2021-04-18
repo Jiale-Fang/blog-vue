@@ -82,7 +82,8 @@ export default {
         pageSize: 100,
         queryString: value
       }
-      this.$http.post('/extension/search/searchPage1', param).then((res) => {
+      this.$http.post('/search/searchPage1', param).then((res) => {
+      // this.$http.post('/extension/search/searchPage1', param).then((res) => {
         // 关闭新增窗口
         if (res.data.flag) {
           this.blogList = res.data.data.records

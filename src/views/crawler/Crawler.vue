@@ -143,8 +143,9 @@ export default {
         pageSize: this.pagination.pageSize,
         queryString: null
       }
-      const param2 = this.$encruption(JSON.stringify(param))
-      const { data: res } = await this.$http.post('/extension/crawler/crawlerPage', param2)
+      // const param2 = this.$encruption(JSON.stringify(param))
+      const { data: res } = await this.$extension.post('/crawler/crawlerPage', param)
+      // const { data: res } = await this.$http.post('/extension/crawler/crawlerPage', param2)
       // 解析controller响应回的数据
       if (!res.flag) {
         return this.$message.error('获取爬取的博客列表失败！')

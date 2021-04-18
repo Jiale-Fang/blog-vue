@@ -124,7 +124,8 @@ export default {
       this.$refs.addLink.handleCreate()
     },
     async getLinkList () {
-      const { data: res } = await this.$http.get('/extension/link/getLink')
+      const { data: res } = await this.$extension.get('/link/getLink')
+      // const { data: res } = await this.$http.get('/extension/link/getLink')
       if (res.flag) {
         this.dataList = res.data
       } else { // 执行失败

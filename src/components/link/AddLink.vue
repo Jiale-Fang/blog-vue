@@ -75,7 +75,8 @@ export default {
         if (valid) {
           // 表单校验通过，发ajax请求，把数据录入至后台处理
           // const param = this.$encruption((this.formData))
-          this.$http.post('/extension/link/addLink', this.formData).then((res) => {
+          this.$http.post('/link/addLink', this.formData).then((res) => {
+          // this.$http.post('/extension/link/addLink', this.formData).then((res) => {
             // 关闭新增窗口
             this.dialogFormVisible = false
             if (res.data.flag) {

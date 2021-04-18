@@ -135,7 +135,8 @@ export default {
     async getOneBlog () {
       this.$message.info('博客信息是从csdn中爬取出来的，作者名已显示在开头。该博客仅做学习使用，如若侵权，请联系本人删除谢谢！！')
       const blogId = sessionStorage.getItem('blogId')
-      const { data: res } = await this.$http.get(`/extension/crawler/${blogId}`)
+      // const { data: res } = await this.$http.get(`/extension/crawler/${blogId}`)
+      const { data: res } = await this.$extension.get(`/crawler/${blogId}`)
       if (!res.flag) {
         return this.$message.error('获取博客信息失败！')
       }
