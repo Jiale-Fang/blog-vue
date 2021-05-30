@@ -2,8 +2,8 @@
   <el-footer app padless absolute>
     <div class="footer-wrap">
       <div>&copy; 2021 - {{ new Date().getFullYear() }} By Tcefrep</div>
-      <a href="https://gitee.com/" target="_blank">
-        暂无备份
+      <a href="http://beian.miit.gov.cn/" target="_blank">
+        粤ICP备2021070728号
       </a>
     </div>
   </el-footer>

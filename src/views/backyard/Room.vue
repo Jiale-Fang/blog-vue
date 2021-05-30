@@ -199,6 +199,7 @@ export default {
       friendsList: [],
       userList: [], // 本站所有用户列表,
       viewType: 1,
+      username: '',
       isGroup: false,
       groupMessageNum: 0,
       groupFirstPicture: 'http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjqLW3e23.UCR78O5Km8SpsknNgOGpEzdY7QHY1usDO6pbksfeQBV5CqlMGgsjJVV9s!/r'

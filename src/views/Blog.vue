@@ -341,7 +341,8 @@ export default {
       const blogId = sessionStorage.getItem('blogId')
       const { data: res } = await this.$http.get(`/server/blog/${blogId}`)
       if (!res.flag) {
-        return this.$message.error('获取博客信息失败！')
+        // return this.$message.error('获取博客信息失败！')
+        return this.$message.error(res.message)
       }
       this.dataList = res.data
     },

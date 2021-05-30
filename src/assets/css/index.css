@@ -156,6 +156,12 @@ p {
     padding: 50px 40px;
     margin: 382px auto 70px auto;
   }
+  .blog-container2 {
+    animation: main 1s;
+    max-width: 970px;
+    padding: 50px 40px;
+    margin: auto auto auto auto;
+  }
   .login-container {
     padding: 1rem;
     border-radius: 4px;

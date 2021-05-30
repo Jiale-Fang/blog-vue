@@ -44,8 +44,63 @@
         <br>
       </el-card>
     </div>
+    <div >
+      <el-card class="blog-container2">
+        <!-- 说明 -->
+        <div class="link-title mt-4 mb-4" style="text-align: center">
+          文本分类
+        </div>
+        <br>
+        <blockquote class="mb-10 my-blog-shadow">
+          <div>基于TexctCNN写的文本分类demo，用Word2Vec构建词向量。</div>
+          <div>训练集是csdn爬取的750篇blog，训练了40个Epoch，Accuracy约有96.7%</div>
+          <div>暂且只能分类出DB（数据库），Java，Python三个分类</div>
+          <div>由于训练文本较少，如若结果不准确可能需要去爬虫模块查看对应的博客并输入关键词，敬请谅解！</div>
+        </blockquote>
+        <br>
+        <br>
+        <br>
+        <div><el-input suffix-icon="el-icon-edit" style="width: 700px" v-model="str2" placeholder="请输入待分类的文本" ></el-input>
+          <button class="ui primary button my-button" @click="textClassify"><i class="star icon"></i>搜索</button>
+      </div>
+        <br>
+        <br>
+      </el-card>
+    </div>
     <br>
     <br>
+    <el-dialog
+      title="文本分类的结果"
+      :visible.sync="centerDialogVisible"
+      width="80%"
+      height="90%"
+      center>
+      <div class="search-result-wrapper">
+        <hr class="divider" />
+        <br>
+        <br>
+        <template>
+          <el-col style="width: 33%;" v-for="(item, index) in dataList2" :key="index">
+          <div class="ui card my-shadow">
+            <div class="image">
+              <img v-if="item.type==='java'" class="ui rounded image" style="height: 197px" src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcfxg*eg*DXzoyOPhCpNztcXuaOnSxohME.pPlGk0X6DySw85OaptMioCCglUIbkXCgALZYs9vHvPRXBaQfUpMsw!/r">
+              <img v-if="item.type==='python'" class="ui rounded image" style="height: 197px" src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcVU0waANwiuihq.W2nBzwOwXqxYRz4ImLPsNhUcM*0mhWWYh*q*8*4kXYbfAoXAqKvTD01Y*vpl7XfJncQ4cC.8!/r">
+              <img v-if="item.type==='db'" class="ui rounded image" style="height: 197px" src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcfxg*eg*DXzoyOPhCpNztcWZGLjzPgACkFdY6wZX94X6RimTfpFdSg9Nq5YCW8SN6Z2rmInF8bxIhdL6tHQ8TTQ!/r">
+            </div>
+            <div class="content">
+              <a class="header">{{item.type}}</a>
+              <div class="meta">
+                <span class="date">预测的权重是：</span>
+              </div>
+              <div class="description">{{item.result}}</div>
+            </div>
+          </div>
+        </el-col>
+        </template>
+        <span slot="footer" class="dialog-footer">
+  </span>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -57,11 +112,19 @@ export default {
   data () {
     return {
       dataList: [],
+      dataList2: [],
       user: {},
       nickname: '',
-      avatar: '',
+      avatar: 'http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mccJUo7*q6gaMPZmbFDSW8tjmAm4XwuoUZmMKw3asmvn1mxsE*Tf0fj.VOh2G6OX7v4duFOfedV2oGNQ*GrJEPkA!/r',
       str1: '',
-      barrageList: []
+      str2: '',
+      barrageList: [],
+      centerDialogVisible: false,
+      picUrl: {
+        a: '',
+        b: '',
+        c: ''
+      }
     }
   },
   created () {
@@ -80,6 +143,20 @@ export default {
           time: Math.floor(Math.random() * 10) + 5
         }
         this.barrageList.push(message)
+      } else {
+        this.$message.error(res.message)
+      }
+    },
+    async textClassify () {
+      const param = {
+        description: this.str2
+      }
+      this.str2 = ''
+      const { data: res } = await this.$AI2.post('/cnn/textClassify', param)
+      if (res.flag) {
+        this.$message.success(res.message)
+        this.dataList2 = res.data
+        this.centerDialogVisible = true
       } else {
         this.$message.error(res.message)
       }
@@ -172,6 +249,17 @@ export default {
   .blog-container:hover {
     box-shadow: 0 4px 12px 12px rgba(7, 17, 27, 0.15);
   }
+  .blog-container2 {
+
+    background: #fff;
+    color: #4c4948;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 6px rgba(7, 17, 27, 0.06);
+    transition: all 0.3s;
+  }
+  .blog-container2:hover {
+    box-shadow: 0 4px 12px 12px rgba(7, 17, 27, 0.15);
+  }
   .m-poem {
     padding-top: 11vh !important;
     padding-bottom: 0px !important;
@@ -242,5 +330,53 @@ export default {
     padding: 5px 10px 5px 5px;
     align-items: center;
     display: flex;
+  }
+  .box-card{
+    width: 80%;
+    margin-left: 9%;
+  }
+  .text {
+    font-size: 14px;
+  }
+
+  .item {
+    margin-bottom: 18px;
+  }
+  .search-input-wrapper {
+    display: flex;
+    padding: 5px;
+    height: 35px;
+    width: 100%;
+    border: 2px solid #8e8cd8;
+    border-radius: 2rem;
+  }
+  @media (min-width: 960px) {
+    .search-result-wrapper {
+      padding-right: 5px;
+      height: 450px;
+      overflow: auto;
+    }
+  }
+  @media (max-width: 959px) {
+    .search-result-wrapper {
+      height: calc(100vh - 110px);
+      overflow: auto;
+    }
+  }
+  .divider {
+    margin: 20px 0;
+    border: 2px dashed #d2ebfd;
+  }
+  .search-reslut-content {
+    color: #555;
+    cursor: pointer;
+    border-bottom: 1px dashed #ccc;
+    padding: 5px 0;
+    line-height: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
 </style>

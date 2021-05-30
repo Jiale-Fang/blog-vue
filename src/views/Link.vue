@@ -55,8 +55,6 @@
                 </div>
               </div>
             </el-col>
-<!--            </div>-->
-<!--            <div style="width: 100px;height: 200px" :key="index">-->
             <el-col style="width: 400px;margin-top: 30px!important;top: 15px !important;float: right !important;" v-if="index%2===1" v-bind:key="item.linkId">
               <div class="ui card my-shadow">
                 <div class="image">
@@ -74,25 +72,6 @@
                 </div>
               </div>
             </el-col>
-<!--            </div>-->
-<!--            <el-col style="width: 400px;top: 15px !important;" v-for="item in dataList" :key="item.LinkId">-->
-<!--              <div class="ui card my-shadow">-->
-<!--                <div class="image">-->
-<!--                  <img v-bind:src="item.avatarLink">-->
-<!--                </div>-->
-<!--                <div class="content">-->
-<!--                  <a class="header">Kristy</a>-->
-<!--                  <div class="meta">-->
-<!--                    <span class="date">2013年加入</span>-->
-<!--                  </div>-->
-<!--                  <div class="description">Kristy is an art director living in New York. </div>-->
-<!--                </div>-->
-<!--                <div class="extra content">-->
-<!--                  <a><i class="desktop icon"></i> 22 个好友 </a>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </el-col>-->
-<!--          </el-row>-->
           </template>
           <br>
           <br>

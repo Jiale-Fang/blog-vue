@@ -222,7 +222,6 @@ export default {
     this.getTagList()
     this.getLatestList()
     this.reload()
-    this.$http.get('server/admapi/test')
   },
   methods: {
     reload () {
@@ -245,7 +244,7 @@ export default {
         Notification({
           title: '通知',
           message: h('i', { style: 'color: teal' }, '此次更新了一个新模块：聊天室模块，后花园也有新功能，测试还不完善可能还有bug。' +
-            '用户数据都被删除了，需要各位重新注册一个账号，不便之处敬请谅解！'),
+            '有关ElasticSearch服务的2核4G服务器过期了（由于贫穷），搜索功能暂时无法使用，敬请谅解！'),
           duration: 0
         })
       }

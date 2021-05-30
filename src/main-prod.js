@@ -34,9 +34,13 @@ const instance = axios.create({ // 网易云接口api地址
 })
 Vue.prototype.$musicApi = instance
 const instance2 = axios.create({ // ai接口api地址，填自己的
-  baseURL: 'http://119.23.62.26:9007/'
+  baseURL: 'http://1.116.229.15:9007/'
 })
 Vue.prototype.$AI = instance2
+const instance4 = axios.create({ // ai接口api地址，填自己的
+  baseURL: 'http://1.116.229.15:9005/'
+})
+Vue.prototype.$AI2 = instance4
 Vue.prototype.$encruption = function (obj) {
   const encrypt = new JsEncrypt()
   encrypt.setPublicKey('MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzSJK+Pc1IdFWz83FWvKH' +
@@ -64,6 +68,10 @@ axios.interceptors.response.use(config => {
   return config
 })
 Vue.config.productionTip = false
+const instance3 = axios.create({ // ai接口api地址，填自己的
+  baseURL: 'http://1.116.229.15:9003/'
+})
+Vue.prototype.$extension = instance3
 new Vue({
   el: '#app',
   router,
