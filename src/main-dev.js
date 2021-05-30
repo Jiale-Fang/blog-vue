@@ -72,7 +72,7 @@ axios.interceptors.response.use(config => {
 })
 Vue.config.productionTip = false
 const instance3 = axios.create({ // ai接口api地址，填自己的
-  baseURL: 'xxxx'
+  baseURL: 'http://127.0.0.1:9003/'
 })
 Vue.prototype.$extension = instance3
 new Vue({

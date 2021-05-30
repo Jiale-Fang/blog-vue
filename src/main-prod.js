@@ -29,7 +29,7 @@ Vue.use(mavonEditor)
 Vue.prototype.$http = axios
 axios.withCredentials = true
 const instance = axios.create({ // 网易云接口api地址
-  // baseURL: 'https://autumnfish.cn'
+                                // baseURL: 'https://autumnfish.cn'
   baseURL: 'http://xxx'
 })
 Vue.prototype.$musicApi = instance
