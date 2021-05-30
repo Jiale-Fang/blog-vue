@@ -25,7 +25,7 @@
             <div>名称：Tcefrep的个人博客</div>
             <div>简介：这是一篇简单的个人博客，也是一个我记录笔记的地方，欢迎各位到访</div>
             <div>头像：头像链接</div>
-            <div>博客：http://39.108.136.207/#/home</div>
+            <div>博客：www.tcefrep.site</div>
           </blockquote>
           <br>
           <div class="link-title mt-4 mb-4">

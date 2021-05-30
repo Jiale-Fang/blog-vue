@@ -32,7 +32,7 @@ const instance = axios.create({ // 网易云接口api地址
 })
 Vue.prototype.$musicApi = instance
 const instance2 = axios.create({ // ai接口api地址，填自己的
-  baseURL: 'http://1.116.229.15:9007/'
+  baseURL: 'http://xxx:9007/'
 })
 Vue.prototype.$AI = instance2
 const instance4 = axios.create({ // ai接口api地址，填自己的
@@ -72,7 +72,7 @@ axios.interceptors.response.use(config => {
 })
 Vue.config.productionTip = false
 const instance3 = axios.create({ // ai接口api地址，填自己的
-  baseURL: 'http://1.116.229.15:9003/'
+  baseURL: 'xxxx'
 })
 Vue.prototype.$extension = instance3
 new Vue({

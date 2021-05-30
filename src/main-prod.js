@@ -30,15 +30,15 @@ Vue.prototype.$http = axios
 axios.withCredentials = true
 const instance = axios.create({ // 网易云接口api地址
   // baseURL: 'https://autumnfish.cn'
-  baseURL: 'http://39.108.136.207:3000'
+  baseURL: 'http://xxx'
 })
 Vue.prototype.$musicApi = instance
 const instance2 = axios.create({ // ai接口api地址，填自己的
-  baseURL: 'http://1.116.229.15:9007/'
+  baseURL: 'http://xxx'
 })
 Vue.prototype.$AI = instance2
 const instance4 = axios.create({ // ai接口api地址，填自己的
-  baseURL: 'http://1.116.229.15:9005/'
+  baseURL: 'http://xx'
 })
 Vue.prototype.$AI2 = instance4
 Vue.prototype.$encruption = function (obj) {
@@ -53,7 +53,7 @@ Vue.prototype.$encruption = function (obj) {
   return encrypt.encrypt(obj)
 }
 // 配置请求的跟路径
-axios.defaults.baseURL = 'http://39.108.136.207:9001/'
+axios.defaults.baseURL = 'http://xx'
 // 在request拦截器中展示进度条
 axios.interceptors.request.use(config => {
   // console.log(config)
@@ -69,7 +69,7 @@ axios.interceptors.response.use(config => {
 })
 Vue.config.productionTip = false
 const instance3 = axios.create({ // ai接口api地址，填自己的
-  baseURL: 'http://1.116.229.15:9003/'
+  baseURL: 'xxx'
 })
 Vue.prototype.$extension = instance3
 new Vue({
