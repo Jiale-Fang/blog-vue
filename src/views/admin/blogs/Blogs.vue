@@ -140,8 +140,8 @@ export default {
         pageSize: this.pagination.pageSize,
         queryString: this.pagination.queryString
       }
-      var param2 = this.$encruption(JSON.stringify(param))
-      const { data: res } = await this.$http.post('/server/blog/findPage', param2)
+      var param2 = this.$encrypTion(JSON.stringify(param))
+      const { data: res } = await this.$http.post('/api/server/blog/findPage', param2)
       // 解析controller响应回的数据
       console.log('===>' + res.flag)
       if (!res.flag) {
@@ -156,8 +156,8 @@ export default {
       this.$refs.dataAddForm.validate((valid) => {
         if (valid) {
           // 表单校验通过，发ajax请求，把数据录入至后台处理
-          // const param = this.$encruption(JSON.stringify(this.formData))
-          this.$http.post('/types2/add', this.formData).then((res) => {
+          // const param = this.$encrypTion(JSON.stringify(this.formData))
+          this.$http.post('/api/types2/add', this.formData).then((res) => {
             // 关闭新增窗口
             this.dialogFormVisible = false
             if (res.data.flag) {
@@ -227,7 +227,8 @@ export default {
       this.$message.info('对不起，普通用户暂且没有此功能！在后台管理中，普通用户暂且只有添加博客的权限')
     },
     handleUpdate () {
-      this.$message.info('对不起，普通用户暂且没有此功能！在后台管理中，普通用户暂且只有添加博客的权限')
+      this.$router.push('/postblogs')
+      // this.$message.info('对不起，普通用户暂且没有此功能！在后台管理中，普通用户暂且只有添加博客的权限')
     }
   },
   mounted () {

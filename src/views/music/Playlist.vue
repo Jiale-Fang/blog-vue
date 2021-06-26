@@ -168,8 +168,8 @@ export default {
   },
   created () {
     // 获取歌单详情
-    this.$musicApi({
-      url: '/playlist/detail',
+    this.$http({
+      url: '/music/playlist/detail',
       method: 'get',
       params: {
         id: this.$route.query.q
@@ -202,8 +202,8 @@ export default {
       }
     })
     // 获取 评论
-    this.$musicApi({
-      url: '/comment/hot',
+    this.$http({
+      url: '/music/comment/hot',
       method: 'get',
       params: {
         id: this.$route.query.q,
@@ -218,8 +218,8 @@ export default {
     })
 
     // 获取 最新评论
-    this.$musicApi({
-      url: '/comment/playlist',
+    this.$http({
+      url: '/music/comment/playlist',
       method: 'get',
       params: {
         id: this.$route.query.q,
@@ -240,8 +240,8 @@ export default {
       // 保存页码
       this.page = val
       // 重新获取数据
-      this.$musicApi({
-        url: '/comment/playlist',
+      this.$http({
+        url: '/music/comment/playlist',
         method: 'get',
         params: {
           id: this.$route.query.q,

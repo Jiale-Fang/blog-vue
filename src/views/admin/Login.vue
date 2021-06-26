@@ -65,6 +65,24 @@
                 <el-input v-model="formData.avatar"/>
               </el-form-item>
             </el-col>
+            <el-col>
+              <el-form-item label="or选择本地图片当头像">
+              <el-upload
+                class="avatar-uploader"
+                action="serverApi/oss/userAvatar/"
+                accept="image/png,.jpg"
+                multiple
+                :limit="1"
+                :on-exceed="masterFileMax"
+                :show-file-list="false"
+                :http-request="uploadPic"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload">
+                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+              </el-form-item>
+            </el-col>
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取消</el-button>
@@ -79,6 +97,7 @@
 export default {
   data () {
     return {
+      imageUrl: '',
       verifyCode: '',
       formData: {
         username: '',
@@ -122,8 +141,42 @@ export default {
     this.getVerifyCode()
   },
   methods: {
+    masterFileMax (files, fileList) {
+      console.log(files, fileList)
+      this.$message.warning('请最多上传一张图片')
+    },
+    async uploadPic (param) {
+      var fileObj = param.file
+      var form = new FormData()
+      // 文件对象
+      form.append('file', fileObj)
+      const { data: res } = await this.$http.post('/serverApi/oss/userAvatar', form)
+      if (res.flag) {
+        // 弹出提示信息
+        this.$message.success('上传头像成功')
+        this.formData.avatar = res.data.url
+        console.log(res.data.url)
+      } else { // 执行失败
+        this.$message.error(res.message)
+      }
+    },
+    handleAvatarSuccess (res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
+    },
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt5M = file.size / 1024 / 1024 < 5
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt5M) {
+        this.$message.error('上传头像图片大小不能超过5MB!')
+      }
+      return isJPG && isLt5M
+    },
     async getVerifyCode () {
-      const { data: res } = await this.$http.get('/server/admapi/captcha')
+      const { data: res } = await this.$http.get('/api/server/admapi/captcha')
       this.verifyCode = res.data
       this.loginForm.verKey = res.code
       // this.$message({
@@ -144,8 +197,8 @@ export default {
       this.$refs.registForm.validate((valid) => {
         if (valid) {
           // 表单校验通过，发ajax请求，把数据录入至后台处理
-          const param = this.$encruption(JSON.stringify(this.formData))
-          this.$http.post('/server/user/add', param).then((res) => {
+          const param = this.$encrypTion(JSON.stringify(this.formData))
+          this.$http.post('/api/server/user/add', param).then((res) => {
             // 关闭新增窗口
             this.dialogFormVisible = false
             if (res.data.flag) {
@@ -168,10 +221,10 @@ export default {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
         // console.log('===>' + JSON.stringify(this.loginForm))
-        // console.log('===>' + this.$encruption(param))
-        var param = this.$encruption(JSON.stringify(this.loginForm))
+        // console.log('===>' + this.$encrypTion(param))
+        var param = this.$encrypTion(JSON.stringify(this.loginForm))
         // console.log('param2' + param2)
-        const { data: res } = await this.$http.post('server/admapi/login', param)
+        const { data: res } = await this.$http.post('/api/server/admapi/login', param)
         console.log(res.flag)
         if (res.flag !== true) {
           this.$message.error(res.message)
@@ -209,7 +262,7 @@ export default {
   }
   .archive-banner {
     height: 110vh;
-    background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mccYPEGHYJF8vf05Y7Jp3Sq4PYCDwfPyvkq4c5VlhffPJbHw4QoE1dsiS8OtN2H5XvhPtg1C1JZwAOMeqYFSoGDg!/r) center center /
+    background: url(https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mccYPEGHYJF8vf05Y7Jp3Sq4PYCDwfPyvkq4c5VlhffPJbHw4QoE1dsiS8OtN2H5XvhPtg1C1JZwAOMeqYFSoGDg!/r) center center /
     cover no-repeat;
     background-color: #49b1f5;
   }
@@ -258,5 +311,28 @@ export default {
   .btns {
     display: flex;
     justify-content: flex-end;
+  }
+  .avatar-uploader .el-upload {
+    border: 5px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 60px;
+    height: 60px;
+    display: block;
   }
 </style>

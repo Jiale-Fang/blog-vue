@@ -13,9 +13,6 @@
     <div class="app-container">
       <div class="box">
         <el-form :model="formData" :rules="userRules" ref="userForm" label-width="100px">
-          <el-form-item prop="avatar" label="头像地址">
-            <el-input v-model="formData.avatar"></el-input>
-          </el-form-item>
           <el-row>
             <el-col :span="8">
               <el-form-item prop="username" label="用户名">
@@ -40,6 +37,26 @@
               </el-form-item>
             </el-col>
           </el-row>
+            <el-form-item prop="avatar" label="头像地址">
+              <div style="height: 100px">
+              <el-input style="width: 78%" v-model="formData.avatar"></el-input>
+              <el-upload
+                style="margin-left: 80%!important;"
+                class="avatar-uploader"
+                action="serverApi/oss/userAvatar/"
+                accept="image/png,.jpg"
+                multiple
+                :limit="1"
+                :on-exceed="masterFileMax"
+                :show-file-list="false"
+                :http-request="uploadPic"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload">
+                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+              </div>
+            </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm()">立即修改</el-button>
 <!--            <el-button @click="resetForm('formData')">重置</el-button>-->
@@ -56,6 +73,7 @@
 export default {
   data () {
     return {
+      imageUrl: '',
       formData: {
         uid: '',
         username: '',
@@ -94,13 +112,47 @@ export default {
     this.getUser()
   },
   methods: {
+    masterFileMax (files, fileList) {
+      console.log(files, fileList)
+      this.$message.warning('请最多上传一张图片')
+    },
+    async uploadPic (param) {
+      var fileObj = param.file
+      var form = new FormData()
+      // 文件对象
+      form.append('file', fileObj)
+      const { data: res } = await this.$http.post('/serverApi/oss/userAvatar', form)
+      if (res.flag) {
+        // 弹出提示信息
+        this.$message.success('上传头像成功')
+        this.formData.avatar = res.data.url
+        console.log(res.data.url)
+      } else { // 执行失败
+        this.$message.error(res.message)
+      }
+    },
+    handleAvatarSuccess (res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
+    },
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt5M = file.size / 1024 / 1024 < 5
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt5M) {
+        this.$message.error('上传头像图片大小不能超过5MB!')
+      }
+      return isJPG && isLt5M
+    },
     submitForm () {
       // 进行表单校验
       this.$refs.userForm.validate((valid) => {
         if (valid) {
           // 表单校验通过，发ajax请求，把数据录入至后台处理
-          const param = this.$encruption(JSON.stringify(this.formData))
-          this.$http.put('/server/user/updateUser', param).then((res) => {
+          const param = this.$encrypTion(JSON.stringify(this.formData))
+          this.$http.put('/api/server/user/updateUser', param).then((res) => {
             // 关闭新增窗口
             if (res.data.flag) {
               // 弹出提示信息

@@ -29,8 +29,8 @@ export default {
   },
   created () {
     // 获取歌曲音源
-    this.$musicApi({
-      url: '/song/url',
+    this.$http({
+      url: '/music/song/url',
       method: 'get',
       params: {
         id: 1468248736

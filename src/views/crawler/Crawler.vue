@@ -143,8 +143,8 @@ export default {
         pageSize: this.pagination.pageSize,
         queryString: null
       }
-      // const param2 = this.$encruption(JSON.stringify(param))
-      const { data: res } = await this.$extension.post('/crawler/crawlerPage', param)
+      // const param2 = this.$encrypTion(JSON.stringify(param))
+      const { data: res } = await this.$http.post('/extension/crawler/crawlerPage', param)
       // const { data: res } = await this.$http.post('/extension/crawler/crawlerPage', param2)
       // 解析controller响应回的数据
       if (!res.flag) {
@@ -186,11 +186,11 @@ export default {
   }
   .m-types {
     padding-top: 460px !important;
-    padding-bottom: 0px !important;
+    padding-bottom: 0 !important;
   }
   .types-banner {
     height: 480px;
-    background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcedMeLHGVj5EQ3pZboWf9ZUT1VbRGevOCgENGxhi4UfCZmagBgzctF7EuOFHUysHbFq2ePjbWIGvH5niXuYkow8!/r) center
+    background: url(https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcedMeLHGVj5EQ3pZboWf9ZUT1VbRGevOCgENGxhi4UfCZmagBgzctF7EuOFHUysHbFq2ePjbWIGvH5niXuYkow8!/r) center
     center / cover no-repeat;
     background-color: #49b1f5;
   }

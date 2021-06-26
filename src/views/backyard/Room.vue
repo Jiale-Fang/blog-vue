@@ -82,26 +82,17 @@
       </div>
     </div>
     <div class="room-right">
-<!--      <p class="name">聊天室({{userListLength}})</p>-->
       <div class="chatcontent">
         <ul class="join" ref="joinUs">
-<!--          <template v-for="item in joinRoom">-->
-<!--          <li v-if="item.type === 4 && isGroup" :key="item.username">欢迎{{item.username}}加入群聊</li>-->
-<!--          <li v-if="item.type === 5 && isGroup" :key="item.username">{{item.username}}离开了群聊</li>-->
-<!--          </template>-->
           <li
             v-for="(item1,index) in messageContent"
             :key="index"
-            :class="{'my-message':item1.type===1,
-            'other-message':item1.type===2 || item1.type===3 }"
+            :class="{'my-message':item1.type===1 || item1.type===7,
+            'other-message':item1.type===2 || item1.type===3 || item1.type===8}"
           >
-<!--            <div v-if="item1.type === 3">-->
-<!--              {{item1.username}}离开了群聊-->
-<!--            </div>-->
             <div class="content1" v-if="item1.type === 1">
               <span>{{item1.content}}</span>
               <img v-bind:src="avatar" class="my-avatar" />
-<!--              <p class="content">{{item1.msg}}</p>-->
             </div>
             <div v-if="item1.type ===2 && !isGroup">
               <img v-bind:src="friendAvatar" class="my-avatar" />
@@ -114,26 +105,44 @@
               <p class="content">{{item1.content}}</p>
             </div>
             <div v-if="item1.type ===4 && isGroup">
-              <p class="username2">欢迎{{item1.username}}加入群聊</p>
+              <p class="centerText">欢迎{{item1.username}}加入群聊</p>
             </div>
             <div v-if="item1.type ===5 && isGroup">
-              <p class="username2">{{item1.username}}离开了群聊</p>
+              <p class="centerText">{{item1.username}}离开了群聊</p>
+            </div>
+            <div v-if="item1.type ===6">
+              <p class="centerText">{{item1.formatTime}}</p>
+            </div>
+            <div class="content1" v-if="item1.type ===7">
+            <span>
+           <el-image class="chatLog-img" v-bind:src="item1.content" :preview-src-list="changeToArray(item1)" lazy>
+              </el-image>
+            </span>
+              <img v-bind:src="avatar" class="my-avatar" />
+            </div>
+            <div class="content1" v-if="item1.type ===8">
+              <template v-if="!isGroup">
+                <img v-bind:src="friendAvatar" class="my-avatar" />
+                <p class="username">{{friendNickName}}</p>
+              </template>
+                 <template v-if="isGroup">
+                   <img v-bind:src="item1.avatar" class="my-avatar" />
+                   <p class="username">{{item1.nickname}}</p>
+                 </template>
+              <p class="content"><el-image class="chatLog-img" v-bind:src="item1.content" :preview-src-list="changeToArray(item1)" lazy>
+              </el-image></p>
             </div>
           </li>
-          <li class="position-box"></li>
         </ul>
       </div>
       <div class="sendMessage">
-        <div style="margin: 5px">
-          <emoji-picker @emoji="insert" :search="search">
+        <div style="margin: 5px;cursor: pointer">
+          <emoji-picker  @emoji="insert" :search="search">
             <div slot="emoji-invoker" slot-scope="{ events: { click: clickEvent } }" @click.stop="clickEvent">
               😊
             </div>
             <div slot="emoji-picker" slot-scope="{ emojis, insert }">
               <div>
-                <!--              <div>-->
-                <!--                <input type="text" v-model="search">-->
-                <!--              </div>-->
                 <div>
                   <div v-for="(emojiGroup, category) in emojis" :key="category">
                     <h5>{{ category }}</h5>
@@ -150,20 +159,21 @@
               </div>
             </div>
           </emoji-picker>
-<!--          <span class="iconfont icon-smile" @click="emojiShow = !emojiShow"></span>-->
-<!--          <div class="emoji" tabindex="1" v-show="emojiShow">-->
-<!--            <span-->
-<!--              v-for="item in emojiList"-->
-<!--              :key="item.codes"-->
-<!--              @click="handleEmoji(item)"-->
-<!--            >{{item.char}}</span>-->
-<!--          </div>-->
-<!--          <label class="iconfont icon-wenjianjia" for="file"></label>-->
-<!--          <input type="file" style="display:none" id="file" @change="handleFile" />-->
-<!--          <span class="iconfont icon-jietu" @click="handleCanvas"></span>-->
+          <el-upload
+            class="avatar-uploader"
+            action="serverApi/oss/userAvatar/"
+            accept="image/png,.jpg"
+            multiple
+            :on-exceed="masterFileMax"
+            :show-file-list="false"
+            :http-request="uploadPic"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <i class="el-icon-picture"></i>
+          </el-upload>
         </div>
         <textarea cols="80" rows="5" ref="textarea" v-model="messageToSend"></textarea>
-        <button class="sendMessage" @click="sendMessage" >发送</button>
+        <button class="sendMessage" @click="sendMessage">发送</button>
       </div>
     </div>
   </div>
@@ -177,11 +187,18 @@ import EmojiPicker from 'vue-emoji-picker'
 export default {
   name: 'Room',
   components: {
-  //   VueEmoji
     EmojiPicker
+  },
+  mounted () {
+
   },
   data () {
     return {
+      imageUrl: '',
+      url: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2655800803,3523216634&fm=26&gp=0.jpg',
+      srcList: [
+        'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2655800803,3523216634&fm=26&gp=0.jpg'
+      ],
       newss: '',
       input: '',
       search: '',
@@ -194,18 +211,133 @@ export default {
       friendId: '',
       joinRoom: [],
       messageContent: [],
-      messageToSend: '请输入要发送的消息',
+      messageToSend: '',
       toName: '',
       friendsList: [],
       userList: [], // 本站所有用户列表,
       viewType: 1,
       username: '',
-      isGroup: false,
+      isGroup: false, // 此消息是否是群聊
+      isImg: false, // 此消息是否是发送图片
       groupMessageNum: 0,
-      groupFirstPicture: 'http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjqLW3e23.UCR78O5Km8SpsknNgOGpEzdY7QHY1usDO6pbksfeQBV5CqlMGgsjJVV9s!/r'
+      groupFirstPicture: 'https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjqLW3e23.UCR78O5Km8SpsknNgOGpEzdY7QHY1usDO6pbksfeQBV5CqlMGgsjJVV9s!/r'
     }
   },
   methods: {
+    changeToArray: function (item) {
+      const picList = [
+        item.content
+      ]
+      return picList
+    },
+    isType7: function (item) {
+      if (item.type === 7) {
+        this.srcList[0] = item.content
+        return true
+      } else {
+        return false
+      }
+    },
+    isType8: function (item) {
+      if (item.type === 8) {
+        this.srcList[0] = item.content
+        return true
+      } else {
+        return false
+      }
+    },
+    masterFileMax (files, fileList) {
+      console.log(files, fileList)
+      this.$message.warning('请最多上传一张图片。')
+    },
+    async uploadPic (param) {
+      var fileObj = param.file
+      var form = new FormData()
+      // 文件对象
+      form.append('file', fileObj)
+      const { data: res } = await this.$http.post('/serverApi/oss/chatLogImg', form)
+      if (res.flag) {
+      // 弹出提示信息
+        this.$message.success('发送图片成功')
+        this.sendImg(res.data.url)
+      } else { // 执行失败
+        this.$message.error(res.message)
+      }
+    },
+    sendImg (url) { // 发送图片
+      let toName = ''
+      let mesType = 4
+      if (this.isGroup) {
+        toName = 'group'
+        mesType = 5
+      } else {
+        toName = this.toName
+      }
+      const message = { toName: toName, message: url, mesType: mesType }
+      // 将消息展示在聊天区
+      this.messageContent.push({
+        type: 7,
+        content: url
+      })
+      this.toBottom()
+      console.log(JSON.stringify(message))
+      this.ws.send(JSON.stringify(message))
+      console.log('sendImg')
+      if (this.isGroup) { // 发到群聊的那个表
+        const param = {
+          uid: this.uid,
+          roomId: 1,
+          content: url,
+          textType: 2
+        }
+        this.$http.post('/api/server/groupChat/addMessage', param).then((res) => {
+          // 关闭新增窗口
+          if (!res.data.flag) {
+            this.$message.error(res.data.code)
+          }
+        })
+      } else { // 发送到私聊
+        const param = {
+          sender: this.uid,
+          receiver: this.friendId,
+          content: url,
+          textType: 2
+        }
+        this.$http.post('/api/server/chatLog/addMessage', param).then((res) => {
+          // 关闭新增窗口
+          if (!res.data.flag) {
+            this.$message.error(res.data.code)
+          }
+        })
+      }
+    },
+    handleAvatarSuccess (res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
+    },
+    beforeAvatarUpload (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt5M = file.size / 1024 / 1024 < 5
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt5M) {
+        this.$message.error('上传头像图片大小不能超过5MB!')
+      }
+      return isJPG && isLt5M
+    },
+    toBottom () {
+      setTimeout(() => {
+        const father = document.querySelector('.chatcontent')
+        const son = document.querySelector('.join')
+        const fatherHeight = father.offsetHeight
+        const sonHeight = son.offsetHeight
+        const move = sonHeight - fatherHeight
+        father.scroll({
+          top: move
+        })
+      }, 10)
+    },
     insert (emoji) {
       this.messageToSend += emoji
     },
@@ -229,6 +361,7 @@ export default {
       if (this.messageToSend !== '') {
         const message = {
           toName: 'group',
+          mesType: 2,
           message: this.messageToSend
         }
         // 将消息展示在聊天区
@@ -236,7 +369,7 @@ export default {
           type: 1,
           content: this.messageToSend
         })
-        document.getElementsByClassName('position-box')[0].scrollIntoView() // 滚动到底部
+        this.toBottom()
         this.ws.send(JSON.stringify(message))
       }
     },
@@ -244,7 +377,7 @@ export default {
       this.viewType = num
     },
     async getUserList () {
-      const { data: res } = await this.$http.get('/server/user/getUserList')
+      const { data: res } = await this.$http.get('/api/server/user/getUserList')
       if (res.flag) {
         this.userList = res.data
       } else { // 执行失败
@@ -256,7 +389,7 @@ export default {
       if (this.user != null) {
         this.avatar = JSON.parse(this.user).avatar
         this.uid = JSON.parse(this.user).uid
-        const { data: res } = await this.$http.get('/server/friends/getFriendsList')
+        const { data: res } = await this.$http.get('/api/server/friends/getFriendsList')
         if (res.flag) {
           this.friendsList = res.data
         } else { // 执行失败
@@ -265,7 +398,6 @@ export default {
       }
     },
     sendMessage () {
-      console.log(this.messageToSend)
       if (this.isGroup) {
         this.sendToGroup()
       } else {
@@ -274,13 +406,13 @@ export default {
     },
     sendToPerson () {
       if (this.messageToSend !== '') {
-        const message = { toName: this.toName, message: this.messageToSend }
+        const message = { toName: this.toName, message: this.messageToSend, mesType: 2 }
         // 将消息展示在聊天区
         this.messageContent.push({
           type: 1,
           content: this.messageToSend
         })
-        document.getElementsByClassName('position-box')[0].scrollIntoView() // 滚动到底部
+        this.toBottom()
         this.ws.send(JSON.stringify(message))
         const param = {
           sender: this.uid,
@@ -288,7 +420,7 @@ export default {
           content: this.messageToSend
         }
         this.messageToSend = ''
-        this.$http.post('/server/chatLog/addMessage', param).then((res) => {
+        this.$http.post('/api/server/chatLog/addMessage', param).then((res) => {
           // 关闭新增窗口
           if (!res.data.flag) {
             this.$message.error(res.data.code)
@@ -298,13 +430,13 @@ export default {
     },
     sendToGroup () {
       if (this.messageToSend !== '') {
-        const message = { toName: 'group', message: this.messageToSend }
+        const message = { toName: 'group', message: this.messageToSend, mesType: 2 }
         // 将消息展示在聊天区
         this.messageContent.push({
           type: 1,
           content: this.messageToSend
         })
-        document.getElementsByClassName('position-box')[0].scrollIntoView() // 滚动到底部
+        this.toBottom()
         this.ws.send(JSON.stringify(message))
         const param = {
           uid: this.uid,
@@ -312,7 +444,7 @@ export default {
           content: this.messageToSend
         }
         this.messageToSend = ''
-        this.$http.post('/server/groupChat/addMessage', param).then((res) => {
+        this.$http.post('/api/server/groupChat/addMessage', param).then((res) => {
           // 关闭新增窗口
           if (!res.data.flag) {
             this.$message.error(res.data.code)
@@ -333,11 +465,10 @@ export default {
         sender: this.uid,
         receiver: this.friendId
       }
-      console.log(this.friendId)
-      this.$http.post('/server/chatLog/getMessage', param).then((res) => {
+      this.$http.post('/api/server/chatLog/getMessage', param).then((res) => {
         if (res.data.flag) {
           this.messageContent = res.data.data
-          document.getElementsByClassName('position-box')[0].scrollIntoView() // 滚动到底部
+          this.toBottom()
         } else {
           this.$message.error(res.data.code)
         }
@@ -346,10 +477,10 @@ export default {
     setToGroupChat () {
       this.isGroup = true
       this.groupMessageNum = 0
-      this.$http.get('/server/groupChat/getMessage').then((res) => {
+      this.$http.get('/api/server/groupChat/getMessage').then((res) => {
         if (res.data.flag) {
           this.messageContent = res.data.data
-          document.getElementsByClassName('position-box')[0].scrollIntoView() // 滚动到底部
+          this.toBottom()
         } else {
           this.$message.error(res.data.code)
         }
@@ -358,10 +489,15 @@ export default {
     setMessageNum (fromName) {
       const index = (this.friendsList).findIndex((friendsList) => friendsList.username === fromName)
       //  index 返回的就是当前查找元素在数组中的索引,然后就可以修改小红点的值
-      console.log(index)
+      console.log(this.friendsList)
       const messageNum = this.friendsList[index].messageNum
       this.$set(this.friendsList[index], 'messageNum', messageNum + 1)
-      console.log(messageNum)
+    },
+    getUser () {
+      this.user = window.sessionStorage.getItem('user')
+      if (this.user != null) {
+        this.username = JSON.parse(this.user).username // 初始化自己的用户名
+      }
     },
     openDialog (item) {
       this.$confirm('您确定要添加用户名为' + item.username + '的用户吗？该功能处于测试阶段，点击确认后无需对方确认请求即可添加成功', '提示', {
@@ -373,7 +509,7 @@ export default {
           uid: this.uid,
           friendId: item.uid
         }
-        this.$http.post('/server/friends/addFriend', param).then((res) => {
+        this.$http.post('/api/server/friends/addFriend', param).then((res) => {
           // 关闭新增窗口
           if (!res.data.flag) {
             this.$message.error(res.data.code)
@@ -394,6 +530,7 @@ export default {
   },
   created () {
     this.initChat()
+    this.getUser()
     this.getUserList()
     const ws = useWebSocket(handleMessage)
     this.ws = ws
@@ -401,20 +538,23 @@ export default {
     function handleMessage (e) {
       const dataStr = e.data
       const res = JSON.parse(dataStr)
-      if (res.system) { // 系统广播消息
-        const user = window.sessionStorage.getItem('user')
-        const username = JSON.parse(user).username
-        if (res.message.username !== username) { // 自己发的就没必要展示了
+      console.log('消息')
+      console.log(res)
+      if (res.mesType === 1) { // 系统广播消息
+        _this.toBottom()
+        if (res.message.username !== _this.username) { // 自己发的就没必要展示了
           if (res.fromName === 'online') { // 这是用户上线了的消息，data里面是用户名
             _this.messageContent.push({
               type: 4,
               username: res.message
             })
+            // _this.toBottom()
           } else if (res.fromName === 'offline') {
             _this.messageContent.push({
               type: 5,
               username: res.message
             })
+            // _this.toBottom()
           } else {
             if (!_this.isGroup) {
               _this.groupMessageNum++
@@ -425,22 +565,42 @@ export default {
               content: res.message.content,
               avatar: res.message.avatar
             })
+            // _this.toBottom()
           }
-          document.getElementsByClassName('position-box')[0].scrollIntoView() // 滚动到底部
         }
-      } else { // 不是系统消息就进行展示
-        console.log(res)
+      } else if (res.mesType === 2) { // 是文本消息
+        _this.toBottom()
         if (res.fromName === _this.toName) { // 如果是当前对话的人发来的消息就直接push即可
           _this.messageContent.push({
             type: 2,
             nickname: res.fromName,
             content: res.message
           })
-          document.getElementsByClassName('position-box')[0].scrollIntoView() // 滚动到底部
-          console.log(_this.messageContent)
         } else { // 如果不是当前对话的人发来的消息就可以在头像上提醒
           _this.setMessageNum(res.fromName)
-          console.log(res.fromName)
+        }
+      } else if (res.mesType === 4) { // 私聊的图片消息
+        _this.toBottom()
+        if (res.fromName === _this.toName) {
+          _this.messageContent.push({
+            type: 8,
+            nickname: res.fromName,
+            content: res.message
+          })
+        } else {
+          _this.setMessageNum(res.fromName) // 消息提醒
+        }
+      } else if (res.mesType === 5 && res.message.username !== _this.username) { // 群聊的图片消息
+        _this.toBottom()
+        if (!_this.isGroup) {
+          _this.groupMessageNum++
+        } else {
+          _this.messageContent.push({
+            type: 8,
+            nickname: res.message.nickname,
+            content: res.message.content,
+            avatar: res.message.avatar
+          })
         }
       }
     }
@@ -449,6 +609,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .chatLog-img{
+    width: 100px;
+    height: 100px;
+  }
   .divRight {
     position: absolute;
     color: white;
@@ -492,7 +656,7 @@ export default {
   .my-room{
     width: 100%;
     height: 100%;
-    background: url("http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcSPhM*LqG*bYzP4o2JVbahfGs9C4tYHLuDQWMxk*lbr.Z*THL2ipTPeIxiXd5nibRdObXk9lzHBgBPewtV0qL*g!/r") center center /
+    background: url("https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcSPhM*LqG*bYzP4o2JVbahfGs9C4tYHLuDQWMxk*lbr.Z*THL2ipTPeIxiXd5nibRdObXk9lzHBgBPewtV0qL*g!/r") center center /
     cover no-repeat;
   }
 .Room {
@@ -579,11 +743,13 @@ export default {
     }
     .chatcontent {
       height: 400px;
+      overflow-y:scroll;/*y轴滚动*/
       .join {
         text-align: center;
         color: #ccc;
-        overflow: auto;
-        height: 300px;
+        /*overflow: auto;*/
+
+        /*height: 300px;*/
         li {
           padding: 10px;
         }
@@ -665,7 +831,7 @@ export default {
             font-size: 13px;
             color: #b2b2b2;
           }
-          .username2 {
+          .centerText {
             position: absolute;
             left: 35%;
             top: -5px;

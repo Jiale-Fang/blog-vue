@@ -67,7 +67,7 @@ export default {
       }
       const userAvatar = this.avatar
         ? this.avatar
-        : 'http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mccJUo7*q6gaMPZmbFDSW8tjmAm4XwuoUZmMKw3asmvn1mxsE*Tf0fj.VOh2G6OX7v4duFOfedV2oGNQ*GrJEPkA!/r'
+        : 'https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mccJUo7*q6gaMPZmbFDSW8tjmAm4XwuoUZmMKw3asmvn1mxsE*Tf0fj.VOh2G6OX7v4duFOfedV2oGNQ*GrJEPkA!/r'
       const userNickname = this.nickname
         ? this.nickname
         : '游客'
@@ -79,7 +79,7 @@ export default {
       }
       this.barrageList.push(message)
       this.messageContent = ''
-      const { data: res } = await this.$extension.post('/message/add', message)
+      const { data: res } = await this.$http.post('/extension/message/add', message)
       // const { data: res } = await this.$http.post('/extension/message/add', message)
       if (res.flag) {
         // 弹出提示信息
@@ -89,7 +89,7 @@ export default {
       }
     },
     async listMessage () {
-      const { data: res } = await this.$extension.get('/message/getMessageList')
+      const { data: res } = await this.$http.get('/extension/message/getMessageList')
       // const { data: res } = await this.$http.get('/extension/message/getMessageList')
       if (res.flag) {
         // this.$message.success(res.message)
@@ -167,7 +167,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    height: calc(100% -50px);
+    height: calc(100% - 50px);
     width: 100%;
   }
   .barrage-items {

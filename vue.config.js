@@ -1,12 +1,52 @@
 module.exports = {
   devServer: {
     proxy: {
-      '/music': {
-        target: 'https://autumnfish.cn',
+      '/api': {
+        target: 'http://127.0.0.1:9001',
         changeOrigin: true,
-        secure: false,
+        // secure: false,
+        pathRewrite: {
+          '^/api': ''
+        }
+      },
+      '/serverApi': {
+        target: 'http://127.0.0.1:9002/',
+        changeOrigin: true,
+        // secure: false,
+        pathRewrite: {
+          '^/serverApi': ''
+        }
+      },
+      '/extension': {
+        target: 'http://127.0.0.1:9003',
+        changeOrigin: true,
+        // secure: false,
+        pathRewrite: {
+          '^/extension': ''
+        }
+      },
+      '/music': {
+        target: 'http://39.108.136.207:3000',
+        changeOrigin: true,
+        // secure: false,
         pathRewrite: {
           '^/music': ''
+        }
+      },
+      '/dl': {
+        target: 'http://127.0.0.1:9005',
+        changeOrigin: true,
+        // secure: false,
+        pathRewrite: {
+          '^/dl': ''
+        }
+      },
+      '/ai': {
+        target: 'http://127.0.0.1:9007',
+        changeOrigin: true,
+        // secure: false,
+        pathRewrite: {
+          '^/ai': ''
         }
       }
     },

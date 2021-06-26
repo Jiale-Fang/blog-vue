@@ -82,7 +82,7 @@ export default {
         pageSize: 100,
         queryString: value
       }
-      this.$extension.post('/search/searchPage1', param).then((res) => {
+      this.$http.post('/api/server/search/searchPage1', param).then((res) => {
       // this.$http.post('/extension/search/searchPage1', param).then((res) => {
         // 关闭新增窗口
         if (res.data.flag) {

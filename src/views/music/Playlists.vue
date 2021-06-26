@@ -202,8 +202,8 @@ export default {
     },
     // 抽取的方法1 顶部的数据
     topData () {
-      this.$musicApi({
-        url: '/top/playlist/highquality',
+      this.$http({
+        url: '/music/top/playlist/highquality',
         method: 'get',
         params: {
           limit: 1,
@@ -217,8 +217,8 @@ export default {
     },
     // 抽取的方法2 列表数据
     listData () {
-      this.$musicApi({
-        url: '/top/playlist/',
+      this.$http({
+        url: '/music/top/playlist/',
         method: 'get',
         params: {
           limit: 10,

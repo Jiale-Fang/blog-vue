@@ -109,8 +109,8 @@ export default {
   },
   // 生命周期钩子 回调函数
   created () {
-    this.$musicApi({
-      url: '/search',
+    this.$http({
+      url: '/music/search',
       method: 'get',
       params: {
         keywords: this.$route.query.q,
@@ -166,8 +166,8 @@ export default {
           break
       }
 
-      this.$musicApi({
-        url: '/search',
+      this.$http({
+        url: '/music/search',
         method: 'get',
         params: {
           keywords: this.$route.query.q,

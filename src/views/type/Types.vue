@@ -148,7 +148,7 @@ export default {
       }
     },
     async getTypeList () {
-      const { data: res } = await this.$http.get('/server/home/getTypeCount')
+      const { data: res } = await this.$http.get('/api/server/home/getTypeCount')
       this.typeList = res.data
     },
     // 分页查询
@@ -166,8 +166,8 @@ export default {
         queryString: this.pagination.queryString,
         typeId: typeId
       }
-      var param2 = this.$encruption(JSON.stringify(param))
-      const { data: res } = await this.$http.post('/server/type/getById', param2)
+      var param2 = this.$encrypTion(JSON.stringify(param))
+      const { data: res } = await this.$http.post('/api/server/type/getById', param2)
       // 解析controller响应回的数据
       if (!res.flag) {
         return this.$message.error('获取首页列表失败！')
@@ -220,7 +220,7 @@ export default {
   }
   .types-banner {
     height: 67vh;
-    background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcSPhM*LqG*bYzP4o2JVbaheOs2JWlUoBrHyiAhmNeT.Mc*97fdCoA2.t2KVGQ6m2uCiYugKboqB1H4fEZShV3MM!/r) center
+    background: url(https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcSPhM*LqG*bYzP4o2JVbaheOs2JWlUoBrHyiAhmNeT.Mc*97fdCoA2.t2KVGQ6m2uCiYugKboqB1H4fEZShV3MM!/r) center
     center / cover no-repeat;
     background-color: #49b1f5;
   }

@@ -10,7 +10,7 @@
         <div class="ui stackable grid">
           <div class="eleven wide column">
             <div class="ui segment my-shadow">
-              <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcfxg*eg*DXzoyOPhCpNztcV.tAoNBGCwJdscuLYHn.dx.QVN*WtkVI7knp4ePAHSRYcu.AVwRPBfYamcV8lPF90!/r" alt="" class="ui rounded image">
+              <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcfxg*eg*DXzoyOPhCpNztcV.tAoNBGCwJdscuLYHn.dx.QVN*WtkVI7knp4ePAHSRYcu.AVwRPBfYamcV8lPF90!/r" alt="" class="ui rounded image">
             </div>
           </div>
           <div class="five wide column">
@@ -43,7 +43,7 @@
             </div>
 
             <div class="ui wechat-qr flowing popup transition hidden">
-              <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui rounded image" style="width: 110px">
+              <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui rounded image" style="width: 110px">
             </div>
           </div>
         </div>
@@ -124,7 +124,7 @@ export default {
 <style scoped>
  .about-banner {
    height: 480px;
-   background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQz6a6RmGKe6G3ZOYoIoQdl9VNaSpHgiv8JNMAcpsS2xpNxouAuqFxY8uNvPxZ3qr6E798TSOFY*de6Bx*vCMlY!/r) center
+   background: url(https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQz6a6RmGKe6G3ZOYoIoQdl9VNaSpHgiv8JNMAcpsS2xpNxouAuqFxY8uNvPxZ3qr6E798TSOFY*de6Bx*vCMlY!/r) center
    center / cover no-repeat;
    background-color: #49b1f5;}
  .container{
@@ -132,6 +132,6 @@ export default {
  }
  .m-about {
    padding-top: 450px !important;
-   padding-bottom: 0px !important;
+   padding-bottom: 0 !important;
  }
 </style>

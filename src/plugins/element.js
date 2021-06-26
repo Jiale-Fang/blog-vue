@@ -38,9 +38,13 @@ import {
   Carousel,
   CarouselItem,
   Popover,
-  Icon
+  Icon,
+  Upload,
+  Image
 } from 'element-ui'
 
+Vue.use(Image)
+Vue.use(Upload)
 Vue.use(Icon)
 Vue.use(Popover)
 Vue.use(Carousel)

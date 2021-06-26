@@ -232,8 +232,8 @@ export default {
     // 获取列表数据
     getList () {
       // 获取数据
-      this.$musicApi({
-        url: '/mv/all',
+      this.$http({
+        url: '/music/mv/all',
         method: 'get',
         params: {
           area: this.area,

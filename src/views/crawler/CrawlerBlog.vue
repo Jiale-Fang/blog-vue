@@ -50,11 +50,11 @@
             <div class="ui orange basic label">
               <div class="ui images" style="font-size: inherit !important;">
                 <div class="image">
-                  <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcUTT*ciAgjJ0cppZCI5w1ILm3Q2J4WJdIQXJXdXVu5HUtU4pM3n8zAHqY3rf6z3B415ulY*M0Dp.HBBJhfDaF*E!/r" alt="" class="ui rounded bordered image" style="width: 120px">
+                  <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcUTT*ciAgjJ0cppZCI5w1ILm3Q2J4WJdIQXJXdXVu5HUtU4pM3n8zAHqY3rf6z3B415ulY*M0Dp.HBBJhfDaF*E!/r" alt="" class="ui rounded bordered image" style="width: 120px">
                   <div>支付宝</div>
                 </div>
                 <div class="image">
-                  <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVJnvoxLW18OIo4.CeFhPXXRsV3xEfxMyKMRodIkn6GwaENGRnt8bkvhKT7JrLFzM.w!/r" alt="" class="ui rounded bordered image" style="width: 120px">
+                  <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVJnvoxLW18OIo4.CeFhPXXRsV3xEfxMyKMRodIkn6GwaENGRnt8bkvhKT7JrLFzM.w!/r" alt="" class="ui rounded bordered image" style="width: 120px">
                   <div>微信</div>
                 </div>
               </div>
@@ -73,7 +73,7 @@
               </ui>
             </div>
             <div class="five wide column">
-              <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui right floated rounded bordered image" style="width: 110px">
+              <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui right floated rounded bordered image" style="width: 110px">
             </div>
           </div>
         </div>
@@ -136,7 +136,7 @@ export default {
       this.$message.info('博客信息是从csdn中爬取出来的，作者名已显示在开头。该博客仅做学习使用，如若侵权，请联系本人删除谢谢！！')
       const blogId = sessionStorage.getItem('blogId')
       // const { data: res } = await this.$http.get(`/extension/crawler/${blogId}`)
-      const { data: res } = await this.$extension.get(`/crawler/${blogId}`)
+      const { data: res } = await this.$http.get(`/extension/crawler/${blogId}`)
       if (!res.flag) {
         return this.$message.error('获取博客信息失败！')
       }
@@ -215,7 +215,7 @@ export default {
   }
   .blog-banner {
     height: 480px;
-    background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQz6a6RmGKe6G3ZOYoIoQdmfLYI.msEQq.iRJFhsrqXB.IdsB*o9ZQBar4xdCCjOqlN5rl5AQkXKVqsQ3yu58Pw!/r) center
+    background: url(https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQz6a6RmGKe6G3ZOYoIoQdmfLYI.msEQq.iRJFhsrqXB.IdsB*o9ZQBar4xdCCjOqlN5rl5AQkXKVqsQ3yu58Pw!/r) center
     center / cover no-repeat;
     background-color: #49b1f5;
   }

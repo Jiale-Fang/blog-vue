@@ -79,8 +79,8 @@ export default {
     // 获取列表数据
     getList () {
       // 获取 最新音乐数据
-      this.$musicApi({
-        url: '/top/song',
+      this.$http({
+        url: '/music/top/song',
         method: 'get',
         params: {
           // 传递 设置的数据

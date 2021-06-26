@@ -83,9 +83,9 @@
           <el-col style="width: 33%;" v-for="(item, index) in dataList2" :key="index">
           <div class="ui card my-shadow">
             <div class="image">
-              <img v-if="item.type==='java'" class="ui rounded image" style="height: 197px" src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcfxg*eg*DXzoyOPhCpNztcXuaOnSxohME.pPlGk0X6DySw85OaptMioCCglUIbkXCgALZYs9vHvPRXBaQfUpMsw!/r">
-              <img v-if="item.type==='python'" class="ui rounded image" style="height: 197px" src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcVU0waANwiuihq.W2nBzwOwXqxYRz4ImLPsNhUcM*0mhWWYh*q*8*4kXYbfAoXAqKvTD01Y*vpl7XfJncQ4cC.8!/r">
-              <img v-if="item.type==='db'" class="ui rounded image" style="height: 197px" src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcfxg*eg*DXzoyOPhCpNztcWZGLjzPgACkFdY6wZX94X6RimTfpFdSg9Nq5YCW8SN6Z2rmInF8bxIhdL6tHQ8TTQ!/r">
+              <img v-if="item.type==='java'" class="ui rounded image" style="height: 197px" src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcfxg*eg*DXzoyOPhCpNztcXuaOnSxohME.pPlGk0X6DySw85OaptMioCCglUIbkXCgALZYs9vHvPRXBaQfUpMsw!/r">
+              <img v-if="item.type==='python'" class="ui rounded image" style="height: 197px" src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcVU0waANwiuihq.W2nBzwOwXqxYRz4ImLPsNhUcM*0mhWWYh*q*8*4kXYbfAoXAqKvTD01Y*vpl7XfJncQ4cC.8!/r">
+              <img v-if="item.type==='db'" class="ui rounded image" style="height: 197px" src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcfxg*eg*DXzoyOPhCpNztcWZGLjzPgACkFdY6wZX94X6RimTfpFdSg9Nq5YCW8SN6Z2rmInF8bxIhdL6tHQ8TTQ!/r">
             </div>
             <div class="content">
               <a class="header">{{item.type}}</a>
@@ -115,7 +115,7 @@ export default {
       dataList2: [],
       user: {},
       nickname: '',
-      avatar: 'http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mccJUo7*q6gaMPZmbFDSW8tjmAm4XwuoUZmMKw3asmvn1mxsE*Tf0fj.VOh2G6OX7v4duFOfedV2oGNQ*GrJEPkA!/r',
+      avatar: 'https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mccJUo7*q6gaMPZmbFDSW8tjmAm4XwuoUZmMKw3asmvn1mxsE*Tf0fj.VOh2G6OX7v4duFOfedV2oGNQ*GrJEPkA!/r',
       str1: '',
       str2: '',
       barrageList: [],
@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     async randomPoem () {
-      const { data: res } = await this.$AI.get('/poem/randomPoem')
+      const { data: res } = await this.$http.get('/ai/poem/randomPoem')
       if (res.flag) {
         // this.$message.success(res.message)
         const message = {
@@ -152,7 +152,7 @@ export default {
         description: this.str2
       }
       this.str2 = ''
-      const { data: res } = await this.$AI2.post('/cnn/textClassify', param)
+      const { data: res } = await this.$http.post('/dl/cnn/textClassify', param)
       if (res.flag) {
         this.$message.success(res.message)
         this.dataList2 = res.data
@@ -163,7 +163,7 @@ export default {
     },
     async acrosticPoem () {
       if (JSON.stringify(this.str1) === '{}' || this.str1 !== '') {
-        const { data: res } = await this.$AI.get('/poem/acrosticPoem/?words=' + this.str1)
+        const { data: res } = await this.$http.get('/ai/poem/acrosticPoem/?words=' + this.str1)
         if (res.flag) {
           const message = {
             avatar: this.avatar,
@@ -179,7 +179,7 @@ export default {
     },
     async randomPoem2 () {
       if (JSON.stringify(this.str1) === '{}' || this.str1 !== '') {
-        const { data: res } = await this.$AI.get('/poem/randomPoem2/?words=' + this.str1)
+        const { data: res } = await this.$http.get('/ai/poem/randomPoem2/?words=' + this.str1)
         if (res.flag) {
           const message = {
             avatar: this.avatar,
@@ -203,7 +203,7 @@ export default {
     async addToList () {
     },
     async listMessage () {
-      const { data: res } = await this.$extension.get('/message/getMessageList')
+      const { data: res } = await this.$http.get('/extension/message/getMessageList')
       // const { data: res } = await this.$http.get('/extension/message/getMessageList')
       if (res.flag) {
         // this.$message.success(res.message)
@@ -226,7 +226,7 @@ export default {
   }
   .tags-banner {
     height:  67vh;
-    background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mce80KgERvhV49OLgLEc6tIVzgewffrS4J*Towawiswq8W32hHiP2mi3eEOka5wZKbmxS4NAOB7C8HDnHM7AmmwY!/r) center
+    background: url(https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mce80KgERvhV49OLgLEc6tIVzgewffrS4J*Towawiswq8W32hHiP2mi3eEOka5wZKbmxS4NAOB7C8HDnHM7AmmwY!/r) center
     center / cover no-repeat;
     background-color: #49b1f5;
   }

@@ -52,7 +52,7 @@ export default {
       // this.$refs.dataAddForm.validate((valid) => {
       //   if (valid) {
       //     // 表单校验通过，发ajax请求，把数据录入至后台处理
-      //     // const param = this.$encruption(JSON.stringify(this.formData))
+      //     // const param = this.$encrypTion(JSON.stringify(this.formData))
       //     this.$http.post('/types2/add', this.formData).then((res) => {
       //       // 关闭新增窗口
       //       this.dialogFormVisible = false

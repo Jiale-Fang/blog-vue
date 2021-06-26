@@ -27,24 +27,12 @@ Vue.use(prismjs)
 Vue.use(mavonEditor)
 Vue.prototype.$http = axios
 axios.withCredentials = true
-const instance = axios.create({ // 网易云接口api地址
-  baseURL: 'https://autumnfish.cn'
-})
-Vue.prototype.$musicApi = instance
-const instance2 = axios.create({ // ai接口api地址，填自己的
-  baseURL: 'http://xxx:9007/'
-})
-Vue.prototype.$AI = instance2
-const instance4 = axios.create({ // ai接口api地址，填自己的
-  baseURL: 'http://127.0.0.1:9005/'
-})
-Vue.prototype.$AI2 = instance4
 /**
  * 配置全局接口加密方法
  * @param obj
  * @returns {PromiseLike<ArrayBuffer>}
  */
-Vue.prototype.$encruption = function (obj) {
+Vue.prototype.$encrypTion = function (obj) {
   const encrypt = new JsEncrypt()
   encrypt.setPublicKey('MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzSJK+Pc1IdFWz83FWvKH' +
     'kTLmHq87J+5ndEdlH86c9AcSlaj4hyTWyaQOP8WPuvDfxL93TbYUEQ8bidHwyVAI' +
@@ -55,8 +43,6 @@ Vue.prototype.$encruption = function (obj) {
     'EwIDAQAB')
   return encrypt.encrypt(obj)
 }
-// 配置请求的跟路径
-axios.defaults.baseURL = 'http://127.0.0.1:9001/'
 // 在request拦截器中展示进度条
 axios.interceptors.request.use(config => {
   // console.log(config)
@@ -71,10 +57,6 @@ axios.interceptors.response.use(config => {
   return config
 })
 Vue.config.productionTip = false
-const instance3 = axios.create({ // ai接口api地址，填自己的
-  baseURL: 'http://127.0.0.1:9003/'
-})
-Vue.prototype.$extension = instance3
 new Vue({
   el: '#app',
   router,

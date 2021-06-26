@@ -142,8 +142,8 @@ export default {
   },
   created () {
     // 获取mv播放地址
-    this.$musicApi({
-      url: '/mv/url',
+    this.$http({
+      url: '/music/mv/url',
       method: 'get',
       params: {
         // 获取url中的 id
@@ -155,8 +155,8 @@ export default {
       this.url = res.data.data.url
     })
     // 获取 相关的mv
-    this.$musicApi({
-      url: '/simi/mv',
+    this.$http({
+      url: '/music/simi/mv',
       method: 'get',
       params: {
         mvid: this.$route.query.q
@@ -170,8 +170,8 @@ export default {
     })
 
     // 获取 mv的信息
-    this.$musicApi({
-      url: '/mv/detail',
+    this.$http({
+      url: '/music/mv/detail',
       method: 'get',
       params: {
         mvid: this.$route.query.q
@@ -182,8 +182,8 @@ export default {
       this.mvInfo = res.data.data
       console.log(this.mvInfo)
       // 获取 歌手信息
-      this.$musicApi({
-        url: '/artists',
+      this.$http({
+        url: '/music/artists',
         method: 'get',
         params: {
           id: this.mvInfo.artists[0].id
@@ -196,8 +196,8 @@ export default {
     })
 
     // 获取评论数据
-    this.$musicApi({
-      url: '/comment/mv',
+    this.$http({
+      url: '/music/comment/mv',
       method: 'get',
       params: {
         id: this.$route.query.q,

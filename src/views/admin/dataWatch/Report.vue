@@ -87,7 +87,7 @@ export default {
   async mounted () {
     const echarts = require('echarts')
     const myChart = echarts.init(document.getElementById('main'))
-    const { data: res } = await this.$http.get('server/report/getReport')
+    const { data: res } = await this.$http.get('/api/server/report/getReport')
     if (res.flag) {
       const result = _.merge(res.data, this.option)
       // 使用刚指定的配置项和数据显示图表。

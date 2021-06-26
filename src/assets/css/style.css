@@ -69,7 +69,7 @@ a {
 	background: #0abdfe;
 }
 @media (min-width: 768px) {
-	.skin-purple  .navbar-nav>li>a 
+	.skin-purple  .navbar-nav>li>a
 		{
 			padding-top: 25px;
     		padding-bottom: 25px;
@@ -108,7 +108,7 @@ a {
 	font-size: 13px;
     border-radius: 8px;
     color: #fff;
-	
+
 }
 .data span.arrowup {
 	color: #d88918;
@@ -374,7 +374,7 @@ input[type=radio]:focus {
 	outline: none
 }
 input[type="radio"]{
-	appearance: none; 
+	appearance: none;
 	-webkit-appearance: none;
 	outline: none;
 	display:none
@@ -460,6 +460,29 @@ label input[type="radio"]:checked {
 	padding: 15px 0;
 	color: #444;
 }
+.avatar-uploader .el-upload {
+	border: 1px dashed #d9d9d9;
+	border-radius: 6px;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+	border-color: #409EFF;
+}
+.avatar-uploader-icon {
+	font-size: 28px;
+	color: #8c939d;
+	width: 98px;
+	height: 98px;
+	line-height: 98px;
+	text-align: center;
+}
+.avatar {
+	width: 98px;
+	height: 98px;
+	display: block;
+}
 /* title */
 .content-header {
 	position: relative;
@@ -493,7 +516,7 @@ label input[type="radio"]:checked {
 .app-container{
 	background: #fff;
 	margin: 15px 30px 15px 15px;
-	
+
 }
 .pagiantion{
 	text-align: right;

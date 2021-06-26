@@ -61,7 +61,7 @@ export default {
       this.$router.push('/blog')
     },
     async getArchiveList () {
-      const { data: res } = await this.$http.get('/server/archives/getArchivesList')
+      const { data: res } = await this.$http.get('/api/server/archives/getArchivesList')
       if (res.flag) {
         this.archiveList = res.data.records
         this.total = res.data.total
@@ -102,7 +102,7 @@ export default {
     left: 0;
     right: 0;
     height: 100vh;
-    background: url("http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjp1i*p*43XTdPNTx*Qw5X3kLZcdY7f2PP*HY0CLM5irJV7KRGdQZhNlKutHE4uqHzE!/r") center center /
+    background: url("https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjp1i*p*43XTdPNTx*Qw5X3kLZcdY7f2PP*HY0CLM5irJV7KRGdQZhNlKutHE4uqHzE!/r") center center /
     cover no-repeat;
     background-color: #49b1f5;
     background-attachment: fixed;

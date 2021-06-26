@@ -38,10 +38,10 @@
           </blockquote>
           <br>
           <template v-for="(item,index) in dataList">
-            <el-col style="width: 400px;margin-top: 30px!important;top: 15px !important;" v-if="index%2===0" v-bind:key="item.linkId">
+            <el-col style="width: 400px;margin-top: 60px!important;top: 15px !important;" v-if="index%2===0" v-bind:key="item.linkId">
               <div class="ui card my-shadow">
                 <div class="image">
-                  <img class="ui rounded image" v-bind:src="item.avatarLink">
+                  <img class="ui rounded image"   v-bind:src="item.avatarLink">
                 </div>
                 <div class="content">
                   <a class="header">{{item.linkName}}</a>
@@ -55,10 +55,10 @@
                 </div>
               </div>
             </el-col>
-            <el-col style="width: 400px;margin-top: 30px!important;top: 15px !important;float: right !important;" v-if="index%2===1" v-bind:key="item.linkId">
+            <el-col style="width: 400px;margin-top: 60px!important;top: 15px !important;float: right !important;" v-if="index%2===1" v-bind:key="item.linkId">
               <div class="ui card my-shadow">
                 <div class="image">
-                  <img class="ui rounded image" v-bind:src="item.avatarLink">
+                  <img class="ui rounded image"  style="width: 365px!important;" v-bind:src="item.avatarLink">
                 </div>
                 <div class="content">
                   <a class="header">{{item.linkName}}</a>
@@ -103,7 +103,7 @@ export default {
       this.$refs.addLink.handleCreate()
     },
     async getLinkList () {
-      const { data: res } = await this.$extension.get('/link/getLink')
+      const { data: res } = await this.$http.get('/extension/link/getLink')
       // const { data: res } = await this.$http.get('/extension/link/getLink')
       if (res.flag) {
         this.dataList = res.data
@@ -153,7 +153,7 @@ export default {
     left: 0;
     right: 0;
     height: 100vh;
-    background: url("http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjrcd90GMu1NvFVRUxh.ZERBAbPSIeInGGY0C9uI2uTdJATSv*Nt3RFEYI4RVJUCXqo!/r") center center /
+    background: url("https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjrcd90GMu1NvFVRUxh.ZERBAbPSIeInGGY0C9uI2uTdJATSv*Nt3RFEYI4RVJUCXqo!/r") center center /
     cover no-repeat;
     background-color: #49b1f5;
     background-attachment: fixed;

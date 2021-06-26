@@ -98,8 +98,8 @@ export default {
   created () {
     // console.log('created')
     // 轮播图接口
-    this.$musicApi({
-      url: '/banner',
+    this.$http({
+      url: '/music/banner',
       method: 'get'
     }).then(res => {
       // console.log(res)
@@ -107,8 +107,8 @@ export default {
     })
 
     // 推荐歌单
-    this.$musicApi({
-      url: '/personalized',
+    this.$http({
+      url: '/music/personalized',
       method: 'get',
       params: {
         // 获取的数据量
@@ -120,8 +120,8 @@ export default {
     })
 
     // 最新音乐
-    this.$musicApi({
-      url: '/personalized/newsong',
+    this.$http({
+      url: '/music/personalized/newsong',
       method: 'get'
     }).then(res => {
       // console.log(res)
@@ -129,8 +129,8 @@ export default {
     })
 
     // 最新mv
-    this.$musicApi({
-      url: '/personalized/mv',
+    this.$http({
+      url: '/music/personalized/mv',
       method: 'get'
     }).then(res => {
       this.mvs = res.data.result
@@ -153,14 +153,14 @@ export default {
     },
     getSongInfo (id) {
       // 获取歌曲封面，歌手等信息
-      const { data: res } = this.$musicApi.get(`/song/detail?ids=${id}`)
+      const { data: res } = this.$http.get(`/music/song/detail?ids=${id}`)
       this.$parent.audio.name = res.songs[0].name
       // this.$parent.audio.artist = res.songs[0].ar.name
       console.log(res.songs[0].ar)
     },
     getLrc (id) {
       // 获取歌词
-      const { data: res } = this.$musicApi.get(`/lyric?id=${id}`)
+      const { data: res } = this.$http.get(`/music/lyric?id=${id}`)
       this.$parent.audio.lrc = res.lrc.lyric
     },
     playMusic (id) {

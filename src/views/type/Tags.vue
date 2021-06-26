@@ -122,7 +122,7 @@ export default {
   },
   methods: {
     async getTagList () {
-      const { data: res } = await this.$http.get('/server/home/getTagCount')
+      const { data: res } = await this.$http.get('/api/server/home/getTagCount')
       this.tagList = res.data
     },
     toBlog (blogId) {
@@ -153,8 +153,8 @@ export default {
         queryString: this.pagination.queryString,
         tagId: tagId
       }
-      var param2 = this.$encruption(JSON.stringify(param))
-      const { data: res } = await this.$http.post('/server/tagShow/getById', param2)
+      var param2 = this.$encrypTion(JSON.stringify(param))
+      const { data: res } = await this.$http.post('/api/server/tagShow/getById', param2)
       // 解析controller响应回的数据
       if (!res.flag) {
         return this.$message.error('获取首页列表失败！')

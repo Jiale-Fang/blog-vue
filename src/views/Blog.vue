@@ -50,11 +50,11 @@
             <div class="ui orange basic label">
               <div class="ui images" style="font-size: inherit !important;">
                 <div class="image">
-                  <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcUTT*ciAgjJ0cppZCI5w1ILm3Q2J4WJdIQXJXdXVu5HUtU4pM3n8zAHqY3rf6z3B415ulY*M0Dp.HBBJhfDaF*E!/r" alt="" class="ui rounded bordered image" style="width: 120px">
+                  <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcUTT*ciAgjJ0cppZCI5w1ILm3Q2J4WJdIQXJXdXVu5HUtU4pM3n8zAHqY3rf6z3B415ulY*M0Dp.HBBJhfDaF*E!/r" alt="" class="ui rounded bordered image" style="width: 120px">
                   <div>支付宝</div>
                 </div>
                 <div class="image">
-                  <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVJnvoxLW18OIo4.CeFhPXXRsV3xEfxMyKMRodIkn6GwaENGRnt8bkvhKT7JrLFzM.w!/r" alt="" class="ui rounded bordered image" style="width: 120px">
+                  <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVJnvoxLW18OIo4.CeFhPXXRsV3xEfxMyKMRodIkn6GwaENGRnt8bkvhKT7JrLFzM.w!/r" alt="" class="ui rounded bordered image" style="width: 120px">
                   <div>微信</div>
                 </div>
               </div>
@@ -74,7 +74,7 @@
               </ui>
             </div>
             <div class="five wide column">
-              <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui right floated rounded bordered image" style="width: 110px">
+              <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui right floated rounded bordered image" style="width: 110px">
             </div>
           </div>
         </div>
@@ -240,7 +240,7 @@ export default {
     async thumbsUp () {
       if (this.toLogin()) {
         const blogId = sessionStorage.getItem('blogId')
-        const { data: res } = await this.$http.get(`server/blog/${blogId}/${this.uid}`)
+        const { data: res } = await this.$http.get(`/api/server/blog/${blogId}/${this.uid}`)
         if (res.flag) {
           this.$message.success(res.message)
           this.thumbsFlag = true
@@ -275,7 +275,7 @@ export default {
         const commentId = item.commentId
         const blogId = sessionStorage.getItem('blogId')
         // 表单校验通过，发ajax请求，把数据录入至后台处理
-        this.$http.delete(`/server/comment/${blogId}/${commentId}`).then((res) => {
+        this.$http.delete(`/api/server/comment/${blogId}/${commentId}`).then((res) => {
           if (res.data.flag) {
             this.getCommentList()
             sessionStorage.setItem('parentCommentId', -1)
@@ -302,9 +302,9 @@ export default {
         const parentCommentId = sessionStorage.getItem('parentCommentId')
         this.formData.blogId = sessionStorage.getItem('blogId')
         this.formData.parentCommentId = parentCommentId
-        var param = this.$encruption(JSON.stringify(this.formData))
+        var param = this.$encrypTion(JSON.stringify(this.formData))
         // 表单校验通过，发ajax请求，把数据录入至后台处理
-        this.$http.post('/server/comment/replyComment', param).then((res) => {
+        this.$http.post('/api/server/comment/replyComment', param).then((res) => {
           if (res.data.flag) {
             this.getCommentList()
             sessionStorage.setItem('parentCommentId', -1)
@@ -326,7 +326,7 @@ export default {
     },
     async getCommentList () {
       const blogId = sessionStorage.getItem('blogId')
-      const { data: res } = await this.$http.get(`/server/comment/${blogId}`)
+      const { data: res } = await this.$http.get(`/api/server/comment/${blogId}`)
       console.log(res)
       if (!res.flag) {
         return this.$message.error('获取评论列表信息失败！')
@@ -339,7 +339,7 @@ export default {
     // 获取所有的菜单
     async getOneBlog () {
       const blogId = sessionStorage.getItem('blogId')
-      const { data: res } = await this.$http.get(`/server/blog/${blogId}`)
+      const { data: res } = await this.$http.get(`/api/server/blog/${blogId}`)
       if (!res.flag) {
         // return this.$message.error('获取博客信息失败！')
         return this.$message.error(res.message)
@@ -424,7 +424,7 @@ export default {
   }
   .blog-banner {
     height: 67vh;
-    background: url(http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcSPhM*LqG*bYzP4o2JVbahf8eHd4Yd9FO1B4n8UbWJRaQANKT1EBypIfvSNRueI1LSu6d212FUoavpm63ZrUI3E!/r) center
+    background: url(https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcSPhM*LqG*bYzP4o2JVbahf8eHd4Yd9FO1B4n8UbWJRaQANKT1EBypIfvSNRueI1LSu6d212FUoavpm63ZrUI3E!/r) center
     center / cover no-repeat;
     background-color: #49b1f5;
   }

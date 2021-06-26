@@ -27,8 +27,8 @@ export default {
       this.playMusic(value)
     })
     // 获取歌曲信息
-    this.$musicApi({
-      url: '/song/detail',
+    this.$http({
+      url: '/music/song/detail',
       method: 'get',
       params: {
         ids: this.id
@@ -40,8 +40,8 @@ export default {
       console.log(this.audio.name)
     })
     // 获取歌词
-    this.$musicApi({
-      url: '/lyric',
+    this.$http({
+      url: '/music/lyric',
       method: 'get',
       params: {
         id: this.id
@@ -52,8 +52,8 @@ export default {
     })
     // }
     // 获取歌曲音源
-    this.$musicApi({
-      url: '/song/url',
+    this.$http({
+      url: '/music/song/url',
       method: 'get',
       params: {
         id: this.id
@@ -67,8 +67,8 @@ export default {
   },
   methods: {
     playMusic (songId) {
-      this.$musicApi({
-        url: '/song/detail',
+      this.$http({
+        url: '/music/song/detail',
         method: 'get',
         params: {
           ids: songId
@@ -80,8 +80,8 @@ export default {
         console.log(this.audio.name)
       })
       // 获取歌词
-      this.$musicApi({
-        url: '/lyric',
+      this.$http({
+        url: '/music/lyric',
         method: 'get',
         params: {
           id: songId
@@ -92,8 +92,8 @@ export default {
       })
       // }
       // 获取歌曲音源
-      this.$musicApi({
-        url: '/song/url',
+      this.$http({
+        url: '/music/song/url',
         method: 'get',
         params: {
           id: songId

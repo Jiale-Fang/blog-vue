@@ -13,7 +13,7 @@
           <a class="qq circular icon button" data-content="1626680964" data-position="bottom center"><i class="qq icon"></i></a>
         </div>
         <div class="ui wechat-qr flowing popup transition hidden">
-          <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui rounded image" style="width: 110px">
+          <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui rounded image" style="width: 110px">
         </div>
         <!-- 向下滚动 -->
         <div class="scroll-down" @click="scrollDown">
@@ -159,7 +159,7 @@
             <!--二维码-->
             <h4 class="ui horizontal divider header m-margin-top-large">扫码关注我</h4>
             <div class="ui centered card my-shadow" style="width: 11em">
-              <img src="http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui rounded image" >
+              <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui rounded image" >
             </div>
           </div>
 
@@ -243,7 +243,7 @@ export default {
         const h = this.$createElement
         Notification({
           title: '通知',
-          message: h('i', { style: 'color: teal' }, '此次更新了一个新模块：聊天室模块，后花园也有新功能，测试还不完善可能还有bug。' +
+          message: h('i', { style: 'color: teal' }, '此次更新了一个新模块：聊天室模块，并且已经支持上传图片等功能；后花园也有新功能，测试还不完善可能还有bug。' +
             '有关ElasticSearch服务的2核4G服务器过期了（由于贫穷），搜索功能暂时无法使用，敬请谅解！'),
           duration: 0
         })
@@ -274,15 +274,15 @@ export default {
       this.$router.push('/blog')
     },
     async getLatestList () {
-      const { data: res } = await this.$http.get('/server/home/latestList')
+      const { data: res } = await this.$http.get('/api/server/home/latestList')
       this.latestList = res.data
     },
     async getTypeList () {
-      const { data: res } = await this.$http.get('/server/home/getTypeCount')
+      const { data: res } = await this.$http.get('/api/server/home/getTypeCount')
       this.typeList = res.data
     },
     async getTagList () {
-      const { data: res } = await this.$http.get('/server/home/getTagCount')
+      const { data: res } = await this.$http.get('/api/server/home/getTagCount')
       this.tagList = res.data
     },
     // 分页查询
@@ -299,8 +299,8 @@ export default {
         pageSize: this.pagination.pageSize,
         queryString: this.pagination.queryString
       }
-      var param2 = this.$encruption(JSON.stringify(param))
-      const { data: res } = await this.$http.post('/server/home/findHomePage', param2)
+      var param2 = this.$encrypTion(JSON.stringify(param))
+      const { data: res } = await this.$http.post('/api/server/home/findHomePage', param2)
       // 解析controller响应回的数据
       if (!res.flag) {
         return this.$message.error('获取博客列表失败！')
@@ -359,7 +359,7 @@ export default {
     left: 0;
     right: 0;
     height: 100vh;
-    background: url("http://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjqLW3e23.UCR78O5Km8SpsknNgOGpEzdY7QHY1usDO6pbksfeQBV5CqlMGgsjJVV9s!/r") center center /
+    background: url("https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcQaBtLM2yTpYe999VZqnRjqLW3e23.UCR78O5Km8SpsknNgOGpEzdY7QHY1usDO6pbksfeQBV5CqlMGgsjJVV9s!/r") center center /
     cover no-repeat;
     background-color: #49b1f5;
     background-attachment: fixed;
