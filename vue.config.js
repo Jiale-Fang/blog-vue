@@ -1,5 +1,55 @@
 module.exports = {
   devServer: {
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://39.108.136.207:9001',
+    //     changeOrigin: true,
+    //     // secure: false,
+    //     pathRewrite: {
+    //       '^/api': ''
+    //     }
+    //   },
+    //   '/extension': {
+    //     target: 'http://1.117.157.53:9003',
+    //     changeOrigin: true,
+    //     // secure: false,
+    //     pathRewrite: {
+    //       '^/extension': ''
+    //     }
+    //   },
+    //   '/music': {
+    //     target: 'http://39.108.136.207:3000',
+    //     changeOrigin: true,
+    //     // secure: false,
+    //     pathRewrite: {
+    //       '^/music': ''
+    //     }
+    //   },
+    //   '/dl': {
+    //     target: 'http://1.117.157.53:9005',
+    //     changeOrigin: true,
+    //     // secure: false,
+    //     pathRewrite: {
+    //       '^/dl': ''
+    //     }
+    //   },
+    //   '/ai': {
+    //     target: 'http://1.117.157.53:9007',
+    //     changeOrigin: true,
+    //     // secure: false,
+    //     pathRewrite: {
+    //       '^/ai': ''
+    //     }
+    //   },
+    //   '/serverApi': {
+    //     target: 'http://39.108.136.207:9002/',
+    //     changeOrigin: true,
+    //     // secure: false,
+    //     pathRewrite: {
+    //       '^/serverApi': ''
+    //     }
+    //   }
+    // },
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:9001',

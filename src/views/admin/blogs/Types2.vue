@@ -127,7 +127,7 @@ export default {
         queryString: this.pagination.queryString
       }
       var param2 = this.$encrypTion(JSON.stringify(param))
-      const { data: res } = await this.$http.post('/api/server/types2/findPage', param2)
+      const { data: res } = await this.$http.post('/api/server/type/findPage', param2)
       // 解析controller响应回的数据
       console.log('===>' + res.flag)
       if (!res.flag) {
@@ -164,12 +164,6 @@ export default {
       //     return false
       //   }
       // })
-    },
-    logout () {
-      window.sessionStorage.clear()
-      this.$router.push('/login')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
     },
     // 切换页码
     handleCurrentChange (currentPage) {

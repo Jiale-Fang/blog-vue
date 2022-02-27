@@ -101,6 +101,7 @@ export default {
       }
     },
     logout () {
+
       window.sessionStorage.clear()
       this.$router.push('/home')
       // 刷新页面，删除vuex数据

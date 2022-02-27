@@ -324,12 +324,6 @@ export default {
       this.nickname = JSON.parse(this.user).nickname
       this.avatar = JSON.parse(this.user).avatar
     },
-    logout () {
-      window.sessionStorage.clear()
-      this.$router.push('/login')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
-    },
     addBlog () {
       // 进行表单校验
       this.$refs.addForm.validate((valid) => {
@@ -360,7 +354,7 @@ export default {
     },
     // 获取所有的分类并回显
     async getTypeList () {
-      const { data: res } = await this.$http.get('/api/server/types2/getTypeList')
+      const { data: res } = await this.$http.get('/api/server/type/getTypeList')
       this.typeList = res.data
     },
     // 获取所有的标签并回显

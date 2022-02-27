@@ -4,7 +4,7 @@ function useWebSocket (handleMessage) {
   if (user != null) {
     username = JSON.parse(user).username
   }
-  const ws = new WebSocket(`ws://127.0.0.1:9002/chat/${username}`)
+  const ws = new WebSocket(`ws://127.0.0.1:9002/admin/chat/${username}`)
   // const ws = new WebSocket(`wss://www.tcefrep.site/chat/${username}`)
   const init = () => {
     bindEvent()

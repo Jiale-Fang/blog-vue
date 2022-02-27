@@ -1,5 +1,7 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import App from './App.vue'
+import store from './store'
 import router from './router'
 import axios from 'axios'
 // 导入后台管理全局样式表
@@ -17,6 +19,7 @@ import JsEncrypt from 'jsencrypt'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import APlayer from '@moefe/vue-aplayer'
+
 Vue.use(APlayer, {
   defaultCover: 'https://github.com/u3u.png',
   productionTip: true
@@ -25,6 +28,7 @@ Vue.use(prismCss)
 Vue.use(prismjs)
 // use
 Vue.use(mavonEditor)
+Vue.use(Vuex)
 Vue.prototype.$http = axios
 axios.withCredentials = true
 /**
@@ -51,6 +55,12 @@ axios.interceptors.request.use(config => {
   // 在最后必须 return config
   return config
 })
+
+// 切换页面时，回到顶部
+router.afterEach((to, from, next) => {
+  window.scrollTo(0, 0)
+})
+
 // 在 response 拦截器中，隐藏进度条 NProgress.done()
 axios.interceptors.response.use(config => {
   NProgress.done()
@@ -60,5 +70,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

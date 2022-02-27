@@ -167,7 +167,7 @@ export default {
         typeId: typeId
       }
       var param2 = this.$encrypTion(JSON.stringify(param))
-      const { data: res } = await this.$http.post('/api/server/type/getById', param2)
+      const { data: res } = await this.$http.post('/api/server/typeShow/getById', param2)
       // 解析controller响应回的数据
       if (!res.flag) {
         return this.$message.error('获取首页列表失败！')
@@ -181,12 +181,6 @@ export default {
         this.nickname = JSON.parse(this.user).nickname
         this.avatar = JSON.parse(this.user).avatar
       }
-    },
-    logout () {
-      window.sessionStorage.clear()
-      this.$router.push('/home')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
     },
     handleCurrentChange (currentPage) {
       // 设置最新的页码

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Blog from '../views/Blog'
 import SearchModel from '../components/model/SearchModel'
+import Test from '../views/admin/Test'
 // import Welcome from '../views/admin/Welcome'
 // const Blog = () => import(/* webpackChunkName: "BW" */ '../views/Blog')
 const Welcome = () => import(/* webpackChunkName: "BW" */ '../views/admin/Welcome')
@@ -167,6 +168,7 @@ const routes = [
     component: AdminHome,
     redirect: '/welcome',
     children: [{ path: '/welcome', component: Welcome },
+      { path: '/test', component: Test },
       { path: '/users', component: Users },
       { path: '/comments', component: Comments },
       { path: '/PostBlogs', component: PostBlogs },

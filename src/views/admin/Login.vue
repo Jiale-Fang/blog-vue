@@ -2,7 +2,7 @@
     <div class="login_container">
       <!-- banner -->
       <div class="archive-banner banner">
-        <h1 class="banner-title">归档</h1>
+        <h1 class="banner-title">登录</h1>
       </div>
       <div class="login_box">
       <!-- 头像区域 -->
@@ -222,9 +222,9 @@ export default {
         if (!valid) return
         // console.log('===>' + JSON.stringify(this.loginForm))
         // console.log('===>' + this.$encrypTion(param))
-        var param = this.$encrypTion(JSON.stringify(this.loginForm))
+        // var param = this.$encrypTion(JSON.stringify(this.loginForm))
         // console.log('param2' + param2)
-        const { data: res } = await this.$http.post('/api/server/admapi/login', param)
+        const { data: res } = await this.$http.post('/api/server/login', this.loginForm)
         console.log(res.flag)
         if (res.flag !== true) {
           this.$message.error(res.message)
@@ -239,9 +239,9 @@ export default {
           // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
           await this.$router.push('/welcome')
           // 刷新页面，删除vuex数据
-          setTimeout(() => {
-            window.location.reload()
-          }, 100)
+          // setTimeout(() => {
+          //   window.location.reload()
+          // }, 100)
         }
       })
     }

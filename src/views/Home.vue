@@ -315,12 +315,6 @@ export default {
         this.avatar = JSON.parse(this.user).avatar
       }
     },
-    logout () {
-      window.sessionStorage.clear()
-      this.$router.push('/home')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
-    },
     handleCurrentChange (currentPage) {
       // 设置最新的页码
       this.pagination.currentPage = currentPage

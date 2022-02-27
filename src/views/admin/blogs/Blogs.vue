@@ -196,12 +196,6 @@ export default {
       this.avatar = JSON.parse(this.user).avatar
       console.log(this.user)
     },
-    logout () {
-      window.sessionStorage.clear()
-      this.$router.push('/login')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
-    },
     // 切换页码
     handleCurrentChange (currentPage) {
       // 设置最新的页码

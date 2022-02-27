@@ -79,7 +79,7 @@ export default {
       }
       this.barrageList.push(message)
       this.messageContent = ''
-      const { data: res } = await this.$http.post('/extension/message/add', message)
+      const { data: res } = await this.$http.post('/api/server/message/add', message)
       // const { data: res } = await this.$http.post('/extension/message/add', message)
       if (res.flag) {
         // 弹出提示信息
@@ -89,7 +89,7 @@ export default {
       }
     },
     async listMessage () {
-      const { data: res } = await this.$http.get('/extension/message/getMessageList')
+      const { data: res } = await this.$http.get('/api/server/message/getMessageList')
       // const { data: res } = await this.$http.get('/extension/message/getMessageList')
       if (res.flag) {
         // this.$message.success(res.message)

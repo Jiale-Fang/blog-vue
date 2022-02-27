@@ -149,12 +149,6 @@ export default {
         this.nickname = JSON.parse(this.user).nickname
         this.avatar = JSON.parse(this.user).avatar
       }
-    },
-    logout () {
-      window.sessionStorage.clear()
-      this.$router.push('/home')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
     }
   },
   mounted () {

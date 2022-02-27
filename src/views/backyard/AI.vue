@@ -203,7 +203,7 @@ export default {
     async addToList () {
     },
     async listMessage () {
-      const { data: res } = await this.$http.get('/extension/message/getMessageList')
+      const { data: res } = await this.$http.get('/server/message/getMessageList')
       // const { data: res } = await this.$http.get('/extension/message/getMessageList')
       if (res.flag) {
         // this.$message.success(res.message)

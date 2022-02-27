@@ -105,7 +105,7 @@
                       <img v-bind:src=item2.avatar>
                     </a>
                     <div class="content">
-                      <a class="author">{{item2.nickname}}</a>
+                      <a class="author">{{item2.nickname}}<a class="author" v-if="item2.replyNickname.length!==0">回复</a><a>{{item2.replyNickname}}:</a></a>
                       <div class="metadata">
                         <span class="date">{{item2.createTime}}</span>
                       </div>
@@ -114,44 +114,6 @@
                       <div class="actions" >
                         <a class="reply" @click="replyComment(item2)">回复</a>
                         <a class="reply" @click="deleteComment(item2)" v-show="item2.uid==uid">删除</a>
-                      </div>
-                    </div>
-                    <div class="comments">
-                      <div class="comment" v-for="item3 in item2.children" :key="item3.commentId">
-                      <a class="avatar">
-                        <img v-bind:src=item3.avatar>
-                      </a>
-                      <div class="content">
-                        <a class="author">{{item3.nickname}}</a>
-                        <div class="metadata">
-                          <span class="date">{{item3.createTime}}</span>
-                        </div>
-                        <div class="text" v-text="item3.content">
-                        </div>
-                        <div class="actions" >
-                          <a class="reply" @click="replyComment(item3)">回复</a>
-                          <a class="reply" @click="deleteComment(item3)" v-show="item3.uid==uid">删除</a>
-                        </div>
-                      </div>
-                        <div class="comments">
-                          <div class="comment" v-for="item4 in item3.children" :key="item4.commentId">
-                          <a class="avatar">
-                            <img v-bind:src=item4.avatar>
-                          </a>
-                          <div class="content">
-                            <a class="author">{{item4.nickname}}</a>
-                            <div class="metadata">
-                              <span class="date">{{item4.createTime}}</span>
-                            </div>
-                            <div class="text" v-text="item4.content">
-                            </div>
-                            <div class="actions" >
-                              <a class="reply" @click="replyComment(item4)">回复</a>
-                              <a class="reply" @click="deleteComment(item4)" v-show="item4.uid==uid">删除</a>
-                            </div>
-                          </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -219,7 +181,8 @@ export default {
       formData: {
         blogId: '',
         content: '请输入评论信息...', // 评论内容
-        parentCommentId: ''
+        parentCommentId: '',
+        replyUid: ''
       },
       uid: '',
       user: {},
@@ -240,7 +203,7 @@ export default {
     async thumbsUp () {
       if (this.toLogin()) {
         const blogId = sessionStorage.getItem('blogId')
-        const { data: res } = await this.$http.get(`/api/server/blog/${blogId}/${this.uid}`)
+        const { data: res } = await this.$http.get(`/api/server/blog/thumbUp/${blogId}/${this.uid}`)
         if (res.flag) {
           this.$message.success(res.message)
           this.thumbsFlag = true
@@ -275,7 +238,7 @@ export default {
         const commentId = item.commentId
         const blogId = sessionStorage.getItem('blogId')
         // 表单校验通过，发ajax请求，把数据录入至后台处理
-        this.$http.delete(`/api/server/comment/${blogId}/${commentId}`).then((res) => {
+        this.$http.delete(`/api/server/comment/del/${blogId}/${commentId}`).then((res) => {
           if (res.data.flag) {
             this.getCommentList()
             sessionStorage.setItem('parentCommentId', -1)
@@ -302,31 +265,40 @@ export default {
         const parentCommentId = sessionStorage.getItem('parentCommentId')
         this.formData.blogId = sessionStorage.getItem('blogId')
         this.formData.parentCommentId = parentCommentId
-        var param = this.$encrypTion(JSON.stringify(this.formData))
+        // var param = this.$encrypTion(JSON.stringify(this.formData))
         // 表单校验通过，发ajax请求，把数据录入至后台处理
-        this.$http.post('/api/server/comment/replyComment', param).then((res) => {
+        this.$http.post('/api/server/comment/replyComment', this.formData).then((res) => {
           if (res.data.flag) {
             this.getCommentList()
             sessionStorage.setItem('parentCommentId', -1)
             this.formData.content = '请输入评论信息...'
+            this.formData.replyUid = ''
             // 弹出提示信息
             this.$message({
               message: '回复评论成功',
               type: 'success'
             })
           } else { // 执行失败
-            this.$message.error('回复评论成功失败')
+            this.$message.error('回复评论失败')
           }
         })
       }
     },
     replyComment (item) { // 获取被评论者的id作为父id
       this.formData.content = '对' + item.nickname + '说点啥吧：(回复时，请删除本行)'
-      sessionStorage.setItem('parentCommentId', item.commentId)
+      this.formData.replyUid = item.uid
+      alert('回复的id是' + item.uid)
+      alert(item.parentCommentId)
+      if (item.parentCommentId === '-1') { // 代表回复的是根评论
+        alert('aa')
+        sessionStorage.setItem('parentCommentId', item.commentId)
+      } else {
+        sessionStorage.setItem('parentCommentId', item.parentCommentId)
+      }
     },
     async getCommentList () {
       const blogId = sessionStorage.getItem('blogId')
-      const { data: res } = await this.$http.get(`/api/server/comment/${blogId}`)
+      const { data: res } = await this.$http.get(`/api/server/comment/commentList/${blogId}`)
       console.log(res)
       if (!res.flag) {
         return this.$message.error('获取评论列表信息失败！')
@@ -339,7 +311,7 @@ export default {
     // 获取所有的菜单
     async getOneBlog () {
       const blogId = sessionStorage.getItem('blogId')
-      const { data: res } = await this.$http.get(`/api/server/blog/${blogId}`)
+      const { data: res } = await this.$http.get(`/api/server/blog/getById/${blogId}`)
       if (!res.flag) {
         // return this.$message.error('获取博客信息失败！')
         return this.$message.error(res.message)
@@ -353,12 +325,6 @@ export default {
         this.nickname = JSON.parse(this.user).nickname
         this.avatar = JSON.parse(this.user).avatar
       }
-    },
-    logout () {
-      window.sessionStorage.clear()
-      this.$router.push('/home')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
     }
   },
   mounted () {

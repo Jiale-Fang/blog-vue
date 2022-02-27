@@ -1,5 +1,7 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import App from './App.vue'
+import store from "./store";
 import router from './router'
 import axios from 'axios'
 // 导入后台管理全局样式表
@@ -26,6 +28,7 @@ Vue.use(prismCss)
 Vue.use(prismjs)
 // use
 Vue.use(mavonEditor)
+Vue.use(Vuex)
 Vue.prototype.$http = axios
 axios.withCredentials = true
 Vue.prototype.$encrypTion = function (obj) {
@@ -56,5 +59,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
