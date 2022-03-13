@@ -34,6 +34,7 @@
             <div class="mavonEditor" style="margin-top: 10px;">
               <el-form-item prop="content">
                 <mavon-editor :codeStyle="markdownOption.codeStyle"
+                              ref=md
                               style="max-height: 500px"
                               :scrollStyle="true"
                               :ishljs="true"
@@ -70,7 +71,7 @@
             <el-button type="primary">
             <el-upload
               class="avatar-uploader"
-              action="serverApi/oss/userAvatar/"
+              action="serverApi/oss/articleImage"
               accept="image/png,.jpg"
               multiple
               :limit="1"
@@ -261,10 +262,10 @@ export default {
       var form = new FormData()
       // 文件对象
       form.append('file', fileObj)
-      const { data: res } = await this.$http.post('/serverApi/oss/userAvatar', form)
+      const { data: res } = await this.$http.post('/serverApi/oss/articleImage', form)
       if (res.flag) {
         // 弹出提示信息
-        this.$message.success('上传头像成功')
+        this.$message.success('上传图片成功')
         this.formData.avatar = res.data.url
         console.log(res.data.url)
       } else { // 执行失败
@@ -287,29 +288,14 @@ export default {
       return isJPG && isLt5M
     },
     handleEditorImgAdd (pos, $file) {
+      var _this = this;
       const formData = new FormData()
       formData.append('file', $file)
       this.imgFile[pos] = $file
       this.$http.post('/serverApi/oss/articleImage', formData).then(res => {
         if (res.data.flag) {
           this.$message.success('上传成功')
-          const url = res.data.data.url
-          let name = $file.name
-          if (name.includes('-')) {
-            name = name.replace(/-/g, '')
-          }
-          const content = this.formData.content
-          // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)  这里是必须要有的
-          if (content.includes(name)) {
-            const oStr = `(${pos})`
-            const nStr = `(${url})`
-            const index = content.indexOf(oStr)
-            const str = content.replace(oStr, '')
-            const insertStr = (soure, start, newStr) => {
-              return soure.slice(0, start) + newStr + soure.slice(start)
-            }
-            this.formData.content = insertStr(str, index, nStr)
-          }
+          _this.$refs.md.$imglst2Url([[pos, res.data.data.url]])
         } else {
           this.$message.error(res.data.message)
         }
@@ -332,7 +318,7 @@ export default {
           // const param = this.$encrypTion(JSON.stringify(this.formData))
           this.formData.flag = '发布'
           // var param = this.$encrypTion(this.formData)
-          this.$http.post('/api/server/blog/add', this.formData).then((res) => {
+          this.$http.post('/api/server/blog/admin/add', this.formData).then((res) => {
             // 关闭新增窗口
             this.dialogFormVisible = false
             if (res.data.flag) {

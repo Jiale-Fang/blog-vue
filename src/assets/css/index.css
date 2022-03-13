@@ -209,7 +209,39 @@ p {
     padding: 18vh 0.5em 0 0.5rem;
    }
 }
-
+.social-login-title {
+  margin-top: 1.5rem;
+  color: #b5b5b5;
+  font-size: 0.75rem;
+  text-align: center;
+}
+.social-login-title::before {
+  content: "";
+  display: inline-block;
+  background-color: #d8d8d8;
+  width: 60px;
+  height: 1px;
+  margin: 0 12px;
+  vertical-align: middle;
+}
+.social-login-title::after {
+  content: "";
+  display: inline-block;
+  background-color: #d8d8d8;
+  width: 60px;
+  height: 1px;
+  margin: 0 12px;
+  vertical-align: middle;
+}
+.social-login-wrapper {
+  margin-top: 1rem;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 6px;
+}
+.social-login-wrapper a {
+  text-decoration: none;
+}
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

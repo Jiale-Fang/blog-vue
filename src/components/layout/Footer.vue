@@ -17,7 +17,7 @@
     bottom: 0!important;
     width: 100%;
     line-height: 2;
-    position: relative;
+    position: static;
     padding: 40px 20px;
     color: #eee;
     font-size: 14px;

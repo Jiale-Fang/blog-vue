@@ -27,8 +27,26 @@
           <el-form-item class="btns">
             <el-button type="success" @click="handleCreate">注册</el-button>
             <el-button type="primary" @click="login">登录</el-button>
-            <el-button type="info" @click="resetLoginForm">重置</el-button>
+            <el-button type="info" @click="resetPassword">忘记密码</el-button>
           </el-form-item>
+          <div></div>
+          <div class="social-login-title">社交账号登录</div>
+          <div class="social-login-wrapper">
+            <!-- 微博登录 -->
+            <a
+              v-if="showLogin('weibo')"
+              class="mr-3 iconfont iconweibo"
+              style="color:#e05244"
+              @click="weiboLogin"
+            />
+            <!-- qq登录 -->
+            <a
+              v-if="showLogin('qq')"
+              class="iconfont iconqq"
+              style="color:#00AAEE; margin-left: 8px"
+              @click="qqLogin"
+            />
+          </div>
         </el-form>
       </div>
       <!-- 注册弹层-->
@@ -55,7 +73,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="邮箱">
+              <el-form-item label="邮箱" prop="email">
                 <el-input v-model="formData.email"/>
               </el-form-item>
             </el-col>
@@ -133,7 +151,8 @@ export default {
         nickname: [
           { required: true, message: '请输入昵称', trigger: 'blur' },
           { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
-        ]
+        ],
+        email: [{ required: true, message: '请填写电子邮箱', trigger: 'change' }]
       }
     }
   },
@@ -141,6 +160,51 @@ export default {
     this.getVerifyCode()
   },
   methods: {
+    weiboLogin () {
+      // 保留当前路径
+      this.$store.commit("saveLoginUrl", this.$route.path);
+      window.open(
+        "https://api.weibo.com/oauth2/authorize?client_id=" +
+        this.config.WEIBO_APP_ID +
+        "&response_type=code&redirect_uri=" +
+        this.config.WEIBO_REDIRECT_URI,
+        "_self"
+      );
+    },
+    qqLogin () {
+      // 保留当前路径
+      this.$store.commit("saveLoginUrl", this.$route.path);
+      if (
+        navigator.userAgent.match(
+          /(iPhone|iPod|Android|ios|iOS|iPad|Backerry|WebOS|Symbian|Windows Phone|Phone)/i
+        )
+      ) {
+        // eslint-disable-next-line no-undef
+        QC.Login.showPopup({
+          appId: this.config.QQ_APP_ID,
+          redirectURI: this.config.QQ_REDIRECT_URI
+        });
+      } else {
+        window.open(
+          "https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=" +
+          +this.config.QQ_APP_ID +
+          "&response_type=token&scope=all&redirect_uri=" +
+          this.config.QQ_REDIRECT_URI,
+          "_self"
+        );
+      }
+    },
+    socialLoginList () {
+      return this.$store.state.blogInfo.websiteConfig.socialLoginList;
+    },
+    showLogin () {
+      return function (type) {
+        return this.socialLoginList.indexOf(type) !== -1;
+      };
+    },
+    resetPassword () {
+      this.$store.state.forgetFlag = true;
+    },
     masterFileMax (files, fileList) {
       console.log(files, fileList)
       this.$message.warning('请最多上传一张图片')
@@ -193,12 +257,22 @@ export default {
       this.dialogFormVisible = true
     },
     regist () {
+      var regEmail = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+      // eslint-disable-next-line eqeqeq
+      if (this.formData.email != '' && !regEmail.test(this.formData.email)) {
+        this.$message({
+          message: '邮箱格式不正确',
+          type: 'error'
+        })
+        this.formData.email = ''
+        return false
+      }
       // 进行表单校验
       this.$refs.registForm.validate((valid) => {
         if (valid) {
           // 表单校验通过，发ajax请求，把数据录入至后台处理
-          const param = this.$encrypTion(JSON.stringify(this.formData))
-          this.$http.post('/api/server/user/add', param).then((res) => {
+          // const param = this.$encrypTion(JSON.stringify(this.formData))
+          this.$http.post('/api/server/user/add', this.formData).then((res) => {
             // 关闭新增窗口
             this.dialogFormVisible = false
             if (res.data.flag) {
@@ -272,7 +346,7 @@ export default {
   }
   .login_box {
     width: 450px;
-    height: 360px;
+    height: 410px;
     background-color: #fff;
     border-radius: 3px;
     position: absolute;

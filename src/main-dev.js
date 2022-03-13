@@ -4,6 +4,7 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import axios from 'axios'
+import config from "./assets/js/config";
 // 导入后台管理全局样式表
 import './assets/css/global.css'
 import './assets/css/iconfont.css'
@@ -19,11 +20,15 @@ import JsEncrypt from 'jsencrypt'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import APlayer from '@moefe/vue-aplayer'
-
+import "./assets/css/vue-social-share/client.css";
+import Share from "vue-social-share";
+Vue.prototype.config = config;
+Vue.config.productionTip = false;
 Vue.use(APlayer, {
   defaultCover: 'https://github.com/u3u.png',
   productionTip: true
 })
+Vue.use(Share);
 Vue.use(prismCss)
 Vue.use(prismjs)
 // use
@@ -67,6 +72,7 @@ axios.interceptors.response.use(config => {
   return config
 })
 Vue.config.productionTip = false
+Vue.config.devtools = true
 new Vue({
   el: '#app',
   router,

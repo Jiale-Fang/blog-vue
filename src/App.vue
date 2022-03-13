@@ -6,6 +6,8 @@
 <!--    <MusicTopNavBar v-show="( path==='/music' || path==='discovery' || path==='/playlists' || path==='/songs' || path==='/mvs' )"></MusicTopNavBar>-->
     <AdminTopNavBar v-show="false"></AdminTopNavBar>
     <Audio></Audio>
+    <!-- 忘记密码模态框 -->
+    <ForgetModel></ForgetModel>
 <!--    <Audio v-show="( path==='/home' || path==='/types' || path==='/archives' || path==='/link' || path==='/blog' || path==='/tags' || path==='/about' || path==='/message' || path==='/login' || path==='/crawler' || path==='/crawlerBlog' )"></Audio>-->
     <router-view/>
 <!--    <Footer v-show="( path==='/home' || path==='/types' || path==='/archives' || path==='/link' || path==='/blog' || path==='/tags' || path==='/about')"></Footer>-->
@@ -13,6 +15,7 @@
 </template>
 <script>
 import Vue from 'vue'
+import ForgetModel from './components/model/ForgetModel'
 import TopNavBar from './components/layout/TopNavBar'
 import AdminTopNavBar from './components/layout/AdminTopNavBar'
 import Audio from './components/music/Audio'
@@ -28,6 +31,7 @@ export default {
     Audio,
     TopNavBar,
     // Footer,
+    ForgetModel,
     AdminTopNavBar
   },
   // 判断路由

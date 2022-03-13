@@ -9,11 +9,11 @@
       <div class="float-right nav-title">
         <el-input v-model="queryString" v-if="searchFlag" style="float: top;width: 100px" placeholder="请输入内容"></el-input><i class="el-icon-circle-close" v-if="searchFlag" @click="closeSearch"></i>
         <div class="menus-item">
-          <a @click="search"><i class="iconfont2 iconsousuo" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 15px">搜索</span></a>
+          <a @click="search"><i class="search icon" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 15px">搜索</span></a>
         </div>
         <div class="menus-item">
           <router-link to="/home">
-            <i class="iconfont2 iconzhuye" style="color: whitesmoke" /><span style="color: whitesmoke;margin-right: 10px">首页</span>
+            <i class="home icon" style="color: whitesmoke" /><span style="color: whitesmoke;margin-right: 10px">首页</span>
           </router-link>
         </div>
         <div class="menus-item">
@@ -32,12 +32,12 @@
             <ul class="user-submenu">
               <li>
                 <router-link to="/types">
-                  <i class="iconfont2 iconfenlei"/> 分类
+                  <i class="th icon"/> 分类
                 </router-link>
               </li>
               <li>
                 <router-link to="/tags">
-                  <i class="iconfont2 iconbiaoqian"/> 标签
+                  <i class="tags icon"/> 标签
                 </router-link>
               </li>
             </ul>
@@ -45,17 +45,17 @@
         </div>
         <div class="menus-item">
           <router-link to="/archives">
-            <i class="iconfont2 iconguidang" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">归档</span>
+            <i class="archive icon" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">归档</span>
           </router-link>
         </div>
         <div class="menus-item">
           <router-link to="/link">
-            <i class="iconfont2 iconlianjie" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">友链</span>
+            <i class="linkify icon" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">友链</span>
           </router-link>
         </div>
         <div class="menus-item">
           <router-link to="/message">
-            <i class="iconfont2 iconpinglunzu" style="color: whitesmoke"/> <span style="color: whitesmoke;margin-right: 10px">留言</span>
+            <i class="rocketchat icon" style="color: whitesmoke"/> <span style="color: whitesmoke;margin-right: 10px">留言</span>
           </router-link>
         </div>
         <div class="user-btn">
@@ -74,7 +74,7 @@
               </li>
               <li>
                 <router-link to="/about">
-                  <i class="iconfont2 iconzhifeiji"/> 关于我
+                  <i class="paper plane icon"/> 关于我
                 </router-link>
               </li>
             </ul>
@@ -82,9 +82,19 @@
         </div>
         <div class="user-btn">
           <a v-if="avatar===''">
-            <router-link to="/login">
-            <i class="iconfont2 icondenglu" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">登录</span>
-            </router-link>
+            <i class="el-icon-user-solid" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">登录</span>
+            <ul class="user-submenu">
+              <li>
+                <router-link to="/login">
+                  <i class="el-icon-s-custom" /> 普通用户
+                </router-link>
+              </li>
+              <li>
+                <a href="https://admin.tcefrep.site/">
+                  <i class="user secret icon"/> 管理员
+                </a>
+              </li>
+            </ul>
           </a>
           <template v-else>
             <img

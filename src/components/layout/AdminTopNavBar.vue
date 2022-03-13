@@ -39,28 +39,28 @@ export default {
       dataList: [
         {
           id: 1,
-          path: '/#/blogs',
+          path: '/blogs',
           active: 'item',
           icon: 'mini edit icon',
           name: '个人博客'
         },
         {
           id: 2,
-          path: '/#/types2',
+          path: '/types2',
           active: 'item',
           icon: 'mini idea icon',
           name: '分类管理'
         },
         {
           id: 3,
-          path: '/#/tags2',
+          path: '/tags2',
           active: 'item',
           icon: 'mini tags icon',
           name: '标签管理'
         },
         {
           id: 4,
-          path: '/#/home',
+          path: '/home',
           active: 'item',
           icon: 'mini home icon',
           name: '首页'
@@ -101,7 +101,6 @@ export default {
       }
     },
     logout () {
-
       window.sessionStorage.clear()
       this.$router.push('/home')
       // 刷新页面，删除vuex数据

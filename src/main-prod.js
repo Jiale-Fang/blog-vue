@@ -4,6 +4,7 @@ import App from './App.vue'
 import store from "./store";
 import router from './router'
 import axios from 'axios'
+import config from "./assets/js/config";
 // 导入后台管理全局样式表
 import './assets/css/global.css'
 import './assets/css/me.css'
@@ -20,6 +21,9 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import JsEncrypt from 'jsencrypt'
 import APlayer from '@moefe/vue-aplayer'
+
+Vue.prototype.config = config;
+Vue.config.productionTip = false;
 Vue.use(APlayer, {
   defaultCover: 'https://github.com/u3u.png',
   productionTip: true
@@ -56,6 +60,7 @@ axios.interceptors.response.use(config => {
   return config
 })
 Vue.config.productionTip = false
+Vue.config.devtools = true
 new Vue({
   el: '#app',
   router,

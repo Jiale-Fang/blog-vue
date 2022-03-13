@@ -92,7 +92,7 @@ export default {
         pageSize: this.pagination.pageSize,
         queryString: this.pagination.queryString
       }
-      const { data: res } = await this.$http.post('/api/server/blog/findFavoritesPage', param)
+      const { data: res } = await this.$http.post('/api/server/blog/admin/findFavoritesPage', param)
       if (!res.flag) {
         return this.$message.error('获取分类列表失败！')
       }

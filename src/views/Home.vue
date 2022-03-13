@@ -6,14 +6,14 @@
         <h1 class="blog-title animated zoomIn">
           首页
         </h1>
+        <div class="ui wechat-qr flowing popup transition hidden">
+          <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui rounded image" style="width: 110px">
+        </div>
         <!-- 联系方式 -->
         <div class="blog-contact animated zoomIn">
           <a class="github circular icon button" data-content="https://gitee.com/fang-jiale" data-position="bottom center" style="margin-right: 50px"><i class="github icon"></i></a>
           <a class="wechat circular icon button" style="margin-right: 50px"><i class="weixin icon"></i></a>
           <a class="qq circular icon button" data-content="1626680964" data-position="bottom center"><i class="qq icon"></i></a>
-        </div>
-        <div class="ui wechat-qr flowing popup transition hidden">
-          <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui rounded image" style="width: 110px">
         </div>
         <!-- 向下滚动 -->
         <div class="scroll-down" @click="scrollDown">
@@ -109,7 +109,7 @@
                     <i class="idea icon"></i>分类
                   </div>
                   <div class="right aligned column">
-                    <a href="/#/types" target="_blank">more <i class="angle double right icon"></i></a>
+                    <a href="/types" target="_blank">more <i class="angle double right icon"></i></a>
                   </div>
                 </div>
               </div>
@@ -133,7 +133,7 @@
                     <i class="tags icon"></i>标签
                   </div>
                   <div class="right aligned column">
-                    <a href="/#/tags" target="_blank">more <i class="angle double right icon"></i></a>
+                    <a href="/tags" target="_blank">more <i class="angle double right icon"></i></a>
                   </div>
                 </div>
               </div>
@@ -157,10 +157,10 @@
             </div>
 
             <!--二维码-->
-            <h4 class="ui horizontal divider header m-margin-top-large">扫码关注我</h4>
-            <div class="ui centered card my-shadow" style="width: 11em">
-              <img src="https://r.photo.store.qq.com/psc?/V53KcXfb1umonn4HbITu3rINxs43TczD/45NBuzDIW489QBoVep5mcaapv*CZPLor9HYeVrOOiVLnyRm8OUpwb6xeJ6lITPL.CQBAMN*ufWnqF4BJBqO4o0iDboC.V.GwA1i2AehYs7g!/r" alt="" class="ui rounded image" >
-            </div>
+            <h4 class="ui horizontal divider header m-margin-top-large">博客交流Q群822628221</h4>
+<!--            <div class="ui centered card my-shadow" style="width: 11em">-->
+<!--              <img src="https://tcefrep.oss-cn-beijing.aliyuncs.com/blog/image/IMG_1833.JPG" alt="" class="ui rounded image" >-->
+<!--            </div>-->
           </div>
 
         </div>
@@ -243,8 +243,8 @@ export default {
         const h = this.$createElement
         Notification({
           title: '通知',
-          message: h('i', { style: 'color: teal' }, '此次更新了一个新模块：聊天室模块，并且已经支持上传图片等功能；后花园也有新功能，测试还不完善可能还有bug。' +
-            '有关ElasticSearch服务的2核4G服务器过期了（由于贫穷），搜索功能暂时无法使用，敬请谅解！'),
+          message: h('i', { style: 'color: teal' }, '此次更新管理员的系统后台，完善了权限功能'),
+          position: 'top-left',
           duration: 0
         })
       }
@@ -335,7 +335,7 @@ export default {
     })
     $('.wechat').popup({
       popup: $('.wechat-qr'),
-      position: 'bottom center'
+      position: 'top center'
     })
     $('.qq').popup()
     $('.github').popup()

@@ -49,8 +49,7 @@ const AI = () => import(/* webpackChunkName: "Backyard" */ '../views/backyard/AI
 // const Blog = () => import(/* webpackChunkName: "Blog" */ '../components/Blog.vue')
 const PostBlogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/PostBlogs.vue')
 const Blogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/Blogs.vue')
-const Types2 = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/Types2.vue')
-const Tags2 = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/Tags2.vue')
+const FavoriteBlogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/FavoriteBlogs')
 // import PostBlogs from '../components/admin/PostBlogs'
 // import Blogs from '../components/admin/Blogs'
 // import Types2 from '../components/admin/Types2'
@@ -173,18 +172,26 @@ const routes = [
       { path: '/comments', component: Comments },
       { path: '/PostBlogs', component: PostBlogs },
       { path: '/Blogs', component: Blogs },
-      { path: '/tags2', component: Tags2 },
-      { path: '/types2', component: Types2 },
       { path: '/report', component: Report },
+      { path: '/FavoriteBlogs', component: FavoriteBlogs },
       { path: '/report2', component: Report2 }
     ]
   },
   {
     path: '*',
     component: NotFound
+  },
+  {
+    path: "/oauth/login/qq",
+    component: resolve => require(["../components/OauthLogin.vue"], resolve)
+  },
+  {
+    path: "/oauth/login/weibo",
+    component: resolve => require(["../components/OauthLogin.vue"], resolve)
   }
 ]
 const router = new VueRouter({
+  mode: "history",
   routes
 })
 

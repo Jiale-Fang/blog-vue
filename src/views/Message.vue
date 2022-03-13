@@ -75,7 +75,7 @@ export default {
         avatar: userAvatar,
         nickname: userNickname,
         messageContent: this.messageContent,
-        time: Math.floor(Math.random() * 10 + 3)
+        time: Math.floor(Math.random() * 10 + 6)
       }
       this.barrageList.push(message)
       this.messageContent = ''

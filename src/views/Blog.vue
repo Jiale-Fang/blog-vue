@@ -92,7 +92,7 @@
                   <div class="metadata">
                     <span class="date">{{item.createTime}}</span>
                   </div>
-                  <div class="text" v-text="item.content">
+                  <div class="text" v-html="item.content">
                   </div>
                   <div class="actions" >
                     <a class="reply" @click="replyComment(item)">回复</a>
@@ -109,7 +109,7 @@
                       <div class="metadata">
                         <span class="date">{{item2.createTime}}</span>
                       </div>
-                      <div class="text" v-text="item2.content">
+                      <div class="text" v-html="item2.content">
                       </div>
                       <div class="actions" >
                         <a class="reply" @click="replyComment(item2)">回复</a>
@@ -130,6 +130,7 @@
             <div class="fields">
               <div class="field  m-margin-bottom-small m-mobile-wide">
                 <button class="ui blue button m-mobile-wide" @click="addComment"><i class="edit icon"></i>发布</button>
+                <button class="ui green button m-mobile-wide" @click="addCode"><i class="code icon"></i>代码块</button>
               </div>
             </div>
 
@@ -141,11 +142,15 @@
     <div id="toolbar" class="m-padded m-fixed m-right-bottom" >
       <div class="ui vertical icon buttons ">
         <button type="button" class="ui toc blue button" >目录</button>
-        <a href="#comment-container" class="ui blue button" >留言</a>
+        <a id="toBottom-button" class="ui blue button" >留言</a>
         <button class="ui wechat icon button"><i class="weixin icon"></i></button>
         <button class="ui icon button" @click="thumbsUp">
           <i v-if="thumbsFlag" class="thumbs up icon"></i>
           <i v-else class="thumbs up outline icon"></i>
+        </button>
+        <button class="ui icon button" @click="favorite">
+          <i v-if="favoriteFlag" class="star icon"></i>
+          <i v-else class="star outline icon"></i>
         </button>
         <div id="toTop-button" class="ui icon button" ><i class="chevron up icon"></i></div>
       </div>
@@ -191,7 +196,8 @@ export default {
       avatar: '',
       dataList: [],
       dataList2: [],
-      thumbsFlag: false
+      thumbsFlag: false,
+      favoriteFlag: false
     }
   },
   created () {
@@ -200,10 +206,20 @@ export default {
     this.getCommentList()
   },
   methods: {
+    async favorite () {
+      if (this.toLogin()) {
+        const blogId = sessionStorage.getItem('blogId')
+        const { data: res } = await this.$http.get(`/api/server/blog/admin/favorite/${blogId}/${this.uid}`)
+        if (res.flag) {
+          this.$message.success(res.message)
+          this.favoriteFlag = res.data
+        }
+      }
+    },
     async thumbsUp () {
       if (this.toLogin()) {
         const blogId = sessionStorage.getItem('blogId')
-        const { data: res } = await this.$http.get(`/api/server/blog/thumbUp/${blogId}/${this.uid}`)
+        const { data: res } = await this.$http.get(`/api/server/blog/admin/thumbUp/${blogId}/${this.uid}`)
         if (res.flag) {
           this.$message.success(res.message)
           this.thumbsFlag = true
@@ -238,7 +254,7 @@ export default {
         const commentId = item.commentId
         const blogId = sessionStorage.getItem('blogId')
         // 表单校验通过，发ajax请求，把数据录入至后台处理
-        this.$http.delete(`/api/server/comment/del/${blogId}/${commentId}`).then((res) => {
+        this.$http.delete(`/api/server/comment/admin/delComment/${blogId}/${commentId}`).then((res) => {
           if (res.data.flag) {
             this.getCommentList()
             sessionStorage.setItem('parentCommentId', -1)
@@ -259,6 +275,10 @@ export default {
         })
       })
     },
+    addCode () {
+      this.formData.content = this.formData.content + '\n<pre><code>\n' + '请在此输入要添加的代码（输入时请删除本句话）' +
+        '\n</code></pre>\n'
+    },
     async addComment () {
       if (this.toLogin()) {
         console.log(JSON.stringify(this.formData))
@@ -267,7 +287,7 @@ export default {
         this.formData.parentCommentId = parentCommentId
         // var param = this.$encrypTion(JSON.stringify(this.formData))
         // 表单校验通过，发ajax请求，把数据录入至后台处理
-        this.$http.post('/api/server/comment/replyComment', this.formData).then((res) => {
+        this.$http.post('/api/server/comment/admin/replyComment', this.formData).then((res) => {
           if (res.data.flag) {
             this.getCommentList()
             sessionStorage.setItem('parentCommentId', -1)
@@ -278,6 +298,9 @@ export default {
               message: '回复评论成功',
               type: 'success'
             })
+            setTimeout(() => {
+              this.reloadPrism()
+            }, 1000)
           } else { // 执行失败
             this.$message.error('回复评论失败')
           }
@@ -287,10 +310,7 @@ export default {
     replyComment (item) { // 获取被评论者的id作为父id
       this.formData.content = '对' + item.nickname + '说点啥吧：(回复时，请删除本行)'
       this.formData.replyUid = item.uid
-      alert('回复的id是' + item.uid)
-      alert(item.parentCommentId)
       if (item.parentCommentId === '-1') { // 代表回复的是根评论
-        alert('aa')
         sessionStorage.setItem('parentCommentId', item.commentId)
       } else {
         sessionStorage.setItem('parentCommentId', item.parentCommentId)
@@ -364,6 +384,9 @@ export default {
     $('#toTop-button').click(function () {
       console.log('111')
       $(window).scrollTo(0, 500)
+    })
+    $('#toBottom-button').click(function () {
+      $(window).scrollTo(999999999, 1000)
     })
     // eslint-disable-next-line no-unused-vars
     var qrcode = new QRCode('qrcode', {

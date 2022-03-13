@@ -290,7 +290,7 @@ export default {
           content: url,
           textType: 2
         }
-        this.$http.post('/api/server/groupChat/addMessage', param).then((res) => {
+        this.$http.post('/api/server/groupChat/admin/addMessage', param).then((res) => {
           // 关闭新增窗口
           if (!res.data.flag) {
             this.$message.error(res.data.code)
@@ -303,7 +303,7 @@ export default {
           content: url,
           textType: 2
         }
-        this.$http.post('/api/server/chatLog/addMessage', param).then((res) => {
+        this.$http.post('/api/server/chatLog/admin/addMessage', param).then((res) => {
           // 关闭新增窗口
           if (!res.data.flag) {
             this.$message.error(res.data.code)
@@ -389,7 +389,7 @@ export default {
       if (this.user != null) {
         this.avatar = JSON.parse(this.user).avatar
         this.uid = JSON.parse(this.user).uid
-        const { data: res } = await this.$http.get('/api/server/friends/getFriendsList')
+        const { data: res } = await this.$http.get('/api/server/friends/admin/getFriendsList')
         if (res.flag) {
           this.friendsList = res.data
         } else { // 执行失败
@@ -420,7 +420,7 @@ export default {
           content: this.messageToSend
         }
         this.messageToSend = ''
-        this.$http.post('/api/server/chatLog/addMessage', param).then((res) => {
+        this.$http.post('/api/server/chatLog/admin/addMessage', param).then((res) => {
           // 关闭新增窗口
           if (!res.data.flag) {
             this.$message.error(res.data.code)
@@ -444,7 +444,7 @@ export default {
           content: this.messageToSend
         }
         this.messageToSend = ''
-        this.$http.post('/api/server/groupChat/addMessage', param).then((res) => {
+        this.$http.post('/api/server/groupChat/admin/addMessage', param).then((res) => {
           // 关闭新增窗口
           if (!res.data.flag) {
             this.$message.error(res.data.code)
@@ -465,7 +465,7 @@ export default {
         sender: this.uid,
         receiver: this.friendId
       }
-      this.$http.post('/api/server/chatLog/getMessage', param).then((res) => {
+      this.$http.post('/api/server/chatLog/admin/getMessage', param).then((res) => {
         if (res.data.flag) {
           this.messageContent = res.data.data
           this.toBottom()
@@ -477,7 +477,7 @@ export default {
     setToGroupChat () {
       this.isGroup = true
       this.groupMessageNum = 0
-      this.$http.get('/api/server/groupChat/getMessage').then((res) => {
+      this.$http.get('/api/server/groupChat/admin/getMessage').then((res) => {
         if (res.data.flag) {
           this.messageContent = res.data.data
           this.toBottom()
@@ -509,7 +509,7 @@ export default {
           uid: this.uid,
           friendId: item.uid
         }
-        this.$http.post('/api/server/friends/addFriend', param).then((res) => {
+        this.$http.post('/api/server/friends/admin/addFriend', param).then((res) => {
           // 关闭新增窗口
           if (!res.data.flag) {
             this.$message.error(res.data.code)

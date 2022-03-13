@@ -100,16 +100,9 @@ export default {
             },
             {
               id: 204,
-              authName: '标签管理',
-              path: 'tags2',
-              icon: 'iconfont2 iconbiaoqian',
-              children: []
-            },
-            {
-              id: 205,
-              authName: '分类管理',
-              path: 'types2',
-              icon: 'iconfont2 iconfenlei',
+              authName: '收藏夹',
+              path: 'FavoriteBlogs',
+              icon: 'el-icon-star-on',
               children: []
             }
           ]

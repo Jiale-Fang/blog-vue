@@ -4,6 +4,7 @@
       title="搜索"
       :visible.sync="centerDialogVisible"
       width="50%"
+      :modal="false"
       center>
       <!-- 输入框 -->
       <div class="search-input-wrapper">
