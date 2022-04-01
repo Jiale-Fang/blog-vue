@@ -112,6 +112,7 @@
 </template>
 
 <script>
+import { generaMenu } from '../../assets/js/menu'
 export default {
   data () {
     return {
@@ -160,6 +161,29 @@ export default {
     this.getVerifyCode()
   },
   methods: {
+    login () {
+      this.$refs.loginFormRef.validate(async valid => {
+        if (!valid) return
+        var param = this.$encrypTion(JSON.stringify(this.loginForm))
+        const { data: res } = await this.$http.post('/api/server/login', param)
+        console.log(res.flag)
+        if (res.flag !== true) {
+          this.$message.error(res.data)
+          await this.getVerifyCode()
+        } else {
+          this.$message.success('登录成功')
+          generaMenu()
+          // 1. 将登录成功之后的 token，保存到客户端的 sessionStorage 中
+          //   1.1 项目中出了登录之外的其他API接口，必须在登录之后才能访问
+          //   1.2 token 只应在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
+          window.sessionStorage.setItem('token', res.data.token)
+          this.$store.state.token = res.data.token
+          this.$store.commit("login", res.data.user);
+          // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
+          await this.$router.push('/welcome')
+        }
+      })
+    },
     weiboLogin () {
       // 保留当前路径
       this.$store.commit("saveLoginUrl", this.$route.path);
@@ -174,25 +198,13 @@ export default {
     qqLogin () {
       // 保留当前路径
       this.$store.commit("saveLoginUrl", this.$route.path);
-      if (
-        navigator.userAgent.match(
-          /(iPhone|iPod|Android|ios|iOS|iPad|Backerry|WebOS|Symbian|Windows Phone|Phone)/i
-        )
-      ) {
-        // eslint-disable-next-line no-undef
-        QC.Login.showPopup({
-          appId: this.config.QQ_APP_ID,
-          redirectURI: this.config.QQ_REDIRECT_URI
-        });
-      } else {
-        window.open(
-          "https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=" +
-          +this.config.QQ_APP_ID +
-          "&response_type=token&scope=all&redirect_uri=" +
-          this.config.QQ_REDIRECT_URI,
-          "_self"
-        );
-      }
+      window.open(
+        "https://graph.qq.com/oauth2.0/show?which=Login&display=pc&client_id=" +
+        +this.config.QQ_APP_ID +
+        "&response_type=token&scope=all&redirect_uri=" +
+        this.config.QQ_REDIRECT_URI,
+        "_self"
+      );
     },
     socialLoginList () {
       return this.$store.state.blogInfo.websiteConfig.socialLoginList;
@@ -241,12 +253,8 @@ export default {
     },
     async getVerifyCode () {
       const { data: res } = await this.$http.get('/api/server/admapi/captcha')
-      this.verifyCode = res.data
-      this.loginForm.verKey = res.code
-      // this.$message({
-      //   message: '部分功能只在用户登录后开发',
-      //   type: 'info'
-      // })
+      this.verifyCode = res.data.verCode
+      this.loginForm.verKey = res.data.verKey
     },
     // 点击重置按钮，重置登录表单
     resetLoginForm () {
@@ -288,34 +296,6 @@ export default {
         } else { // 校验不通过
           this.$message.error('校验失败，请检查输入格式')
           return false
-        }
-      })
-    },
-    login () {
-      this.$refs.loginFormRef.validate(async valid => {
-        if (!valid) return
-        // console.log('===>' + JSON.stringify(this.loginForm))
-        // console.log('===>' + this.$encrypTion(param))
-        // var param = this.$encrypTion(JSON.stringify(this.loginForm))
-        // console.log('param2' + param2)
-        const { data: res } = await this.$http.post('/api/server/login', this.loginForm)
-        console.log(res.flag)
-        if (res.flag !== true) {
-          this.$message.error(res.message)
-          await this.getVerifyCode()
-        } else {
-          this.$message.success('登录成功')
-          // 1. 将登录成功之后的 token，保存到客户端的 sessionStorage 中
-          //   1.1 项目中出了登录之外的其他API接口，必须在登录之后才能访问
-          //   1.2 token 只应在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
-          window.sessionStorage.setItem('token', res.code)
-          window.sessionStorage.setItem('user', JSON.stringify(res.data))
-          // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
-          await this.$router.push('/welcome')
-          // 刷新页面，删除vuex数据
-          // setTimeout(() => {
-          //   window.location.reload()
-          // }, 100)
         }
       })
     }

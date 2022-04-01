@@ -81,7 +81,7 @@
           </a>
         </div>
         <div class="user-btn">
-          <a v-if="avatar===''">
+          <a v-if="!this.$store.state.avatar">
             <i class="el-icon-user-solid" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">登录</span>
             <ul class="user-submenu">
               <li>
@@ -99,14 +99,14 @@
           <template v-else>
             <img
               class="user-avatar"
-              v-bind:src=this.avatar
+              v-bind:src=this.$store.state.avatar
               height="30"
               width="30"
             />
             <ul class="user-submenu">
               <li>
                 <router-link to="/adminHome">
-                  <i class="iconfont2 icongerenzhongxin" /> 个人中心
+                  <i class="user circle icon" /> 个人中心
                 </router-link>
               </li>
               <li>
@@ -115,7 +115,7 @@
                 </router-link>
               </li>
               <li>
-                <a @click="logout"><i class="iconfont2 icontuichu" /> 退出</a>
+                <a @click="logout"><i class="sign out alternate icon"></i> 退出</a>
               </li>
             </ul>
           </template>
@@ -130,34 +130,26 @@
 <script>
 import SearchModel from '../model/SearchModel'
 import Room from '../../views/backyard/Room'
+import { resetRouter } from '../../router'
 export default {
   components: {
     Room,
     SearchModel
   },
-  created () {
-    this.getUser()
-  },
+
   mounted () {
     window.addEventListener('scroll', this.scroll)
   },
-  // data: function () {
-  //   return {
-  //
-  //   }
-  // },
   data () {
     return {
       navClass: '',
-      avatar: '',
-      user: {},
       queryString: '',
       searchFlag: false
     }
   },
   methods: {
     toLogin () {
-      const tokenStr = window.sessionStorage.getItem('token')
+      const tokenStr = this.$store.state.token
       // 后端指定接口验证了token的正确性
       if (!tokenStr) {
         this.$confirm('登录后才能开启聊天室，请问是否先登录？', '提示', { // 确认框
@@ -182,15 +174,6 @@ export default {
     },
     search () {
       this.$refs.searchModel.setDialogVisible()
-      // this.searchFlag = true
-      // if (this.queryString !== '') {
-      //   sessionStorage.setItem('queryString', this.queryString)
-      //   this.queryString = ''
-      //   this.searchFlag = false
-      //   if (this.$route.path === '/home') { window.location.reload() } else {
-      //     this.$router.push('/home')
-      //   }
-      // }
     },
     scroll () {
       const that = this
@@ -206,23 +189,12 @@ export default {
       }
     },
     logout () {
+      // 清空用户菜单
+      resetRouter()
       window.sessionStorage.clear()
+      this.$store.commit('logout')
       this.$router.push('/home')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
     },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.nickname = JSON.parse(this.user).nickname
-        this.avatar = JSON.parse(this.user).avatar
-      }
-    }
-  },
-  computed: {
-    // avatar () {
-    //   return this.avatar
-    // }
   }
 }
 </script>

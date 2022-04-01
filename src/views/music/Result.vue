@@ -251,11 +251,11 @@ export default {
     },
     playMusic (id) {
       this.$root.$emit('songId', id)
+      this.$store.state.songId = id
     }
   }
 }
 </script>
 
 <style scoped>
-  @import "../../assets/music/index.css";
 </style>

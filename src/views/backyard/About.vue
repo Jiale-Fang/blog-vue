@@ -86,18 +86,6 @@ export default {
       avatar: ''
     }
   },
-  created () {
-    this.getUser()
-  },
-  methods: {
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.nickname = JSON.parse(this.user).nickname
-        this.avatar = JSON.parse(this.user).avatar
-      }
-    },
-  },
   mounted () {
     $('.menu.toggle').click(function () {
       $('.m-item').toggleClass('m-mobile-hide')

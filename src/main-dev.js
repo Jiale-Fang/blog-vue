@@ -1,13 +1,12 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
 import App from './App.vue'
 import store from './store'
-import router from './router'
+import router, { resetRouter } from './router'
 import axios from 'axios'
 import config from "./assets/js/config";
 // 导入后台管理全局样式表
-import './assets/css/global.css'
 import './assets/css/iconfont.css'
+import './assets/css/global.css'
 import './assets/css/index.css'
 import './assets/css/me.css'
 import './plugins/element.js'
@@ -33,7 +32,6 @@ Vue.use(prismCss)
 Vue.use(prismjs)
 // use
 Vue.use(mavonEditor)
-Vue.use(Vuex)
 Vue.prototype.$http = axios
 axios.withCredentials = true
 /**
@@ -73,9 +71,27 @@ axios.interceptors.response.use(config => {
 })
 Vue.config.productionTip = false
 Vue.config.devtools = true
-new Vue({
+const vueInstance = new Vue({
   el: '#app',
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
+
+axios.interceptors.response.use(
+  function (response) {
+    switch (response.data.code) {
+      case 51000:
+        Vue.prototype.$message.error("token已经过期，请重新登录")
+        // 清空用户菜单
+        resetRouter();
+        window.sessionStorage.clear()
+        vueInstance.$store.commit('logout')
+        vueInstance.$router.push("/login")
+    }
+    return response;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+)

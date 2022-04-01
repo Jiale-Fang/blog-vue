@@ -13,13 +13,13 @@
         <el-form ref="addForm" :model="formData" :rules="rules" >
           <div class="required field">
             <div class="ui left labeled input">
-              <el-form-item prop="shareStatement">
-                <el-select v-model="formData.shareStatement" placeholder="原创" style="margin-right: 10px; width: 100px;margin-left: 155px">
+              <el-form-item prop="copyright">
+                <el-select v-model="formData.copyright" placeholder="版权" style="margin-right: 10px; width: 100px;margin-left: 155px">
                   <el-option
-                    v-for="item in shareStatementList"
+                    v-for="item in copyrightList"
                     :key="item.id"
                     :label="item.name"
-                    :value="item.name">
+                    :value="item.id">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -98,12 +98,13 @@
           <div class="inline fields" style="margin-top: 10px;margin-left: 155px">
             <el-checkbox v-model="formData.recommend">推荐</el-checkbox>
             <el-checkbox v-model="formData.appreciation">赞赏</el-checkbox>
-            <el-checkbox v-model="formData.commentabled">评论</el-checkbox>
+            <el-checkbox v-model="formData.commentAble">评论</el-checkbox>
           </div>
           <div class="ui right aligned container">
             <button type="button" class="ui button" onclick="window.history.go(-1)" >返回</button>
             <button type="button" id="save-btn" class="ui secondary button">保存</button>
-            <button type="button" id="publish-btn" class="ui my-blue button" @click="addBlog">发布</button>
+            <button type="button" v-if="buttonFlag" id="publish-btn" class="ui my-blue button" @click="addOrUpdateBlog">发布</button>
+            <button type="button" v-if="!buttonFlag" id="update-btn" class="ui my-blue button" @click="addOrUpdateBlog">更新</button>
           </div>
         </el-form>
         </div>
@@ -120,8 +121,7 @@ export default {
     return {
       imageUrl: '',
       imgFile: [],
-      user: {},
-      nickname: '',
+      buttonFlag: false, // false显示发布,true显示更新
       // 被激活的链接地址
       avatar: '',
       rules: { // 校验规则
@@ -136,7 +136,7 @@ export default {
         typeId: [
           { required: true, message: '至少要有一个分类', trigger: 'blur' }
         ],
-        shareStatement: [
+        copyright: [
           { required: true, message: '至少选择一个文章信息', trigger: 'blur' }
         ],
         description: [
@@ -145,14 +145,14 @@ export default {
         ]
       },
       formData: {
-        shareStatement: '', // 版权状态
+        copyright: '', // 版权状态
         typeId: '', // 分类id
         title: '', // 博客标题
         content: '#### 使用 markdown 编辑器来开始书写你的博客吧!&emsp;已经支持markdown编辑器上传图片的功能', // 正文文本
         firstPicture: '点按钮添加博客首图（建议尺寸是800乘450），否则显示会不正常；或者自行添加图片链接，图片参考地址(https://picsum.photos/images),修改右边链接末尾id即可(https://unsplash.it/800/450?image=1005)', // 博客首图链接地址
         recommend: true, // 是否推荐
         appreciation: false, // 是否开启赞赏
-        commentabled: true, // 是否开启评论
+        commentAble: true, // 是否开启评论
         value: [], // 标签列表,
         flag: '', // 发布状态 (草稿还是发布)
         description: ''
@@ -194,7 +194,7 @@ export default {
       },
       typeList: [],
       tagList: [],
-      shareStatementList: [
+      copyrightList: [
         {
           id: 1,
           name: '原创'
@@ -249,10 +249,30 @@ export default {
   },
   created () {
     this.getTypeList()
-    this.getUser()
     this.getTagList()
+    this.getOneBlog()
   },
   methods: {
+    // 获取所有的菜单
+    async getOneBlog () {
+      const blogId = this.$store.state.adminBlogId
+      if (blogId != null) { // 代表是编辑博客要回显数据
+        this.buttonFlag = false
+        const { data: res } = await this.$http.get(`/api/server/blog/getById/${blogId}`)
+        if (!res.flag) {
+          return this.$message.error(res.message)
+        }
+        this.formData.blogId = blogId
+        this.formData.title = res.data.title
+        this.formData.description = res.data.description
+        this.formData.firstPicture = res.data.firstPicture
+        this.formData.description = res.data.description
+        this.formData.typeId = res.data.typeId
+        this.formData.content = res.data.content
+      } else {
+        this.buttonFlag = true
+      }
+    },
     masterFileMax (files, fileList) {
       console.log(files, fileList)
       this.$message.warning('请最多上传一张图片')
@@ -305,31 +325,26 @@ export default {
       delete this.imgFile[pos]
       this.$message.error('暂时无法删除图片！')
     },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      this.nickname = JSON.parse(this.user).nickname
-      this.avatar = JSON.parse(this.user).avatar
-    },
-    addBlog () {
+    addOrUpdateBlog () {
       // 进行表单校验
       this.$refs.addForm.validate((valid) => {
         if (valid) {
           // 表单校验通过，发ajax请求，把数据录入至后台处理
           // const param = this.$encrypTion(JSON.stringify(this.formData))
           this.formData.flag = '发布'
-          // var param = this.$encrypTion(this.formData)
-          this.$http.post('/api/server/blog/admin/add', this.formData).then((res) => {
+          this.$http.post('/api/server/blog/admin/addOrUpdate', this.formData).then((res) => {
             // 关闭新增窗口
             this.dialogFormVisible = false
             if (res.data.flag) {
               // 弹出提示信息
               this.$message({
-                message: '添加成功',
+                message: res.data.message,
                 type: 'success'
               })
+              this.$store.state.adminBlogId = null
               this.$router.push('/blogs')
             } else { // 执行失败
-              this.$message.error('添加失败')
+              this.$message.error(res.data.message)
             }
           })
         } else { // 校验不通过

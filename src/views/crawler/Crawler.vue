@@ -124,7 +124,6 @@ export default {
     }
   },
   created () {
-    this.getUser()
     this.findPage()
   },
   methods: {
@@ -132,8 +131,8 @@ export default {
       this.$refs.aiClassification.handleCreate()
     },
     toBlog (blogId) {
-      sessionStorage.setItem('blogId', blogId)
-      this.$router.push('/crawlerBlog')
+      this.$store.state.blogId = blogId;
+      this.$router.push({ path: "/crawlerBlog/" + blogId });
     },
     // 分页查询
     async findPage () {
@@ -143,7 +142,6 @@ export default {
         pageSize: this.pagination.pageSize,
         queryString: null
       }
-      // const param2 = this.$encrypTion(JSON.stringify(param))
       const { data: res } = await this.$http.post('/extension/crawler/crawlerPage', param)
       // const { data: res } = await this.$http.post('/extension/crawler/crawlerPage', param2)
       // 解析controller响应回的数据
@@ -152,13 +150,6 @@ export default {
       }
       this.pagination.total = res.data.total
       this.dataList = res.data.records
-    },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.nickname = JSON.parse(this.user).nickname
-        this.avatar = JSON.parse(this.user).avatar
-      }
     },
     handleCurrentChange (currentPage) {
       // 设置最新的页码

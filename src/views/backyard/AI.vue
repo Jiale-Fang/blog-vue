@@ -127,10 +127,6 @@ export default {
       }
     }
   },
-  created () {
-    this.getUser()
-    // this.listMessage()
-  },
   methods: {
     async randomPoem () {
       const { data: res } = await this.$http.get('/ai/poem/randomPoem')
@@ -191,13 +187,6 @@ export default {
         } else {
           this.$message.error(res.message)
         }
-      }
-    },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.nickname = JSON.parse(this.user).nickname
-        this.avatar = JSON.parse(this.user).avatar
       }
     },
     async addToList () {

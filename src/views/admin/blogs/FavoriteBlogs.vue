@@ -65,11 +65,6 @@ export default {
       },
       formData: {}, // 表单数据
       dataList: [], // 当前页要展示的分页列表数据
-      user: {},
-      nickname: '',
-      uid: '',
-      // 被激活的链接地址
-      avatar: '',
       rules: { // 校验规则
         // 真实姓名
         name: [
@@ -81,7 +76,6 @@ export default {
   },
   created () {
     this.findPage()
-    this.getUser()
   },
   methods: {
     // 分页查询
@@ -94,23 +88,10 @@ export default {
       }
       const { data: res } = await this.$http.post('/api/server/blog/admin/findFavoritesPage', param)
       if (!res.flag) {
-        return this.$message.error('获取分类列表失败！')
+        return this.$message.error(res.message)
       }
       this.pagination.total = parseInt(res.data.total)
       this.dataList = res.data.records
-    },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      this.nickname = JSON.parse(this.user).nickname
-      this.avatar = JSON.parse(this.user).avatar
-      this.uid = JSON.parse(this.user).uid
-      console.log(this.user)
-    },
-    logout () {
-      window.sessionStorage.clear()
-      this.$router.push('/login')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
     },
     // 切换页码
     handleCurrentChange (currentPage) {
@@ -140,8 +121,8 @@ export default {
       }
     },
     toBlog (blogId) {
-      sessionStorage.setItem('blogId', blogId)
-      this.$router.push('/blog')
+      this.$store.state.blogId = blogId;
+      this.$router.push({ path: "/blog/" + blogId });
     },
     handleCancelFavorites (row) {
       this.$confirm('请问是否要取消收藏该文章？', '取消收藏？', {

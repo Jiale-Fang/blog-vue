@@ -214,7 +214,7 @@ export default {
   },
   methods: {
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      // console.log(`当前页: ${val}`)
     },
     // 去mv详情页
     toMV (id) {
@@ -226,5 +226,4 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../assets/music/index.css";
 </style>

@@ -126,7 +126,6 @@ export default {
   },
   created () {
     this.findPage()
-    this.getUser()
   },
   methods: {
     pushPostBlogs () {
@@ -134,6 +133,7 @@ export default {
     },
     // 分页查询
     async findPage () {
+      this.$store.state.adminBlogId = null
       // 发送ajax，提交分页请求（页码，每页显示条数，查询条件)
       const param = {
         currentPage: this.pagination.currentPage,
@@ -145,7 +145,7 @@ export default {
       // 解析controller响应回的数据
       console.log('===>' + res.flag)
       if (!res.flag) {
-        return this.$message.error('获取分类列表失败！')
+        return this.$message.error(res.message)
       }
       this.pagination.total = res.data.total
       this.dataList = res.data.records
@@ -190,12 +190,6 @@ export default {
       // }
       // this.$message.success('更新用户状态成功！')
     },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      this.nickname = JSON.parse(this.user).nickname
-      this.avatar = JSON.parse(this.user).avatar
-      console.log(this.user)
-    },
     // 切换页码
     handleCurrentChange (currentPage) {
       // 设置最新的页码
@@ -220,9 +214,9 @@ export default {
     handleDelete () {
       this.$message.info('对不起，普通用户暂且没有此功能！在后台管理中，普通用户暂且只有添加博客的权限')
     },
-    handleUpdate () {
+    handleUpdate (row) {
       this.$router.push('/postblogs')
-      // this.$message.info('对不起，普通用户暂且没有此功能！在后台管理中，普通用户暂且只有添加博客的权限')
+      this.$store.state.adminBlogId = row.blogId
     }
   },
   mounted () {

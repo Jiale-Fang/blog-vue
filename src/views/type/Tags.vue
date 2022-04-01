@@ -116,7 +116,6 @@ export default {
     }
   },
   created () {
-    this.getUser()
     this.findPage(this.activeId)
     this.getTagList()
   },
@@ -126,8 +125,8 @@ export default {
       this.tagList = res.data
     },
     toBlog (blogId) {
-      sessionStorage.setItem('blogId', blogId)
-      this.$router.push('/blog')
+      this.$store.state.blogId = blogId;
+      this.$router.push({ path: "/blog/" + blogId });
     },
     async saveNavState (item) {
       console.log('----item----' + JSON.stringify(item))
@@ -140,12 +139,12 @@ export default {
     },
     // 分页查询
     async findPage (tagId) {
-      const id = sessionStorage.getItem('tagId')
-      if (id !== null) {
+      var id = this.$route.path.split('/tags/')[1]
+      if (tagId === '') {
         tagId = id
-        this.activeId = id
       }
-      sessionStorage.removeItem('tagId')
+      this.activeId = tagId
+      this.$store.state.tagId = null
       // 发送ajax，提交分页请求（页码，每页显示条数，查询条件)
       const param = {
         currentPage: this.pagination.currentPage,
@@ -153,21 +152,13 @@ export default {
         queryString: this.pagination.queryString,
         tagId: tagId
       }
-      var param2 = this.$encrypTion(JSON.stringify(param))
-      const { data: res } = await this.$http.post('/api/server/tagShow/getById', param2)
+      const { data: res } = await this.$http.post('/api/server/tagShow/getById', param)
       // 解析controller响应回的数据
       if (!res.flag) {
         return this.$message.error('获取首页列表失败！')
       }
       this.pagination.total = res.data.total
       this.dataList = res.data.records
-    },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.nickname = JSON.parse(this.user).nickname
-        this.avatar = JSON.parse(this.user).avatar
-      }
     },
     handleCurrentChange (currentPage) {
       // 设置最新的页码

@@ -2,7 +2,7 @@
   <div >
     <el-dialog
       title="搜索"
-      :visible.sync="centerDialogVisible"
+      :visible.sync="searchFlag"
       width="50%"
       :modal="false"
       center>
@@ -49,7 +49,6 @@
 export default {
   data: function () {
     return {
-      centerDialogVisible: false,
       input: '',
       blogList: [],
       total: -1,
@@ -58,20 +57,25 @@ export default {
   },
   methods: {
     setDialogVisible () {
-      this.centerDialogVisible = true
+      this.searchFlag = true
     },
     toBlog (blogId) {
-      sessionStorage.setItem('blogId', blogId)
-      this.centerDialogVisible = false
-      if (this.path === '/blog') {
-        window.location.reload()
-      }
-      this.$router.push('/blog')
+      this.$store.state.searchFlag = false;
+      this.$router.push({ path: "/blog/" + blogId });
     }
   },
   mounted () {
     this.path = this.$route.path
-    // console.log(this.$route.path)
+  },
+  computed: {
+    searchFlag: {
+      set (value) {
+        this.$store.state.searchFlag = value;
+      },
+      get () {
+        return this.$store.state.searchFlag;
+      }
+    },
   },
   watch: {
     $route (to, from) {

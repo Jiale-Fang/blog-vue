@@ -26,7 +26,7 @@
 <!--        <el-input v-if="searchFlag" style="float: top;width: 100px" placeholder="请输入内容" v-model="inputValue"-->
 <!--                  @keyup.enter="toResult"></el-input><i class="el-icon-circle-close" v-if="searchFlag" @click="closeSearch"></i>-->
         <div class="menus-item" @click="openSearch" v-if="!searchFlag">
-          <a @click="search"><i class="iconfont2 iconsousuo" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 15px">搜索</span></a>
+          <a @click="search"><i class="search icon" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 15px">搜索</span></a>
         </div>
         <div class="menus-item">
           <router-link to="/discovery">
@@ -50,7 +50,7 @@
         </div>
         <div class="menus-item" style="cursor:pointer;">
           <router-link to="/home">
-            <i class="iconfont2 iconzhuye" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">首页</span>
+            <i class="home icon" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">首页</span>
           </router-link>
         </div>
       </div>
@@ -61,16 +61,11 @@
 <script>
 export default {
   created () {
-    this.getUser()
+    this.$store.state.music = true
   },
   mounted () {
     window.addEventListener('scroll', this.scroll)
   },
-  // data: function () {
-  //   return {
-  //
-  //   }
-  // },
   data () {
     return {
       // 输入的内容
@@ -99,7 +94,7 @@ export default {
     search () {
       this.searchFlag = true
       if (this.queryString !== '') {
-        sessionStorage.setItem('queryString', this.queryString)
+        this.$store.state.queryString = this.queryString
         this.queryString = ''
         this.searchFlag = false
         if (this.$route.path === '/home') { window.location.reload() } else {
@@ -119,19 +114,6 @@ export default {
       } else {
         that.navClass = 'nav'
       }
-    },
-    logout () {
-      window.sessionStorage.clear()
-      this.$router.push('/home')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
-    },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.nickname = JSON.parse(this.user).nickname
-        this.avatar = JSON.parse(this.user).avatar
-      }
     }
   },
   computed: {
@@ -143,7 +125,7 @@ export default {
 </script>
 
 <style scoped>
-@import "../../assets/music/index.css";
+@import "../../assets/music/music.css";
   .navClass{
     /*position:fixed; !* 绝对定位，fixed是相对于浏览器窗口定位。 *!*/
     position: relative;

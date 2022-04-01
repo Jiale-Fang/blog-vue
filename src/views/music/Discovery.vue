@@ -135,13 +135,8 @@ export default {
     }).then(res => {
       this.mvs = res.data.result
     })
-    this.reload()
   },
   methods: {
-    // 再次回到博客首页要刷新
-    reload () {
-      window.sessionStorage.setItem('reload', 'true')
-    },
     // 去mv详情页
     toMV (id) {
       this.$router.push(`/mv?q=${id}`)
@@ -172,5 +167,4 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../assets/music/index.css";
 </style>

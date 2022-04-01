@@ -189,9 +189,6 @@ export default {
   components: {
     EmojiPicker
   },
-  mounted () {
-
-  },
   data () {
     return {
       imageUrl: '',
@@ -385,10 +382,7 @@ export default {
       }
     },
     async initChat () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.avatar = JSON.parse(this.user).avatar
-        this.uid = JSON.parse(this.user).uid
+      if (this.$store.state.uid) {
         const { data: res } = await this.$http.get('/api/server/friends/admin/getFriendsList')
         if (res.flag) {
           this.friendsList = res.data
@@ -493,12 +487,6 @@ export default {
       const messageNum = this.friendsList[index].messageNum
       this.$set(this.friendsList[index], 'messageNum', messageNum + 1)
     },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.username = JSON.parse(this.user).username // 初始化自己的用户名
-      }
-    },
     openDialog (item) {
       this.$confirm('您确定要添加用户名为' + item.username + '的用户吗？该功能处于测试阶段，点击确认后无需对方确认请求即可添加成功', '提示', {
         confirmButtonText: '确定',
@@ -529,8 +517,9 @@ export default {
     }
   },
   created () {
+    this.avatar = this.$store.state.avatar
+    this.uid = this.$store.state.uid
     this.initChat()
-    this.getUser()
     this.getUserList()
     const ws = useWebSocket(handleMessage)
     this.ws = ws

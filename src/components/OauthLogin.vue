@@ -12,6 +12,8 @@
 
 <script>
 /* eslint-disable no-undef */
+import { generaMenu } from '../assets/js/menu'
+
 export default {
   created () {
     const that = this;
@@ -28,9 +30,11 @@ export default {
             .then(({ data }) => {
               if (data.flag) {
                 // 保存登录状态
-                // that.$store.commit("login", data.data);
-                sessionStorage.setItem('token', data.code)
-                sessionStorage.setItem('user', JSON.stringify(data.data))
+                window.sessionStorage.setItem('token', data.data.token)
+                that.$store.state.token = data.data.token
+                that.$store.commit("login", data.data.user);
+                generaMenu()
+                that.$router.push({ path: "/welcome" });
                 if (data.data.email == null) {
                   that.$message.info("请绑定邮箱以便及时收到回复");
                 } else {
@@ -50,9 +54,11 @@ export default {
         .then(({ data }) => {
           if (data.flag) {
             // 保存登录状态
-            // that.$store.commit("login", data.data);
-            sessionStorage.setItem('token', data.code)
-            sessionStorage.setItem('user', JSON.stringify(data.data))
+            window.sessionStorage.setItem('token', data.data.token)
+            that.$store.state.token = data.data.token
+            that.$store.commit("login", data.data.user);
+            generaMenu()
+            that.$router.push({ path: "/welcome" });
             if (data.data.email == null) {
               that.$message.info("请绑定邮箱以便及时收到回复");
             } else {
@@ -62,13 +68,6 @@ export default {
             that.$message.error(data.message);
           }
         });
-    }
-    // 跳转回原页面
-    const loginUrl = that.$store.state.loginUrl;
-    if (loginUrl != null && loginUrl !== "") {
-      that.$router.push({ path: loginUrl });
-    } else {
-      that.$router.push({ path: "/" });
     }
   }
 };

@@ -130,14 +130,13 @@ export default {
     }
   },
   created () {
-    this.getUser()
     this.findPage(this.activeId)
     this.getTypeList()
   },
   methods: {
     toBlog (blogId) {
-      sessionStorage.setItem('blogId', blogId)
-      this.$router.push('/blog')
+      this.$store.state.blogId = blogId;
+      this.$router.push({ path: "/blog/" + blogId });
     },
     async saveNavState (item) {
       this.activeId = item.typeId
@@ -153,12 +152,12 @@ export default {
     },
     // 分页查询
     async findPage (typeId) {
-      const id = sessionStorage.getItem('typeId')
-      if (id !== null) {
+      var id = this.$route.path.split('/types/')[1]
+      if (typeId === '') {
         typeId = id
-        this.activeId = id
       }
-      sessionStorage.removeItem('typeId')
+      this.activeId = typeId
+      this.$store.state.typeId = null
       // 发送ajax，提交分页请求（页码，每页显示条数，查询条件)
       const param = {
         currentPage: this.pagination.currentPage,
@@ -166,21 +165,13 @@ export default {
         queryString: this.pagination.queryString,
         typeId: typeId
       }
-      var param2 = this.$encrypTion(JSON.stringify(param))
-      const { data: res } = await this.$http.post('/api/server/typeShow/getById', param2)
+      const { data: res } = await this.$http.post('/api/server/typeShow/getById', param)
       // 解析controller响应回的数据
       if (!res.flag) {
         return this.$message.error('获取首页列表失败！')
       }
       this.pagination.total = res.data.total
       this.dataList = res.data.records
-    },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.nickname = JSON.parse(this.user).nickname
-        this.avatar = JSON.parse(this.user).avatar
-      }
     },
     handleCurrentChange (currentPage) {
       // 设置最新的页码

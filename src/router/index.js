@@ -2,23 +2,23 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Blog from '../views/Blog'
 import SearchModel from '../components/model/SearchModel'
-import Test from '../views/admin/Test'
+// import Test from '../views/admin/Test'
 // import Welcome from '../views/admin/Welcome'
 // const Blog = () => import(/* webpackChunkName: "BW" */ '../views/Blog')
-const Welcome = () => import(/* webpackChunkName: "BW" */ '../views/admin/Welcome')
-const AdminHome = () => import(/* webpackChunkName: "BW" */ '../components/layout/AdminHome')
-
-// import Users from '../views/admin/users/Users'
-const Users = () => import(/* webpackChunkName: "Users" */ '../views/admin/users/Users')
-const Comments = () => import(/* webpackChunkName: "Users" */ '../views/admin/users/Comments')
-
-const Report = () => import(/* webpackChunkName: "dataWatch" */ '../views/admin/dataWatch/Report')
-const Report2 = () => import(/* webpackChunkName: "dataWatch" */ '../views/admin/dataWatch/Report2')
+// const Welcome = () => import(/* webpackChunkName: "BW" */ '../views/admin/Welcome')
+// const AdminHome = () => import(/* webpackChunkName: "BW" */ '../components/layout/AdminHome')
+//
+// // import Users from '../views/admin/users/Users'
+// const Users = () => import(/* webpackChunkName: "Users" */ '../views/admin/users/Users')
+// const Comments = () => import(/* webpackChunkName: "Users" */ '../views/admin/users/Comments')
+//
+// const Report = () => import(/* webpackChunkName: "dataWatch" */ '../views/admin/dataWatch/Report')
+// const Report2 = () => import(/* webpackChunkName: "dataWatch" */ '../views/admin/dataWatch/Report2')
 
 const Login = () => import(/* webpackChunkName: "Login_NotFound" */ '../views/admin/Login.vue')
-const NotFound = () => import(/* webpackChunkName: "Login_NotFound" */ '../views/NotFound.vue')
+// const NotFound = () => import(/* webpackChunkName: "Login_NotFound" */ '../views/NotFound.vue')
 // import Login from '../components/admin/Login'
-// /import NotFound from '../components/NotFound'
+// import NotFound from '../components/NotFound'
 const Home = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/Home.vue')
 const Types = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/type/Types.vue')
 const Tags = () => import(/* webpackChunkName: "Home_Types_Tag_Crawler" */ '../views/type/Tags.vue')
@@ -47,9 +47,9 @@ const AI = () => import(/* webpackChunkName: "Backyard" */ '../views/backyard/AI
 // import Archives from '../components/Archives'
 // import About from '../components/About'
 // const Blog = () => import(/* webpackChunkName: "Blog" */ '../components/Blog.vue')
-const PostBlogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/PostBlogs.vue')
-const Blogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/Blogs.vue')
-const FavoriteBlogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/FavoriteBlogs')
+// const PostBlogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/PostBlogs.vue')
+// const Blogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/Blogs.vue')
+// const FavoriteBlogs = () => import(/* webpackChunkName: "admin" */ '../views/admin/blogs/FavoriteBlogs')
 // import PostBlogs from '../components/admin/PostBlogs'
 // import Blogs from '../components/admin/Blogs'
 // import Types2 from '../components/admin/Types2'
@@ -57,7 +57,7 @@ const FavoriteBlogs = () => import(/* webpackChunkName: "admin" */ '../views/adm
 // import Tags2 from '../components/admin/Tags2'
 Vue.use(VueRouter)
 
-const routes = [
+export const constantRoutes = [
   { path: '/', redirect: 'home' },
   { path: '/login', component: Login },
   {
@@ -71,9 +71,19 @@ const routes = [
     component: SearchModel
   },
   {
-    path: '/Blog',
+    path: '/Blog/:blogId',
     name: 'Blog',
     component: Blog
+  },
+  {
+    path: '/Types/:typeId',
+    name: 'Types',
+    component: Types
+  },
+  {
+    path: '/Tags/:tagId',
+    name: 'Tags',
+    component: Tags
   },
   {
     path: '/Types',
@@ -121,6 +131,11 @@ const routes = [
     component: CrawlerBlog
   },
   {
+    path: '/CrawlerBlog/:blogId',
+    name: 'CrawlerBlog',
+    component: CrawlerBlog
+  },
+  {
     path: '/Music',
     name: 'Music',
     component: Music,
@@ -162,25 +177,10 @@ const routes = [
       }
     ]
   },
-  {
-    path: '/AdminHome',
-    component: AdminHome,
-    redirect: '/welcome',
-    children: [{ path: '/welcome', component: Welcome },
-      { path: '/test', component: Test },
-      { path: '/users', component: Users },
-      { path: '/comments', component: Comments },
-      { path: '/PostBlogs', component: PostBlogs },
-      { path: '/Blogs', component: Blogs },
-      { path: '/report', component: Report },
-      { path: '/FavoriteBlogs', component: FavoriteBlogs },
-      { path: '/report2', component: Report2 }
-    ]
-  },
-  {
-    path: '*',
-    component: NotFound
-  },
+  // {
+  //   path: '*',
+  //   component: NotFound
+  // },
   {
     path: "/oauth/login/qq",
     component: resolve => require(["../components/OauthLogin.vue"], resolve)
@@ -190,23 +190,68 @@ const routes = [
     component: resolve => require(["../components/OauthLogin.vue"], resolve)
   }
 ]
-const router = new VueRouter({
-  mode: "history",
-  routes
-})
+// export const asyncRoutes = [
+//   {
+//     path: '/AdminHome',
+//     component: AdminHome,
+//     redirect: '/welcome',
+//     children: [
+//       { path: '/welcome', component: () => import("../views/admin/Welcome.vue") },
+//       { path: '/test', component: Test },
+//       { path: '/users', component: Users },
+//       { path: '/comments', component: Comments },
+//       { path: '/PostBlogs', component: PostBlogs },
+//       { path: '/Blogs', component: Blogs },
+//       { path: '/report', component: Report },
+//       { path: '/FavoriteBlogs', component: FavoriteBlogs },
+//       { path: '/report2', component: Report2 }
+//     ]
+//   }
+// ]
 
+const createRouter = () =>
+  new VueRouter({
+    mode: "history",
+    routes: constantRoutes
+  });
+
+const router = createRouter();
 // 挂载路由导航守卫
 router.beforeEach((to, from, next) => {
   // to 将要访问的路径
   // from 代表从哪个路径跳转而来
   // next 是一个函数，表示放行
   //     next()  放行    next('/login')  强制跳转
-
   if (to.path === '/login') return next()
   // 获取token
-  const tokenStr = window.sessionStorage.getItem('token')
+  const tokenStr = sessionStorage.getItem('token')
   // 后端指定接口验证了token的正确性
   if (!tokenStr && (to.path === '/blogs')) return next('/login')
   next()
 })
-export default router
+export function resetRouter () {
+  const newRouter = createRouter();
+  router.matcher = newRouter.matcher;
+}
+
+export default router;
+// const router = new VueRouter({
+//   mode: "history",
+//   routes
+// })
+//
+// // 挂载路由导航守卫
+// router.beforeEach((to, from, next) => {
+//   // to 将要访问的路径
+//   // from 代表从哪个路径跳转而来
+//   // next 是一个函数，表示放行
+//   //     next()  放行    next('/login')  强制跳转
+//
+//   if (to.path === '/login') return next()
+//   // 获取token
+//   const tokenStr = sessionStorage.getItem('token')
+//   // 后端指定接口验证了token的正确性
+//   if (!tokenStr && (to.path === '/blogs')) return next('/login')
+//   next()
+// })
+// export default router

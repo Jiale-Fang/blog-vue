@@ -1,8 +1,8 @@
+import store from "../store";
 function useWebSocket (handleMessage) {
-  const user = window.sessionStorage.getItem('user')
-  let username = ''
-  if (user != null) {
-    username = JSON.parse(user).username
+  var username = store.state.username
+  if (username == null) {
+    username = ''
   }
   const ws = new WebSocket(`ws://127.0.0.1:9002/admin/chat/${username}`)
   // const ws = new WebSocket(`wss://www.tcefrep.site/chat/${username}`)

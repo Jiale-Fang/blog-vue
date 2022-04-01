@@ -30,7 +30,10 @@
         <div class="ui  attached padded segment">
           <!--内容-->
           <div class="ui right aligned basic segment">
-            <div class="ui orange basic label">{{dataList.shareStatement}}</div>
+<!--            <div class="ui orange basic label">{{dataList.copyright}}</div>-->
+            <el-tag :type="articleType(dataList.copyright).tagType">
+              {{ articleType(dataList.copyright).name }}
+            </el-tag>
           </div>
           <h2 class="ui center aligned header" v-text="dataList.title"></h2>
           <br>
@@ -141,7 +144,8 @@
 
     <div id="toolbar" class="m-padded m-fixed m-right-bottom" >
       <div class="ui vertical icon buttons ">
-        <button type="button" class="ui toc blue button" >目录</button>
+        <button type="button" class="ui toc blue button" >目录
+        </button>
         <a id="toBottom-button" class="ui blue button" >留言</a>
         <button class="ui wechat icon button"><i class="weixin icon"></i></button>
         <button class="ui icon button" @click="thumbsUp">
@@ -156,12 +160,11 @@
       </div>
     </div>
     <div class="ui toc-container flowing popup transition hidden" style="width: 250px!important;">
-      <ol class="js-toc">
+      <ol style="overflow: auto" class="js-toc">
       </ol>
     </div>
 
     <div id="qrcode" class="ui wechat-qr flowing popup transition hidden " style="width: 130px !important;">
-<!--      <img src="../assets/images/wechat.jpg" alt="" class="ui rounded image" style="width: 120px !important;">-->
     </div>
 
     <br>
@@ -175,7 +178,7 @@ import Prism from '../assets/lib/prism/prism'
 // import QRCode from '../assets/lib/qrcode/qrcode.min.js'
 import QRCode from 'qrcodejs2'
 import Footer from '../components/layout/Footer'
-
+import tocbot from "tocbot";
 export default {
   // 注册组件
   components: {
@@ -201,14 +204,44 @@ export default {
     }
   },
   created () {
-    this.getUser()
+    this.uid = this.$store.state.uid
+    this.formData.blogId = this.$route.path.split('/blog/')[1]
     this.getOneBlog()
     this.getCommentList()
+  },
+  destroyed () {
+    tocbot.destroy();
+  },
+  computed: {
+    articleType () {
+      return function (type) {
+        var tagType = "";
+        var name = "";
+        switch (type) {
+          case 1:
+            tagType = "danger";
+            name = "原创";
+            break;
+          case 2:
+            tagType = "success";
+            name = "转载";
+            break;
+          case 3:
+            tagType = "primary";
+            name = "翻译";
+            break;
+        }
+        return {
+          tagType: tagType,
+          name: name
+        };
+      };
+    }
   },
   methods: {
     async favorite () {
       if (this.toLogin()) {
-        const blogId = sessionStorage.getItem('blogId')
+        const blogId = this.$store.state.blogId
         const { data: res } = await this.$http.get(`/api/server/blog/admin/favorite/${blogId}/${this.uid}`)
         if (res.flag) {
           this.$message.success(res.message)
@@ -218,7 +251,7 @@ export default {
     },
     async thumbsUp () {
       if (this.toLogin()) {
-        const blogId = sessionStorage.getItem('blogId')
+        const blogId = this.$store.state.blogId
         const { data: res } = await this.$http.get(`/api/server/blog/admin/thumbUp/${blogId}/${this.uid}`)
         if (res.flag) {
           this.$message.success(res.message)
@@ -230,7 +263,7 @@ export default {
       }
     },
     toLogin () {
-      const tokenStr = window.sessionStorage.getItem('token')
+      const tokenStr = this.$store.state.token
       // 后端指定接口验证了token的正确性
       if (!tokenStr) {
         this.$confirm('登录后才能发表评论或者点赞，请问是否先登录？', '提示', { // 确认框
@@ -252,12 +285,12 @@ export default {
         type: 'warning'
       }).then(() => {
         const commentId = item.commentId
-        const blogId = sessionStorage.getItem('blogId')
+        const blogId = this.$store.state.blogId
         // 表单校验通过，发ajax请求，把数据录入至后台处理
         this.$http.delete(`/api/server/comment/admin/delComment/${blogId}/${commentId}`).then((res) => {
           if (res.data.flag) {
             this.getCommentList()
-            sessionStorage.setItem('parentCommentId', -1)
+            this.$store.state.parentCommentId = -1
             this.formData.content = '请输入评论信息...'
             // 弹出提示信息
             this.$message({
@@ -282,15 +315,15 @@ export default {
     async addComment () {
       if (this.toLogin()) {
         console.log(JSON.stringify(this.formData))
-        const parentCommentId = sessionStorage.getItem('parentCommentId')
-        this.formData.blogId = sessionStorage.getItem('blogId')
+        const parentCommentId = this.$store.state.parentCommentId
+        this.formData.blogId = this.$store.state.blogId
         this.formData.parentCommentId = parentCommentId
         // var param = this.$encrypTion(JSON.stringify(this.formData))
         // 表单校验通过，发ajax请求，把数据录入至后台处理
         this.$http.post('/api/server/comment/admin/replyComment', this.formData).then((res) => {
           if (res.data.flag) {
             this.getCommentList()
-            sessionStorage.setItem('parentCommentId', -1)
+            this.$store.state.parentCommentId = -1
             this.formData.content = '请输入评论信息...'
             this.formData.replyUid = ''
             // 弹出提示信息
@@ -311,14 +344,13 @@ export default {
       this.formData.content = '对' + item.nickname + '说点啥吧：(回复时，请删除本行)'
       this.formData.replyUid = item.uid
       if (item.parentCommentId === '-1') { // 代表回复的是根评论
-        sessionStorage.setItem('parentCommentId', item.commentId)
+        this.$store.state.parentCommentId = item.commentId
       } else {
-        sessionStorage.setItem('parentCommentId', item.parentCommentId)
+        this.$store.state.parentCommentId = item.parentCommentId
       }
     },
     async getCommentList () {
-      const blogId = sessionStorage.getItem('blogId')
-      const { data: res } = await this.$http.get(`/api/server/comment/commentList/${blogId}`)
+      const { data: res } = await this.$http.get(`/api/server/comment/commentList/${this.formData.blogId}`)
       console.log(res)
       if (!res.flag) {
         return this.$message.error('获取评论列表信息失败！')
@@ -330,36 +362,29 @@ export default {
     },
     // 获取所有的菜单
     async getOneBlog () {
-      const blogId = sessionStorage.getItem('blogId')
-      const { data: res } = await this.$http.get(`/api/server/blog/getById/${blogId}`)
+      const { data: res } = await this.$http.get(`/api/server${this.$route.path}`)
       if (!res.flag) {
         // return this.$message.error('获取博客信息失败！')
         return this.$message.error(res.message)
       }
       this.dataList = res.data
-    },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.uid = JSON.parse(this.user).uid
-        this.nickname = JSON.parse(this.user).nickname
-        this.avatar = JSON.parse(this.user).avatar
-      }
+      setTimeout(() => {
+        // eslint-disable-next-line no-undef
+        tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.js-toc',
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.js-toc-content',
+          // Which headings to grab inside of the contentSelector element.
+          headingSelector: 'h1, h2, h3'
+        })
+      }, 1000)
     }
   },
   mounted () {
     // 有效
     setTimeout(() => {
       this.reloadPrism()
-      // eslint-disable-next-line no-undef
-      tocbot.init({
-        // Where to render the table of contents.
-        tocSelector: '.js-toc',
-        // Where to grab the headings to build the table of contents.
-        contentSelector: '.js-toc-content',
-        // Which headings to grab inside of the contentSelector element.
-        headingSelector: 'h1, h2, h3'
-      })
     }, 1000)
     $('.ui.dropdown').dropdown({
       on: 'hover'
@@ -397,6 +422,15 @@ export default {
       colorLight: '#ffffff',
       correctLevel: QRCode.CorrectLevel.H
     })
+  },
+  watch: {
+    $route (to, from) {
+      if ((this.path !== to.path) && (to.path.indexOf('#') === -1)) {
+        this.formData.blogId = to.path.split('/blog/')[1]
+        this.getCommentList()
+        this.getOneBlog()
+      }
+    }
   }
 }
 </script>

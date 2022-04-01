@@ -274,5 +274,4 @@ export default {
 </script>
 
 <style scoped>
-  @import "../../assets/music/index.css";
 </style>

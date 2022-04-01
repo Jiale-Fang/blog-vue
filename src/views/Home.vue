@@ -195,10 +195,6 @@ export default {
         total: 0, // 总记录数
         queryString: null // 查询条件
       },
-      user: {},
-      nickname: '',
-      // 被激活的链接地址
-      avatar: '',
       tip: false,
       obj: {
         isEnd: false,
@@ -216,24 +212,18 @@ export default {
   },
   created () {
     this.message()
-    this.getUser()
     this.findPage()
     this.getTypeList()
     this.getTagList()
     this.getLatestList()
-    this.reload()
+    if (this.$store.state.music) {
+      this.$store.state.music = false
+      window.location.reload()
+    }
   },
   methods: {
-    reload () {
-      window.sessionStorage.setItem('reloadAdmin', 'true')
-      const str = window.sessionStorage.getItem('reload')
-      if (str !== null) {
-        window.location.reload()
-        window.sessionStorage.removeItem('reload')
-      }
-    },
     message () {
-      const messageFlag = sessionStorage.getItem('messageFlag')
+      const messageFlag = this.$store.state.messageFlag
       if (messageFlag == null) {
         Notification({
           title: '消息',
@@ -248,7 +238,7 @@ export default {
           duration: 0
         })
       }
-      sessionStorage.setItem('messageFlag', 'true')
+      this.$store.state.messageFlag = 'true'
     },
     // 初始化
     scrollDown () {
@@ -262,16 +252,15 @@ export default {
       this.pagination.queryString = null
     },
     toTag (tagId) {
-      sessionStorage.setItem('tagId', tagId)
-      this.$router.push('/tags')
+      this.$router.push({ path: "/tags/" + tagId });
     },
     toType (typeId) {
-      sessionStorage.setItem('typeId', typeId)
-      this.$router.push('/types')
+      this.$router.push({ path: "/types/" + typeId });
     },
     toBlog (blogId) {
-      sessionStorage.setItem('blogId', blogId)
-      this.$router.push('/blog')
+      this.$store.state.searchFlag = false;
+      this.$store.state.blogId = blogId;
+      this.$router.push({ path: "/blog/" + blogId });
     },
     async getLatestList () {
       const { data: res } = await this.$http.get('/api/server/home/latestList')
@@ -287,10 +276,10 @@ export default {
     },
     // 分页查询
     async findPage () {
-      const str = sessionStorage.getItem('queryString')
+      const str = this.$store.state.queryString
       if (str !== null) {
         this.pagination.queryString = str
-        sessionStorage.removeItem('queryString')
+        this.$store.state.queryString = null
         this.$message.info('搜索结果已经显示在页面下方')
       }
       // 发送ajax，提交分页请求（页码，每页显示条数，查询条件)
@@ -307,13 +296,6 @@ export default {
       }
       this.pagination.total = res.data.total
       this.dataList = res.data.records
-    },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.nickname = JSON.parse(this.user).nickname
-        this.avatar = JSON.parse(this.user).avatar
-      }
     },
     handleCurrentChange (currentPage) {
       // 设置最新的页码
@@ -342,7 +324,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
   .m-home {
     padding-top: 105vh !important;
     padding-bottom: 0px !important;

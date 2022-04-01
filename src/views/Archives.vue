@@ -57,8 +57,8 @@ export default {
   },
   methods: {
     toBlog (blogId) {
-      sessionStorage.setItem('blogId', blogId)
-      this.$router.push('/blog')
+      this.$store.state.searchFlag = false;
+      this.$router.push({ path: "/blog/" + blogId });
     },
     async getArchiveList () {
       const { data: res } = await this.$http.get('/api/server/archives/getArchivesList')

@@ -46,8 +46,11 @@ import Vue from 'vue'
 import { vueBaberrage } from 'vue-baberrage'
 Vue.use(vueBaberrage)
 export default {
+  created () {
+    this.avatar = this.$store.state.avatar
+    this.nickname = this.$store.state.nickname
+  },
   mounted () {
-    this.getUser()
     this.listMessage()
   },
   data () {
@@ -96,13 +99,6 @@ export default {
         this.barrageList = res.data
       } else {
         this.$message.error(res.message)
-      }
-    },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.nickname = JSON.parse(this.user).nickname
-        this.avatar = JSON.parse(this.user).avatar
       }
     }
   }

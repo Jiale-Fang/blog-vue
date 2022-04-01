@@ -124,7 +124,8 @@ export default {
     }
   },
   created () {
-    this.getUser()
+    this.uid = this.$store.state.uid
+    this.formData.blogId = this.$route.path.split('/blog/')[1]
     this.getOneBlog()
   },
   methods: {
@@ -134,22 +135,13 @@ export default {
     // 获取所有的菜单
     async getOneBlog () {
       this.$message.info('博客信息是从csdn中爬取出来的，作者名已显示在开头。该博客仅做学习使用，如若侵权，请联系本人删除谢谢！！')
-      const blogId = sessionStorage.getItem('blogId')
-      // const { data: res } = await this.$http.get(`/extension/crawler/${blogId}`)
+      const blogId = this.$store.state.blogId
       const { data: res } = await this.$http.get(`/extension/crawler/${blogId}`)
       if (!res.flag) {
         return this.$message.error('获取博客信息失败！')
       }
       this.dataList = res.data
     },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.uid = JSON.parse(this.user).uid
-        this.nickname = JSON.parse(this.user).nickname
-        this.avatar = JSON.parse(this.user).avatar
-      }
-    }
   },
   mounted () {
     // 有效

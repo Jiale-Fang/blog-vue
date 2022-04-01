@@ -138,7 +138,13 @@ export default {
     }
   },
   created () {
-    this.getUser()
+    this.formData.uid = this.$store.state.uid
+    this.formData.nickname = this.$store.state.nickname
+    this.formData.avatar = this.$store.state.avatar
+    this.formData.email = this.$store.state.email
+    const loginType = this.$store.state.loginType
+    this.formData.loginType = this.$store.state.loginType
+    if (loginType === 1) { this.formData.username = this.$store.state.username }
   },
   methods: {
     masterFileMax (files, fileList) {
@@ -249,18 +255,6 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
-    },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.formData.uid = JSON.parse(this.user).uid
-        this.formData.nickname = JSON.parse(this.user).nickname
-        this.formData.avatar = JSON.parse(this.user).avatar
-        this.formData.email = JSON.parse(this.user).email
-        const loginType = JSON.parse(this.user).loginType
-        this.formData.loginType = JSON.parse(this.user).loginType
-        if (loginType === 1) { this.formData.username = JSON.parse(this.user).username }
-      }
     }
   }
 }

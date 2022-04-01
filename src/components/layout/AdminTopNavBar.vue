@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { resetRouter } from '../../router'
+
 export default {
   data () {
     return {
@@ -79,32 +81,26 @@ export default {
     }
   },
   created () {
-    this.getUser()
-    this.activeIndex = window.sessionStorage.getItem('activeIndex')
-    // this.findPage()
+    this.activeIndex = this.$store.state.activeIndex
+    this.avatar = this.$store.state.avatar
+    this.nickname = this.$store.state.nickname
   },
   methods: {
     // 保存链接的激活状态
     saveNavState (activeIndex) {
-      window.sessionStorage.setItem('activeIndex', activeIndex)
+      this.$store.state.activeIndex = activeIndex
       this.activeIndex = activeIndex
     },
     search () {
       this.findPage()
       this.pagination.queryString = null
     },
-    getUser () {
-      this.user = window.sessionStorage.getItem('user')
-      if (this.user != null) {
-        this.nickname = JSON.parse(this.user).nickname
-        this.avatar = JSON.parse(this.user).avatar
-      }
-    },
     logout () {
+      // 清空用户菜单
+      resetRouter();
       window.sessionStorage.clear()
+      this.$store.commit('logout')
       this.$router.push('/home')
-      // 刷新页面，删除vuex数据
-      window.location.reload()
     }
   },
   mounted () {
