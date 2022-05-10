@@ -71,7 +71,7 @@
             <el-button type="primary">
             <el-upload
               class="avatar-uploader"
-              action="serverApi/oss/articleImage"
+              action="serverApi/file/articleImage"
               accept="image/png,.jpg"
               multiple
               :limit="1"
@@ -258,7 +258,7 @@ export default {
       const blogId = this.$store.state.adminBlogId
       if (blogId != null) { // 代表是编辑博客要回显数据
         this.buttonFlag = false
-        const { data: res } = await this.$http.get(`/api/server/blog/getById/${blogId}`)
+        const { data: res } = await this.$http.get(`/api/server/blog/${blogId}`)
         if (!res.flag) {
           return this.$message.error(res.message)
         }
@@ -274,7 +274,6 @@ export default {
       }
     },
     masterFileMax (files, fileList) {
-      console.log(files, fileList)
       this.$message.warning('请最多上传一张图片')
     },
     async uploadPic (param) {
@@ -282,12 +281,11 @@ export default {
       var form = new FormData()
       // 文件对象
       form.append('file', fileObj)
-      const { data: res } = await this.$http.post('/serverApi/oss/articleImage', form)
+      const { data: res } = await this.$http.post('/serverApi/file/articleImage', form)
       if (res.flag) {
         // 弹出提示信息
         this.$message.success('上传图片成功')
         this.formData.avatar = res.data.url
-        console.log(res.data.url)
       } else { // 执行失败
         this.$message.error(res.message)
       }
@@ -312,7 +310,7 @@ export default {
       const formData = new FormData()
       formData.append('file', $file)
       this.imgFile[pos] = $file
-      this.$http.post('/serverApi/oss/articleImage', formData).then(res => {
+      this.$http.post('/serverApi/file/articleImage', formData).then(res => {
         if (res.data.flag) {
           this.$message.success('上传成功')
           _this.$refs.md.$imglst2Url([[pos, res.data.data.url]])

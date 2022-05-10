@@ -37,7 +37,6 @@ export default {
       }
     }).then(res => {
       const url = res.data.data[0].url
-      console.log(res.data.data[0].url)
       // 设置给父组件的 播放地址
       this.audio.url = url
     })

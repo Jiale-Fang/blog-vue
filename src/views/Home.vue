@@ -11,9 +11,10 @@
         </div>
         <!-- 联系方式 -->
         <div class="blog-contact animated zoomIn">
-          <a class="github circular icon button" data-content="https://gitee.com/fang-jiale" data-position="bottom center" style="margin-right: 50px"><i class="github icon"></i></a>
+          <a class="github circular icon button" data-content="https://github.com/asiL-tcefreP?tab=repositories" data-position="bottom center" style="margin-right: 50px"><i class="github icon"></i></a>
           <a class="wechat circular icon button" style="margin-right: 50px"><i class="weixin icon"></i></a>
           <a class="qq circular icon button" data-content="1626680964" data-position="bottom center"><i class="qq icon"></i></a>
+          <a class="qq circular icon button" style="margin-left: 50px" @click="openWeChatPay" data-content="博客整合资料，点击获取" data-position="bottom center"><i class="file alternate outline icon"></i></a>
         </div>
         <!-- 向下滚动 -->
         <div class="scroll-down" @click="scrollDown">
@@ -87,7 +88,7 @@
                   class="pagiantion"
                   @size-change="handleSizeChange"
                   @current-change="handleCurrentChange"
-                  :current-page="pagination.currentPage"
+                  :current-page="pagination.currentPaege"
                   :page-sizes="[2,6,10,15]"
                   :page-size="pagination.pageSize"
                   layout="total, sizes, prev, pager, next, jumper"
@@ -99,7 +100,7 @@
           </div>
 
           <!--右边的top-->
-          <div class="five wide column" style="left: 34px !important;">
+          <div class="five wide column blog-recommend" style="left: 34px !important;">
 
             <!--分类-->
             <div class="ui segments my-shadow">
@@ -124,46 +125,52 @@
                 </div>
               </div>
             </div>
-
-            <!--标签-->
-            <div class="ui segments m-margin-top-large my-shadow">
-              <div class="ui secondary segment">
-                <div class="ui two column grid">
-                  <div class="column">
-                    <i class="tags icon"></i>标签
-                  </div>
-                  <div class="right aligned column">
-                    <a href="/tags" target="_blank">more <i class="angle double right icon"></i></a>
+              <!--标签-->
+              <div class="ui segments m-margin-top-large my-shadow">
+                <div class="ui secondary segment">
+                  <div class="ui two column grid">
+                    <div class="column">
+                      <i class="tags icon"></i>标签
+                    </div>
+                    <div class="right aligned column">
+                      <a href="/tags" target="_blank">more <i class="angle double right icon"></i></a>
+                    </div>
                   </div>
                 </div>
+                <div class="ui my-blue segment">
+                  <template v-for="(item, index) in tagList">
+                    <a target="_blank" class="ui my-blue basic left pointing label m-margin-tb-tiny" v-if='index<15' :key="item.tagId" @click="toTag(item.tagId)">
+                      {{item.tagName}} <div class="detail">{{item.tagCount}}</div>
+                    </a>
+                  </template>
+                </div>
               </div>
-              <div class="ui my-blue segment">
-                <template v-for="(item, index) in tagList">
-                  <a target="_blank" class="ui my-blue basic left pointing label m-margin-tb-tiny" v-if='index<15' :key="item.tagId" @click="toTag(item.tagId)">
-                    {{item.tagName}} <div class="detail">{{item.tagCount}}</div>
-                  </a>
-                </template>
-              </div>
-            </div>
 
-            <!--最新推荐-->
-            <div class="ui segments m-margin-top-large my-shadow">
-              <div class="ui secondary segment ">
-                <i class="bookmark icon"></i>最新推荐
+              <!--最新推荐-->
+              <div class="ui segments m-margin-top-large my-shadow">
+                <div class="ui secondary segment ">
+                  <i class="bookmark icon"></i>最新推荐
+                </div>
+                <div class="ui segment" v-for="item in latestList" :key="item.blogId">
+                  <a  target="_blank" class="m-black m-text-thin" style="cursor:pointer;" v-text="item.title" @click="toBlog(item.blogId)"></a>
+                </div>
               </div>
-              <div class="ui segment" v-for="item in latestList" :key="item.blogId">
-                <a  target="_blank" class="m-black m-text-thin" style="cursor:pointer;" v-text="item.title" @click="toBlog(item.blogId)"></a>
-              </div>
-            </div>
 
-            <!--二维码-->
-            <h4 class="ui horizontal divider header m-margin-top-large">博客交流Q群822628221</h4>
-<!--            <div class="ui centered card my-shadow" style="width: 11em">-->
-<!--              <img src="https://tcefrep.oss-cn-beijing.aliyuncs.com/blog/image/IMG_1833.JPG" alt="" class="ui rounded image" >-->
-<!--            </div>-->
+              <!--二维码-->
+              <h4 class="ui horizontal divider header m-margin-top-large">博客交流Q群822628221</h4>
+              <!--            <div class="ui centered card my-shadow" style="width: 11em">-->
+              <!--              <img src="https://tcefrep.oss-cn-beijing.aliyuncs.com/blog/image/IMG_1833.JPG" alt="" class="ui rounded image" >-->
+              <!--            </div>-->
           </div>
 
         </div>
+      </div>
+    </div>
+    <div id="toolbar" class="m-padded m-fixed m-right-bottom" >
+      <div class="ui vertical icon buttons ">
+        <button type="button" class="ui blue button" @click="openWeChatPay">资料
+        </button>
+        <div id="toTop-button" class="ui icon button" ><i class="chevron up icon"></i></div>
       </div>
     </div>
     <br>
@@ -222,6 +229,9 @@ export default {
     }
   },
   methods: {
+    openWeChatPay () {
+      this.$store.state.payFlag = true
+    },
     message () {
       const messageFlag = this.$store.state.messageFlag
       if (messageFlag == null) {
@@ -288,8 +298,7 @@ export default {
         pageSize: this.pagination.pageSize,
         queryString: this.pagination.queryString
       }
-      var param2 = this.$encrypTion(JSON.stringify(param))
-      const { data: res } = await this.$http.post('/api/server/home/findHomePage', param2)
+      const { data: res } = await this.$http.post('/api/server/home/findHomePage', param)
       // 解析controller响应回的数据
       if (!res.flag) {
         return this.$message.error('获取博客列表失败！')
@@ -314,6 +323,9 @@ export default {
     })
     $('.ui.dropdown').dropdown({
       on: 'hover'
+    })
+    $('#toTop-button').click(function () {
+      $(window).scrollTo(0, 500)
     })
     $('.wechat').popup({
       popup: $('.wechat-qr'),
@@ -340,7 +352,7 @@ export default {
     background-color: #49b1f5;
     background-attachment: fixed;
     text-align: center;
-    color: #fff !important;
+    /*color: #fff !important;*/
     animation: header-effect 1s !important;
   }
   .banner-container {
@@ -424,6 +436,9 @@ export default {
     .home-container {
       width: 100%;
       margin: calc(100vh - 66px) auto 0 auto;
+    }
+    .blog-recommend {
+      display: none !important;
     }
     .article-card {
       margin-top: 1rem;

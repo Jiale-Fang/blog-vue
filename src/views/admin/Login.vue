@@ -31,7 +31,7 @@
           </el-form-item>
           <div></div>
           <div class="social-login-title">社交账号登录</div>
-          <div class="social-login-wrapper">
+          <div class="social-login-wrapper" style="cursor: pointer">
             <!-- 微博登录 -->
             <a
               v-if="showLogin('weibo')"
@@ -46,6 +46,7 @@
               style="color:#00AAEE; margin-left: 8px"
               @click="qqLogin"
             />
+            <i class="smile outline icon" @click="faceLogin" style="color:#ae81ff; margin-left: 8px"></i>
           </div>
         </el-form>
       </div>
@@ -87,7 +88,7 @@
               <el-form-item label="or选择本地图片当头像">
               <el-upload
                 class="avatar-uploader"
-                action="serverApi/oss/userAvatar/"
+                action="serverApi/file/userAvatar/"
                 accept="image/png,.jpg"
                 multiple
                 :limit="1"
@@ -103,6 +104,7 @@
             </el-col>
           </el-form>
           <div slot="footer" class="dialog-footer">
+            <el-button type="success" @click="faceRegister">人脸注册</el-button>
             <el-button @click="dialogFormVisible = false">取消</el-button>
             <el-button type="primary" @click="regist()">确定</el-button>
           </div>
@@ -161,24 +163,30 @@ export default {
     this.getVerifyCode()
   },
   methods: {
-    login () {
+    faceRegister () {
+      this.dialogFormVisible = false
+      this.$store.state.faceRegisterFormVisible = true
+    },
+    faceLogin () {
+      this.$store.state.faceLoginFormVisible = true
+    },
+    async login () {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
-        var param = this.$encrypTion(JSON.stringify(this.loginForm))
+        const param = this.$encrypTion(JSON.stringify(this.loginForm))
         const { data: res } = await this.$http.post('/api/server/login', param)
-        console.log(res.flag)
         if (res.flag !== true) {
           this.$message.error(res.data)
           await this.getVerifyCode()
         } else {
           this.$message.success('登录成功')
-          generaMenu()
           // 1. 将登录成功之后的 token，保存到客户端的 sessionStorage 中
           //   1.1 项目中出了登录之外的其他API接口，必须在登录之后才能访问
           //   1.2 token 只应在当前网站打开期间生效，所以将 token 保存在 sessionStorage 中
           window.sessionStorage.setItem('token', res.data.token)
           this.$store.state.token = res.data.token
           this.$store.commit("login", res.data.user);
+          await generaMenu()
           // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
           await this.$router.push('/welcome')
         }
@@ -218,7 +226,6 @@ export default {
       this.$store.state.forgetFlag = true;
     },
     masterFileMax (files, fileList) {
-      console.log(files, fileList)
       this.$message.warning('请最多上传一张图片')
     },
     async uploadPic (param) {
@@ -226,12 +233,11 @@ export default {
       var form = new FormData()
       // 文件对象
       form.append('file', fileObj)
-      const { data: res } = await this.$http.post('/serverApi/oss/userAvatar', form)
+      const { data: res } = await this.$http.post('/serverApi/file/userAvatar', form)
       if (res.flag) {
         // 弹出提示信息
         this.$message.success('上传头像成功')
         this.formData.avatar = res.data.url
-        console.log(res.data.url)
       } else { // 执行失败
         this.$message.error(res.message)
       }

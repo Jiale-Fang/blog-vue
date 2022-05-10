@@ -125,7 +125,7 @@
             </div>
           </div>
           <div class="ui form">
-            <el-form ref="addForm" :model="formData">
+            <el-form ref="addForm" :model="formData">Comments
             <div class="field">
               <textarea name="content" v-model="formData.content"></textarea>
             </div>
@@ -314,7 +314,6 @@ export default {
     },
     async addComment () {
       if (this.toLogin()) {
-        console.log(JSON.stringify(this.formData))
         const parentCommentId = this.$store.state.parentCommentId
         this.formData.blogId = this.$store.state.blogId
         this.formData.parentCommentId = parentCommentId
@@ -351,7 +350,6 @@ export default {
     },
     async getCommentList () {
       const { data: res } = await this.$http.get(`/api/server/comment/commentList/${this.formData.blogId}`)
-      console.log(res)
       if (!res.flag) {
         return this.$message.error('获取评论列表信息失败！')
       }
@@ -407,7 +405,6 @@ export default {
       position: 'left center'
     })
     $('#toTop-button').click(function () {
-      console.log('111')
       $(window).scrollTo(0, 500)
     })
     $('#toBottom-button').click(function () {

@@ -22,7 +22,8 @@
     color: #eee;
     font-size: 14px;
     text-align: center;
-    background: linear-gradient(-45deg, #ee7752, #ce3e75, #23a6d5, #23d5ab);
+   background: linear-gradient(140.54deg, #608D00 0%, #D30000 72.37%), linear-gradient(58.72deg, #0029FF 0%, #8FFF00 100%), radial-gradient(100% 164.72% at 100% 100%, #6100FF 0%, #00FF57 100%), radial-gradient(100% 148.07% at 0% 0%, #FFF500 0%, #51D500 100%);
+    background-blend-mode: color-dodge, overlay, difference, normal;
     background-size: 400% 400%;
     animation: Gradient 10s ease infinite;
   }

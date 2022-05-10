@@ -6,6 +6,12 @@
 </template>
 
 <script>
+import APlayer from '@moefe/vue-aplayer'
+import Vue from 'vue'
+Vue.use(APlayer, {
+  defaultCover: 'https://github.com/u3u.png',
+  productionTip: true
+})
 export default {
   name: 'audio',
   data () {
@@ -76,7 +82,6 @@ export default {
       // 设置播放地址
       this.audio[0].url = url
     })
-    console.log(this.audio)
   },
   methods: {
     randomColor () {

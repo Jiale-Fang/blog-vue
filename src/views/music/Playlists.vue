@@ -211,7 +211,6 @@ export default {
           cat: this.tag
         }
       }).then(res => {
-        // console.log(res)
         this.topList = res.data.playlists[0]
       })
     },
@@ -228,7 +227,6 @@ export default {
           cat: this.tag
         }
       }).then(res => {
-        // console.log(res)
         // 保存总条数
         this.total = res.data.total
         // 保存数据
@@ -237,7 +235,6 @@ export default {
     },
     // 页码改变事件
     handleCurrentChange (val) {
-      // console.log(`当前页: ${val}`)
       // 保存页码
       this.page = val
       // 重新获取数据

@@ -40,9 +40,11 @@ import {
   Popover,
   Icon,
   Upload,
-  Image
+  Image,
+  Drawer
 } from 'element-ui'
 
+Vue.use(Drawer)
 Vue.use(Image)
 Vue.use(Upload)
 Vue.use(Icon)

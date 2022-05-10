@@ -151,7 +151,6 @@ export default {
         id: this.$route.query.q
       }
     }).then(res => {
-      // console.log(res)
       this.url = res.data.data.url
     })
     // 获取 相关的mv
@@ -162,11 +161,8 @@ export default {
         mvid: this.$route.query.q
       }
     }).then(res => {
-      // console.log(res)
       // 保存相关MV
       this.simiMvs = res.data.mvs
-      console.log('=====')
-      console.log(this.simiMvs)
     })
 
     // 获取 mv的信息
@@ -177,10 +173,8 @@ export default {
         mvid: this.$route.query.q
       }
     }).then(res => {
-      // console.log(res)
       // mv的信息
       this.mvInfo = res.data.data
-      console.log(this.mvInfo)
       // 获取 歌手信息
       this.$http({
         url: '/music/artists',
@@ -189,7 +183,6 @@ export default {
           id: this.mvInfo.artists[0].id
         }
       }).then(res => {
-        // console.log(res);
         // 歌手的封面信息
         this.icon = res.data.artist.picUrl
       })
@@ -209,12 +202,10 @@ export default {
       this.hotCount = res.data.hotComments.length
       this.commentTotal = res.data.comments.length
       this.comments = res.data.comments
-      console.log(this.comments)
     })
   },
   methods: {
     handleCurrentChange (val) {
-      // console.log(`当前页: ${val}`)
     },
     // 去mv详情页
     toMV (id) {

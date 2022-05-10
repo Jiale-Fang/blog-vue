@@ -18,7 +18,7 @@ module.exports = {
         }
       },
       '/extension': {
-        target: 'http://1.117.157.53:9003',
+        target: 'http://ip:9003',
         changeOrigin: true,
         // secure: false,
         pathRewrite: {
@@ -26,7 +26,7 @@ module.exports = {
         }
       },
       '/music': {
-        target: 'http://39.108.136.207:3000',
+        target: 'https://www.autumnfish.cn/',
         changeOrigin: true,
         // secure: false,
         pathRewrite: {

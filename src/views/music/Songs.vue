@@ -87,7 +87,6 @@ export default {
           type: this.tag
         }
       }).then(res => {
-        // console.log(res)
         this.lists = res.data.data
         // 处理时长 毫秒 转为 分秒
         for (let i = 0; i < this.lists.length; i++) {
@@ -106,7 +105,6 @@ export default {
           if (sec < 10) {
             sec = '0' + sec
           }
-          // console.log(min + '|' + sec)
           this.lists[i].duration = `${min}:${sec}`
         }
       })

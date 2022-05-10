@@ -175,7 +175,6 @@ export default {
         id: this.$route.query.q
       }
     }).then(res => {
-      // console.log(res)
       this.playlist = res.data.playlist
       // this.playlist.createTime = playlist.createTime
       const date = new Date(this.playlist.createTime)
@@ -197,7 +196,6 @@ export default {
         if (sec < 10) {
           sec = '0' + sec
         }
-        // console.log(min + '|' + sec)
         this.playlist.tracks[i].dt = `${min}:${sec}`
       }
     })
@@ -211,7 +209,6 @@ export default {
         type: 2
       }
     }).then(res => {
-      // console.log(res)
       this.hotComment = res.data.hotComments
       // 保存个数
       this.hotCount = res.data.total
@@ -227,7 +224,6 @@ export default {
         offset: 0
       }
     }).then(res => {
-      // console.log(res)
       // 总个数
       this.total = res.data.total
       // 评论数据
@@ -236,7 +232,6 @@ export default {
   },
   methods: {
     handleCurrentChange (val) {
-      // console.log(`当前页: ${val}`);
       // 保存页码
       this.page = val
       // 重新获取数据
@@ -250,7 +245,6 @@ export default {
           offset: (this.page - 1) * 10
         }
       }).then(res => {
-        // console.log(res)
         // 总个数
         this.total = res.data.total
         // 评论数据

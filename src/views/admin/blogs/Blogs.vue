@@ -143,7 +143,6 @@ export default {
       var param2 = this.$encrypTion(JSON.stringify(param))
       const { data: res } = await this.$http.post('/api/server/blog/admin/findPage', param2)
       // 解析controller响应回的数据
-      console.log('===>' + res.flag)
       if (!res.flag) {
         return this.$message.error(res.message)
       }

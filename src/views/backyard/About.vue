@@ -37,7 +37,7 @@
               <div class="ui my-blue basic left pointing label m-margin-tb-tiny">...</div>
             </div>
             <div class="ui bottom attached segment my-shadow">
-              <a class="ui github circular icon button" data-content="https://gitee.com/fang-jiale" data-position="bottom center"><i class="github icon"></i></a>
+              <a class="ui github circular icon button" data-content="https://github.com/asiL-tcefreP?tab=repositories" data-position="bottom center"><i class="github icon"></i></a>
               <a class="ui wechat circular icon button"><i class="weixin icon"></i></a>
               <a class="ui qq circular icon button" data-content="1626680964" data-position="bottom center"><i class="qq icon"></i></a>
             </div>

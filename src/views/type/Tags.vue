@@ -129,7 +129,6 @@ export default {
       this.$router.push({ path: "/blog/" + blogId });
     },
     async saveNavState (item) {
-      console.log('----item----' + JSON.stringify(item))
       this.activeId = item.tagId
       if (item.tagCount === 0) {
         this.$message.error('查询失败，当前所在标签的博客数为0')

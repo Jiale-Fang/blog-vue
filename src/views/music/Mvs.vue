@@ -245,7 +245,6 @@ export default {
           offset: (this.page - 1) * this.limit
         }
       }).then(res => {
-        // console.log(res)
         this.list = res.data.data
         // 处理次数
         for (let i = 0; i < this.list.length; i++) {
@@ -264,7 +263,6 @@ export default {
     },
     // 页码改变的回调函数
     handleCurrentChange (val) {
-      // console.log(`当前页: ${val}`)
       // 保存页面 重新获取数据
       this.page = val
       this.getList()

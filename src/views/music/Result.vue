@@ -119,7 +119,6 @@ export default {
         limit: 10
       }
     }).then(res => {
-      console.log(res)
       this.songList = res.data.result.songs
       // 计算歌曲时间
       for (let i = 0; i < this.songList.length; i++) {
@@ -131,7 +130,6 @@ export default {
         if (sec < 10) {
           sec = '0' + sec
         }
-        // console.log(min + '|' + sec)
         this.songList[i].duration = min + ':' + sec
       }
       // 保存总数
@@ -176,7 +174,6 @@ export default {
           limit // limit: limit
         }
       }).then(res => {
-        console.log(res)
         // 获取歌曲
         if (type === 1) {
           // 歌曲
@@ -191,7 +188,6 @@ export default {
             if (sec < 10) {
               sec = '0' + sec
             }
-            // console.log(min + '|' + sec)
             this.songList[i].duration = min + ':' + sec
           }
           // 保存总数

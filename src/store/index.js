@@ -13,9 +13,10 @@ export default new Vuex.Store({
     loginType: null,
     email: null,
     forgetFlag: false,
-    blogInfo: {},
+    // blogInfo: {},
     blogId: '',
-    searchFlag: false,
+    searchFlag: false, // 搜索模态框
+    payFlag: false, // 微信支付模态框
     messageFlag: null,
     queryString: null,
     loginUrl: "",
@@ -29,9 +30,26 @@ export default new Vuex.Store({
     asyncRoutes: [],
     adminBlogId: null,
     activeIndex: null,
-    isCollapse: false // 个人后台侧边栏展开状态
+    drawer: false, // 首页侧边栏
+    faceRegisterFormVisible: false, // 人脸注册表格
+    faceLoginFormVisible: false, // 人脸登录表格
+    facePhotoFlag: false, // 打开摄像头
+    faceRegisterFlag: false, // 拍照页面是注册
+    isCollapse: false, // 个人后台侧边栏展开状态
+    blogInfo: {
+      websiteConfig: {
+        websiteAvatar: 'aaa',
+        websiteAuthor: ''
+      },
+      articleCount: 100,
+      categoryCount: 10,
+      tagCount: 2,
+    }
   },
   mutations: {
+    setBlogInfo (state, blogInfo) {
+      state.blogInfo = blogInfo;
+    },
     saveLoginUrl (state, url) {
       state.loginUrl = url;
     },

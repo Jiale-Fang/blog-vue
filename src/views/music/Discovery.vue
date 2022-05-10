@@ -96,13 +96,11 @@ export default {
     }
   },
   created () {
-    // console.log('created')
     // 轮播图接口
     this.$http({
       url: '/music/banner',
       method: 'get'
     }).then(res => {
-      // console.log(res)
       this.banners = res.data.banners
     })
 
@@ -115,7 +113,6 @@ export default {
         limit: 10
       }
     }).then(res => {
-      // console.log(res)
       this.list = res.data.result
     })
 
@@ -124,7 +121,6 @@ export default {
       url: '/music/personalized/newsong',
       method: 'get'
     }).then(res => {
-      // console.log(res)
       this.songs = res.data.result
     })
 
@@ -151,7 +147,6 @@ export default {
       const { data: res } = this.$http.get(`/music/song/detail?ids=${id}`)
       this.$parent.audio.name = res.songs[0].name
       // this.$parent.audio.artist = res.songs[0].ar.name
-      console.log(res.songs[0].ar)
     },
     getLrc (id) {
       // 获取歌词

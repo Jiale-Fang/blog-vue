@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import store from "./store";
-import router from './router'
+import router, { resetRouter } from './router'
 import axios from 'axios'
 import config from "./assets/js/config";
 // 导入后台管理全局样式表
@@ -19,17 +19,13 @@ import prismjs from './assets/lib/prism/prism'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import JsEncrypt from 'jsencrypt'
-import APlayer from '@moefe/vue-aplayer'
-
+import "./assets/css/vue-social-share/client.css";
+import Share from "vue-social-share";
 Vue.prototype.config = config;
 Vue.config.productionTip = false;
-Vue.use(APlayer, {
-  defaultCover: 'https://github.com/u3u.png',
-  productionTip: true
-})
+Vue.use(Share);
 Vue.use(prismCss)
 Vue.use(prismjs)
-// use
 Vue.use(mavonEditor)
 Vue.prototype.$http = axios
 axios.withCredentials = true
@@ -46,12 +42,17 @@ Vue.prototype.$encrypTion = function (obj) {
 }
 // 在request拦截器中展示进度条
 axios.interceptors.request.use(config => {
-  // console.log(config)
   NProgress.start()
   config.headers.Authorization = window.sessionStorage.getItem('token')
   // 在最后必须 return config
   return config
 })
+
+// 切换页面时，回到顶部
+router.afterEach((to, from, next) => {
+  window.scrollTo(0, 0)
+})
+
 // 在 response 拦截器中，隐藏进度条 NProgress.done()
 axios.interceptors.response.use(config => {
   NProgress.done()
@@ -69,8 +70,12 @@ const vueInstance = new Vue({
 axios.interceptors.response.use(
   function (response) {
     switch (response.data.code) {
-      case 51000:
+      case 51001:
         Vue.prototype.$message.error("token已经过期，请重新登录")
+        // 清空用户菜单
+        resetRouter();
+        window.sessionStorage.clear()
+        vueInstance.$store.commit('logout')
         vueInstance.$router.push("/login")
     }
     return response;

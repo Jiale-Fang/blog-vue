@@ -66,7 +66,7 @@
           <el-upload
             style="margin-left: 10%!important;"
             class="avatar-uploader"
-            action="serverApi/oss/userAvatar/"
+            action="serverApi/file/userAvatar/"
             accept="image/png,.jpg"
             multiple
             :limit="1"
@@ -148,7 +148,6 @@ export default {
   },
   methods: {
     masterFileMax (files, fileList) {
-      console.log(files, fileList)
       this.$message.warning('请最多上传一张图片')
     },
     sendCode () {
@@ -204,12 +203,11 @@ export default {
       var form = new FormData()
       // 文件对象
       form.append('file', fileObj)
-      const { data: res } = await this.$http.post('/serverApi/oss/userAvatar', form)
+      const { data: res } = await this.$http.post('/serverApi/file/userAvatar', form)
       if (res.flag) {
         // 弹出提示信息
         this.$message.success('上传头像成功')
         this.formData.avatar = res.data.url
-        console.log(res.data.url)
       } else { // 执行失败
         this.$message.error(res.message)
       }

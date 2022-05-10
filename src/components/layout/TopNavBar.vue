@@ -1,5 +1,19 @@
 <template>
-  <div id="navClass" class="navClass" hide-on-scroll flat height="58">
+  <div class="navClass" flat height="60">
+    <!-- 手机端导航栏 -->
+    <div class="d-md-none nav-mobile-container">
+      <div style="font-size:18px;font-weight:bold">
+        <router-link to="/">
+<!--          {{ blogInfo.websiteConfig.websiteAuthor }}-->
+        </router-link>
+      </div>
+      <div style="margin-left:auto">
+        <a @click="search"><i class="iconfont iconsousuo"/></a>
+        <a @click="openDrawer" style="margin-left:10px;font-size:20px">
+          <i class="iconfont iconhanbao"></i>
+        </a>
+      </div>
+    </div>
     <!-- 电脑导航栏 -->
     <div class="d-md-block d-none nav-container">
       <div class="float-left blog-title">
@@ -24,6 +38,8 @@
         <div class="menus-item" @click="openRoom">
           <router-link to="">
             <i class="el-icon-chat-line-round" style="color: whitesmoke"/><span style="color: whitesmoke;margin-right: 10px">聊天室</span>
+<!--            <div class="red-point">-->
+<!--            </div>-->
           </router-link>
         </div>
         <div class="user-btn">
@@ -123,7 +139,7 @@
       </div>
     </div>
     <SearchModel ref="searchModel"></SearchModel>
-    <Room ref="room"></Room>
+    <Room v-if="this.$store.state.username" ref="room"></Room>
   </div>
 </template>
 
@@ -136,11 +152,10 @@ export default {
     Room,
     SearchModel
   },
-
   mounted () {
     window.addEventListener('scroll', this.scroll)
   },
-  data () {
+  data: function () {
     return {
       navClass: '',
       queryString: '',
@@ -148,6 +163,9 @@ export default {
     }
   },
   methods: {
+    openDrawer () {
+      this.$store.state.drawer = true;
+    },
     toLogin () {
       const tokenStr = this.$store.state.token
       // 后端指定接口验证了token的正确性
@@ -195,19 +213,47 @@ export default {
       this.$store.commit('logout')
       this.$router.push('/home')
     },
+  },
+  computed: {
+    avatar () {
+      return this.$store.state.avatar;
+    },
+    blogInfo () {
+      return this.$store.state.blogInfo;
+    }
   }
 }
 </script>
 
 <style scoped>
   .navClass{
-    /*position:fixed; !* 绝对定位，fixed是相对于浏览器窗口定位。 *!*/
-    position: relative;
+    position:fixed; /* 绝对定位，fixed是相对于浏览器窗口定位。 */
+    /*position: relative;*/
     top:15px; /* 距离窗口顶部距离 */
     right: 22px;
     height:10px; /* 高度 */
     float: right;
     z-index:99; /* 层叠顺序，数值越大就越高。页面滚动的时候就不会被其他内容所遮挡。 */
+  }
+  @media (min-width: 760px) {
+    .nav-container {
+      font-size: 14px;
+      width: 100%;
+      height: 100%;
+    }
+    .nav-mobile-container {
+      display: none;
+    }
+  }
+  @media (max-width: 759px) {
+    .nav-container {
+      display: none;
+    }
+    .nav-mobile-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
   }
   i {
     margin-right: 4px;
@@ -240,20 +286,19 @@ export default {
   .theme--light.nav-fixed a {
     color: #4c4948 !important;
   }
+  .nav-fixed {
+    position:fixed; /* 绝对定位，fixed是相对于浏览器窗口定位。 */
+    /*position: relative;*/
+    top:15px; /* 距离窗口顶部距离 */
+    right: 22px;
+    height:10px; /* 高度 */
+    float: right;
+    z-index:99; /* 层叠顺序，数值越大就越高。页面滚动的时候就不会被其他内容所遮挡。 */
+  }
   .nav-fixed .menus-item a,
   .nav-fixed .menus-btn a,
   .nav-fixed .blog-title a {
     text-shadow: none;
-  }
-  .nav-container {
-    font-size: 14px;
-    width: 100%;
-    height: 100%;
-  }
-  .nav-mobile-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
   }
   .blog-title,
   .nav-title {
@@ -343,5 +388,19 @@ export default {
       filter: none;
       transform: translateY(0);
     }
+  }
+  .red-point {
+    position: absolute;
+    color: white;
+    font-size: 5px;
+    background-color: red;
+    width: 8px;
+    height: 8px;
+    line-height: 8px;
+    left: 85%;
+    top: 0;
+    text-align: center;
+    -webkit-border-radius: 24px;
+    border-radius: 24px;
   }
 </style>
